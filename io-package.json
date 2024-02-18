@@ -1,0 +1,113 @@
+{
+	"common": {
+		"name": "vis-2-shelly",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "vis-2-shelly",
+		"titleLang": {
+			"en": "vis-2-shelly",
+			"de": "vis-2-shelly",
+			"ru": "вис-2-шелли",
+			"pt": "vis-2-shelly",
+			"nl": "vis-2-shelly",
+			"fr": "vis-2-shelly",
+			"it": "vis-2-shelly",
+			"es": "vis-2-shelly",
+			"pl": "vis-2-shelly",
+			"uk": "vis-2-черепашковий",
+			"zh-cn": "vis-2-雪莱"
+		},
+		"desc": {
+			"en": "A widget to display Shelly devices in vis-2",
+			"de": "Ein Widget zum Anzeigen von Shelly-Geräten in vis-2",
+			"ru": "Виджет для отображения устройств Shelly в vis-2",
+			"pt": "Um widget para exibir dispositivos Shelly no vis-2",
+			"nl": "Een widget om Shelly-apparaten in vis-2 weer te geven",
+			"fr": "Un widget pour afficher les appareils Shelly en vis-2",
+			"it": "Un widget per visualizzare i dispositivi Shelly in vis-2",
+			"es": "Un widget para mostrar dispositivos Shelly en vis-2",
+			"pl": "Widżet do wyświetlania urządzeń Shelly w vis-2",
+			"uk": "Віджет для відображення пристроїв Shelly у vis-2",
+			"zh-cn": "在 vis-2 中显示 Shelly 设备的小部件"
+		},
+		"authors": ["Kollos2k <kollos@vorsicht-bissig.de>"],
+		"keywords": ["shelly", "vis-2"],
+		"license": "MIT",
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "vis-2-shelly.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/Kollos2k/ioBroker.vis-2-shelly/main/admin/vis-2-shelly.png",
+		"readme": "https://github.com/Kollos2k/ioBroker.vis-2-shelly/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"restartAdapters": ["vis"],
+		"mode": "daemon",
+		"type": "visualization",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "materialize"
+		},
+		"supportCustoms": true,
+		"eraseOnUpload": true,
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			},
+			"vis"
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
