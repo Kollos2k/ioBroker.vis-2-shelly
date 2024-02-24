@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import theme from "@iobroker/adapter-react-v5/Theme";
 import Utils from "@iobroker/adapter-react-v5/Components/Utils";
 import TabApp from "./tab-app";

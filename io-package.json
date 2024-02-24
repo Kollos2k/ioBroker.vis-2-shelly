@@ -65,6 +65,14 @@
 		"compact": true,
 		"connectionType": "local",
 		"dataSource": "poll",
+		"visWidgets": {
+			"vis2ShellyWidget": {
+				"i18n": "component",
+				"name": "vis2ShellyWidget",
+				"url": "vis-2-shelly/vis2/customWidgets.js",
+				"components": ["ShellyAllDevices"]
+			}
+		},
 		"adminUI": {
 			"config": "materialize"
 		},

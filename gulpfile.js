@@ -25,6 +25,8 @@ gulp.task("widget-3-copy", () =>
 	Promise.all([
 		gulp.src([`${SRC}build/*.js`]).pipe(gulp.dest(`widgets/${adapterName}/vis2`)),
 		gulp.src([`${SRC}build/img/*`]).pipe(gulp.dest(`widgets/${adapterName}/vis2/img`)),
+		gulp.src([`${SRC}build/css/*`]).pipe(gulp.dest(`widgets/${adapterName}/vis2/css`)),
+		gulp.src([`${SRC}build/img/editor/*`]).pipe(gulp.dest(`widgets/${adapterName}/vis2/img/editor`)),
 		gulp.src([`${SRC}build/*.map`]).pipe(gulp.dest(`widgets/${adapterName}/vis2`)),
 		gulp
 			.src([`${SRC}build/static/**/*`, ...gulpHelper.ignoreFiles(SRC)])
