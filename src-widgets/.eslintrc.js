@@ -1,7 +1,7 @@
 module.exports = {
 	env: {
 		browser: true,
-		es2021: true,
+		// es2021: true,
 		es6: true,
 	},
 	extends: [
@@ -70,7 +70,14 @@ module.exports = {
 		indent: ["error", 4, { SwitchCase: 1 }],
 		"no-alert": "off",
 		"react/function-component-definition": "off",
-		quotes: ["error", "double"],
+		quotes: [
+			"error",
+			"double",
+			{
+				avoidEscape: true,
+				allowTemplateLiterals: true,
+			},
+		],
 		"no-tabs": ["error", { allowIndentationTabs: true }],
 		indent: ["error", "tab", { SwitchCase: 1 }],
 		"arrow-parens": ["error", "always"],

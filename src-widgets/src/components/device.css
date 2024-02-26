@@ -1,0 +1,186 @@
+.vis2_shelly_DeviceBody {
+	display: grid;
+	background-color: gray;
+	margin: 5px 10px 5px 10px;
+	border-radius: 10px;
+	height: 70px;
+	grid-template-columns: 10px auto min-content;
+	grid-template-rows: 10px 30px 20px auto;
+	grid-template-areas: "status status status" "icon name action" "icon info action" "none none action";
+	position: relative;
+}
+.vis2_shelly_DeviceBody > [name="status"] {
+	grid-area: status;
+	background-color: #444;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	padding-left: 20px;
+}
+.vis2_shelly_DeviceBody > [name="status"] > span {
+	position: relative;
+}
+.vis2_shelly_DeviceBody > [name="status"] [name="connectionState"] {
+	background-size: 15px;
+	background-repeat: no-repeat;
+	background-position-y: center;
+	position: absolute;
+}
+.vis2_shelly_DeviceBody > [name="status"] .connectionStateOnline {
+	background-image: url(./img/shellyDeviceOnline.svg);
+}
+.vis2_shelly_DeviceBody > [name="status"] .connectionStateOffline {
+	background-image: url(./img/shellyDeviceOffline.svg);
+}
+.vis2_shelly_DeviceBody > [name="icon"] {
+	grid-area: icon;
+}
+.vis2_shelly_DeviceBody > [name="name"] {
+	grid-area: name;
+	color: white;
+	padding: 5px;
+	font-weight: bold;
+	overflow: hidden;
+}
+.vis2_shelly_DeviceBody > [name="info"] {
+	grid-area: info;
+	background-color: #444;
+	color: #ddd;
+	border-radius: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.vis2_shelly_DeviceBody > [name="info"] > span {
+	position: relative;
+}
+.vis2_shelly_DeviceBody > [name="info"] .icon {
+	height: 100%;
+	background-size: 15px;
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	font-size: 12px;
+	margin: 0px 5px;
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="power"] {
+	background-image: url(./img/shellyEnergy.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="voltage"] {
+	background-image: url(./img/shellyVoltage.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="humidity"] {
+	background-image: url(./img/shellyDeviceHumidity.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="brightness"] {
+	background-image: url(./img/shellyDeviceLight.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="brightness"] .brightnessButton {
+	width: 30px;
+	height: 18px;
+	padding: 0px;
+	margin: 1px 1px 1px 5px;
+	line-height: 5px;
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="temperature"] {
+	background-image: url(./img/shellyDeviceTemperature.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="lux"] {
+	background-image: url(./img/shellyDeviceLux.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="valvePosition"] {
+	background-image: url(./img/shellyDeviceValvePosition.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="devicePower"].externalPower {
+	background-image: url(./img/shellyDeviceEnergyPlug.svg);
+}
+.vis2_shelly_DeviceBody > [name="info"] [name="devicePower"].battery {
+	background-image: url(./img/shellyDeviceBattery.svg);
+}
+.vis2_shelly_DeviceBody > [name="action"] {
+	grid-area: action;
+	position: relative;
+	height: 60px;
+}
+.vis2_shelly_DeviceBody > [name="action"]:has(.TRVValue) {
+	width: 135px;
+}
+.vis2_shelly_DeviceBody > [name="action"] [name="switch"] {
+	text-align: right;
+	display: block;
+}
+.vis2_shelly_DeviceBody > [name="action"] .TRVValue {
+	position: absolute;
+	color: white;
+	width: 34px;
+	left: calc(50% - 17px);
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 11pt;
+	text-align: center;
+	z-index: 1;
+}
+.vis2_shelly_DeviceBody > [name="action"] .TRVButton {
+	position: absolute;
+	left: 2px;
+}
+.vis2_shelly_DeviceBody > [name="action"] [name="motion"] {
+	background-color: #444;
+	color: white;
+	display: flex;
+	height: calc(100% - 20px);
+	margin: 5px;
+	text-align: center;
+	justify-content: center;
+	align-items: end;
+	padding: 5px;
+	border-radius: 10px;
+	font-size: 16px;
+	background-repeat: no-repeat;
+	background-size: 28px;
+	background-position-x: center;
+}
+.vis2_shelly_DeviceBody > [name="action"] [name="motion"].motionyes {
+	background-image: url(./img/shellyDeviceMotionYes.svg);
+}
+.vis2_shelly_DeviceBody > [name="action"] [name="motion"].motionno {
+	background-image: url(./img/shellyDeviceMotionNo.svg);
+}
+.vis2_shelly_DeviceBody > [name="action"] .actionButton {
+	cursor: pointer;
+	position: absolute;
+}
+.vis2_shelly_DeviceBody > [name="action"] .temperature {
+	background-color: #444;
+	color: white;
+	display: flex;
+	height: calc(100% - 20px);
+	margin: 5px;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	border-radius: 10px;
+	font-size: 16px;
+}
+.vis2_shelly_DeviceBody [name="svgShellyButton"] {
+	margin: 5px;
+	width: 50px;
+	cursor: pointer;
+}
+.vis2_shelly_DeviceBody .wait [name="svgShellyButton"] {
+	--shellyButtonOuterColor: rgba(219, 118, 118, 0.849);
+}
+.vis2_shelly_DeviceBody .active [name="svgShellyButton"] {
+	--shellyButtonOuterColor: #44f;
+}
+.vis2_shelly_DeviceBody [name="svgShellyTRVButton"] {
+	--shellyTRVOuterColor: #44f;
+}
+
+.vis2_shelly_DeviceBody .editModeMoveButton {
+	z-index: 1000;
+	width: 50px;
+	position: absolute;
+	right: 0px;
+	height: 25px;
+	cursor: pointer;
+	opacity: 0.7;
+}

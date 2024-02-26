@@ -4,12 +4,15 @@ import { Card, CardContent } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { VisRxWidget } from "@iobroker/vis-2-widgets-react-dev";
 import Device from "./components/Device";
-import css from "./style.css";
+import getDeviceConfigByType from "./components/DeviceConfig";
 
 class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 	constructor(props) {
 		super(props);
+		// props.myContainer = useRef(null);
 		this.state.allDevices = {};
+		console.debug("THIS");
+		console.debug(this);
 	}
 
 	static getWidgetInfo() {
@@ -52,12 +55,6 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 		// 3. this.state.rxStyle - contains all widget styles with replaced bindings. E.g. if this.state.styles.width is `{javascript.0.width}px`,
 		//                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
 		const ids = await this.props.context.socket.getForeignStates(["vis-2-shelly.0.devices.ids"]);
-		// console.debug(
-		// 	ids.then((value) => {
-		// 		return value;
-		// 	}),
-		// );
-		// console.debug(ids);
 		this.state.allDevices = JSON.parse(ids["vis-2-shelly.0.devices.ids"].val);
 	}
 
@@ -90,20 +87,37 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 
 	renderWidgetBody(props) {
 		super.renderWidgetBody(props);
+		console.debug(this.props.context.socket);
 		// Object.values(this.state.allDevices).map((device) => console.log(device));
 		return (
 			<Card style={{ width: "100%", height: "100%" }}>
 				<CardContent>
 					{Object.values(this.state.allDevices).map((device) => {
-						return (
-							<Device
-								stateID={device.stateId}
-								type={device.type}
-								id={device.id}
-								socket={this.props.context.socket}
-								// css={css}
-							/>
+						this.vsID = `vis-2-shelly.0.devices.${device.id}`;
+						this.domID = device.id.replaceAll("#", "");
+						const typeConfig = getDeviceConfigByType(
+							device.type,
+							this.domID,
+							{ stateID: device.stateId, type: device.type, id: device.id },
+							this.vsID,
 						);
+						const dataPointArray = typeof typeConfig.dataPoint === "undefined" ? [] : typeConfig.dataPoint;
+						return Object.entries(dataPointArray).map(([relay, dataPoint]) => {
+							const deviceDomID = typeConfig.domID + relay;
+							return (
+								<Device
+									stateID={device.stateId}
+									type={device.type}
+									id={device.id}
+									typeConfig={typeConfig}
+									deviceDomID={deviceDomID}
+									relay={relay}
+									dataPoint={dataPoint}
+									socket={this.props.context.socket}
+									widID={this.props.id}
+								/>
+							);
+						});
 					})}
 					{/* {I18n.t("My Demo Shelly2: ")} */}
 					{/* {this.state.values[`${this.state.rxData.oid}.val`]} */}
