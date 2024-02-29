@@ -20,9 +20,7 @@ class Device extends Component {
 	}
 
 	async stateChange(id, state) {
-		// console.debug("STATE CHANGE");
-		// console.debug(id);
-		// console.debug(state);
+		this.props.state[id] = state;
 		const that = this;
 		if (typeof that.props.typeConfig.update === "undefined") return false;
 		let idKey;
@@ -36,6 +34,15 @@ class Device extends Component {
 			this.props.typeConfig.update[idKey].updateValue({
 				dom: this.components[idKey].current,
 				newVal: val,
+				config: this.props.typeConfig.update[idKey],
+				socket: this.props.socket,
+			});
+		}
+		if (typeof this.props.typeConfig.update[idKey].updateAck === "function") {
+			const ack = typeof state === "undefined" ? "" : state === null ? "" : state.ack;
+			this.props.typeConfig.update[idKey].updateAck({
+				dom: this.components[idKey].current,
+				newAck: ack,
 				config: this.props.typeConfig.update[idKey],
 				socket: this.props.socket,
 			});
@@ -69,6 +76,7 @@ class Device extends Component {
 	}
 
 	render() {
+		if (typeof this.props.typeConfig.action === "undefined") this.props.typeConfig.action = {};
 		this.components.icon = React.createRef(null);
 		this.components.name = React.createRef(null);
 		return (
@@ -100,7 +108,40 @@ class Device extends Component {
 				</span>
 				<span name="action">
 					{Object.entries(this.props.typeConfig.view.action).map(([viewKey, viewVal]) => {
-						return <span name={viewVal.name}>{viewVal.html}</span>;
+						this.components[viewVal.name] = React.createRef(null);
+						return (
+							<span
+								name={viewVal.name}
+								className={viewVal.class}
+								style={viewVal.style}
+								ref={this.components[viewVal.name]}
+							>
+								{viewVal.html}
+							</span>
+						);
+					})}
+					{Object.values(this.props.typeConfig.action).map((actionVal) => {
+						return (
+							<div
+								className="actionButton"
+								style={{
+									top: actionVal.y,
+									left: actionVal.x,
+									height: actionVal.h,
+									width: actionVal.w,
+								}}
+								onClick={(e) => {
+									actionVal.click({
+										dom: this.el.current,
+										dataPoint: this.props.dataPoint,
+										options: actionVal,
+										socket: this.props.socket,
+										state: this.props.state,
+										event: e,
+									});
+								}}
+							/>
+						);
 					})}
 				</span>
 			</div>

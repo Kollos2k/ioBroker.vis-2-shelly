@@ -112,6 +112,7 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 									typeConfig={typeConfig}
 									deviceDomID={deviceDomID}
 									relay={relay}
+									state={this.state}
 									dataPoint={dataPoint}
 									socket={this.props.context.socket}
 									widID={this.props.id}

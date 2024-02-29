@@ -62,67 +62,65 @@ export const basicUpdateDevicePower = (arg) => {
 	// }
 };
 export const basicUpdateTRVAck = (arg) => {
-	//($dom, stateID, data) => {
-	// let element;
-	// if ($dom.find("[name='svgShellyTRVButton']").length > 0) {
-	// 	element = $dom.find("[name='svgShellyTRVButton']").get(0).contentDocument.firstChild;
-	// } else {
-	// 	element = $dom.get(0);
-	// }
-	// if (data[stateID].ack === true) {
-	// 	element.classList.remove("animatedAction");
-	// } else {
-	// 	element.classList.add("animatedAction");
-	// }
+	const $dom = arg.dom.querySelector("[name='svgShellyTRVButton']");
+	if ($dom === null) return false;
+	if ($dom.contentDocument === null) return false;
+	const element = $dom.contentDocument.firstChild;
+	if (element === null) return false;
+	if (arg.newAck === true) {
+		element.classList.remove("animatedAction");
+	} else {
+		element.classList.add("animatedAction");
+	}
+	return true;
 };
 export const basicUpdateSwitchAck = (arg) => {
-	//($dom, stateID, data) => {
-	// let element;
-	// if ($dom.find("[name='svgShellyButton']").length > 0) {
-	// 	element = $dom.find("[name='svgShellyButton']").get(0).contentDocument.firstChild;
-	// } else {
-	// 	element = $dom.get(0);
-	// }
-	// if (data[stateID].ack === true) {
-	// 	element.classList.remove("animatedAction");
-	// } else {
-	// 	element.classList.add("animatedAction");
-	// }
+	const $dom = arg.dom.querySelector("[name='svgShellyButton']");
+	if ($dom === null) return false;
+	if ($dom.contentDocument === null) return false;
+	const element = $dom.contentDocument.firstChild;
+	if (element === null) return false;
+	if (arg.newAck === true) {
+		element.classList.remove("animatedAction");
+	} else {
+		element.classList.add("animatedAction");
+	}
+	return true;
 };
 export const basicUpdateSwitch = (arg) => {
-	//($dom, _newVal, _options = {}, data = {}, stateID = "") => {
-	// let element;
-	// if ($dom.find("[name='svgShellyButton']").length > 0) {
-	// 	element = $dom.find("[name='svgShellyButton']").get(0).contentDocument.firstChild;
-	// } else {
-	// 	element = $dom.get(0);
-	// }
-	// if (data[stateID].val === true) {
-	// 	element.classList.add("active");
-	// } else {
-	// 	element.classList.remove("active");
-	// }
+	const $dom = arg.dom.querySelector("[name='svgShellyButton']");
+	if ($dom !== null) {
+		// console.debug(button);
+		if ($dom.contentDocument === null) return;
+		const element = $dom.contentDocument.firstChild;
+		// console.debug(element);
+		if (element === null) return;
+		if (arg.newVal === true) {
+			element.classList.add("active");
+		} else {
+			element.classList.remove("active");
+		}
+	}
 };
 export const basicActionNumberStepper = (arg) => {
-	//(stateID, $mainDOM, action) => {
-	// const data = $mainDOM.data("data");
-	// let newVal = typeof data[stateID] === "undefined" || data[stateID] === null ? action.minValue : data[stateID].val;
-	// newVal += action.step;
-	// if (newVal < action.minValue) newVal = action.minValue;
-	// if (newVal > action.maxValue) newVal = action.maxValue;
-	// // if (data[stateID].ack)
-	// vis.conn.setState(stateID, { val: newVal, ack: false });
+	const stateID = arg.dataPoint[arg.options.dataPoint];
+	if (typeof stateID === "undefined") return false;
+	if (typeof arg.state[stateID] === "undefined") return false;
+	let newVal =
+		typeof arg.state[stateID] === "undefined" || arg.state[stateID] === null
+			? arg.options.minValue
+			: arg.state[stateID].val;
+	newVal += arg.options.step;
+	if (newVal < arg.options.minValue) newVal = arg.options.minValue;
+	if (newVal > arg.options.maxValue) newVal = arg.options.maxValue;
+	arg.socket.setState(stateID, newVal, false);
+	return true;
 };
 export const basicActionBooleanToggle = (arg) => {
-	//(stateID, $mainDOM, _action) => {
-	// const data = $mainDOM.data("data");
-	// const newVal =
-	// 	typeof data[stateID] !== "undefined"
-	// 		? data[stateID] === null
-	// 			? true
-	// 			: data[stateID].val === true
-	// 				? false
-	// 				: true
-	// 		: false;
-	// if (data[stateID].ack === true) vis.conn.setState(stateID, { val: newVal, ack: false });
+	const stateID = arg.dataPoint[arg.options.dataPoint];
+	if (typeof stateID === "undefined") return false;
+	if (typeof arg.state[stateID] === "undefined") return false;
+	const newVal = arg.state[stateID] === null ? false : arg.state[stateID].val !== true;
+	arg.socket.setState(stateID, newVal, false);
+	return true;
 };

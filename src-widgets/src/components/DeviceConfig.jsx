@@ -2,10 +2,6 @@ import * as DeviceActions from "./DeviceActions";
 
 const getDeviceConfigByType = (type, domID, props, vsID) => {
 	let typeConfig = {};
-	// const switchButton =
-	// 	'<object name=\'svgShellyButton\' type="image/svg+xml" data="/vis-2/widgets/vis-2-shelly/vis2/img/shellySwitchButton.svg"></object>';
-	// const switchTRVButton =
-	// 	'<object name=\'svgShellyTRVButton\' type="image/svg+xml" data="/vis-2/widgets/vis-2-shelly/vis2/img/shellyTRVButton.svg" style="margin:5px;width:125px;"></object>';
 	const switchButton = (
 		<object
 			name="svgShellyButton"
@@ -16,10 +12,11 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 	);
 	const switchTRVButton = (
 		<object
-			name={"svgShellyTRVButton"}
-			type={"image/svg+xml"}
-			data={"/vis-2/widgets/vis-2-shelly/vis2/img/shellyTRVButton.svg"}
+			name="svgShellyTRVButton"
+			type="image/svg+xml"
+			data="/vis-2/widgets/vis-2-shelly/vis2/img/shellyTRVButton.svg"
 			style={{ margin: "5px", width: "125px" }}
+			title="TRVSwitch"
 		></object>
 	);
 	switch (type) {
@@ -452,7 +449,7 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 					action: {
 						temperatureTarget: {
 							name: "temperatureTarget",
-							style: "",
+							style: {},
 							class: "TRVValue",
 							html: "",
 						},
