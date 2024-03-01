@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.js": "./static/js/main.f69ae04c.js",
+    "main.js": "./static/js/main.b0853ef8.js",
     "vis2ShellyWidget.js": "./customWidgets.js",
     "static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.791d299a.chunk.css": "./static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.791d299a.chunk.css",
-    "static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.dbb2be92.chunk.js": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.dbb2be92.chunk.js",
+    "static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.28ebc904.chunk.js": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.28ebc904.chunk.js",
     "static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js",
     "static/js/node_modules_react_jsx-runtime_js-_c9180.ca59c2a4.chunk.js": "./static/js/node_modules_react_jsx-runtime_js-_c9180.ca59c2a4.chunk.js",
     "static/js/node_modules_iobroker_adapter-react-v5_node_modules_mui_material_colors_blue_js-node_modules_-032fef.6060373c.chunk.js": "./static/js/node_modules_iobroker_adapter-react-v5_node_modules_mui_material_colors_blue_js-node_modules_-032fef.6060373c.chunk.js",
@@ -25,7 +25,7 @@
     "static/js/node_modules_iobroker_vis-2-widgets-react-dev_node_modules_react_index_js.340814d9.chunk.js": "./static/js/node_modules_iobroker_vis-2-widgets-react-dev_node_modules_react_index_js.340814d9.chunk.js",
     "static/js/node_modules_react_index_js-_0727.0e5805fe.chunk.js": "./static/js/node_modules_react_index_js-_0727.0e5805fe.chunk.js",
     "static/css/src_ShellyAllDevices_jsx.791d299a.chunk.css": "./static/css/src_ShellyAllDevices_jsx.791d299a.chunk.css",
-    "static/js/src_ShellyAllDevices_jsx.7723866b.chunk.js": "./static/js/src_ShellyAllDevices_jsx.7723866b.chunk.js",
+    "static/js/src_ShellyAllDevices_jsx.c8377765.chunk.js": "./static/js/src_ShellyAllDevices_jsx.c8377765.chunk.js",
     "static/js/src_translations_js.24473125.chunk.js": "./static/js/src_translations_js.24473125.chunk.js",
     "static/js/node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js": "./static/js/node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js",
     "static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js",
@@ -191,10 +191,10 @@
     "static/media/shellyVoltage.svg": "./static/media/shellyVoltage.3cefe84f9725eef9b368.svg",
     "static/media/Upstairs.svg": "./static/media/Upstairs.441813e54e0daca0882d.svg",
     "static/media/shellyEnergy.svg": "./static/media/shellyEnergy.ef1827da325449978ea7.svg",
-    "main.f69ae04c.js.map": "./static/js/main.f69ae04c.js.map",
+    "main.b0853ef8.js.map": "./static/js/main.b0853ef8.js.map",
     "customWidgets.js.map": "./customWidgets.js.map",
     "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.791d299a.chunk.css.map": "./static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.791d299a.chunk.css.map",
-    "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.dbb2be92.chunk.js.map": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.dbb2be92.chunk.js.map",
+    "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.28ebc904.chunk.js.map": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles.28ebc904.chunk.js.map",
     "node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js.map": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js.map",
     "node_modules_react_jsx-runtime_js-_c9180.ca59c2a4.chunk.js.map": "./static/js/node_modules_react_jsx-runtime_js-_c9180.ca59c2a4.chunk.js.map",
     "node_modules_iobroker_adapter-react-v5_node_modules_mui_material_colors_blue_js-node_modules_-032fef.6060373c.chunk.js.map": "./static/js/node_modules_iobroker_adapter-react-v5_node_modules_mui_material_colors_blue_js-node_modules_-032fef.6060373c.chunk.js.map",
@@ -216,7 +216,7 @@
     "node_modules_iobroker_vis-2-widgets-react-dev_node_modules_react_index_js.340814d9.chunk.js.map": "./static/js/node_modules_iobroker_vis-2-widgets-react-dev_node_modules_react_index_js.340814d9.chunk.js.map",
     "node_modules_react_index_js-_0727.0e5805fe.chunk.js.map": "./static/js/node_modules_react_index_js-_0727.0e5805fe.chunk.js.map",
     "src_ShellyAllDevices_jsx.791d299a.chunk.css.map": "./static/css/src_ShellyAllDevices_jsx.791d299a.chunk.css.map",
-    "src_ShellyAllDevices_jsx.7723866b.chunk.js.map": "./static/js/src_ShellyAllDevices_jsx.7723866b.chunk.js.map",
+    "src_ShellyAllDevices_jsx.c8377765.chunk.js.map": "./static/js/src_ShellyAllDevices_jsx.c8377765.chunk.js.map",
     "src_translations_js.24473125.chunk.js.map": "./static/js/src_translations_js.24473125.chunk.js.map",
     "node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js.map": "./static/js/node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js.map",
     "node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js.map": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js.map",
@@ -251,6 +251,6 @@
     "vendors-node_modules_react-dom_index_js-_76e1.474b1dc7.chunk.js.map": "./static/js/vendors-node_modules_react-dom_index_js-_76e1.474b1dc7.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.f69ae04c.js"
+    "static/js/main.b0853ef8.js"
   ]
 }

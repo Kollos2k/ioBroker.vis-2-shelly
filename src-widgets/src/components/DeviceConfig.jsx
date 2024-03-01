@@ -355,12 +355,12 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 					},
 					batteryPercent: {
 						name: "devicePower",
-						viewPoint: "externalPower",
+						viewPoint: "devicePower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					externalPower: {
 						name: "devicePower",
-						viewPoint: "externalPower",
+						viewPoint: "devicePower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					temperature: {
@@ -415,10 +415,12 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 					},
 					batteryPercent: {
 						name: "devicePower",
+						viewPoint: "devicePower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					externalPower: {
 						name: "devicePower",
+						viewPoint: "devicePower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					temperature: {
@@ -519,6 +521,7 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 					batteryPercent: {
 						name: "devicePower",
 						unit: "%",
+						viewPoint: "devicePower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					motion: {
