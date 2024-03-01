@@ -37,7 +37,7 @@
     "@iobroker/vis-2-widgets-testing": "^0.3.0",
     "@mui/material": "^5.15.4",
     "@mui/styles": "5.15.4",
-    "@stylistic/eslint-plugin-js": "^1.6.2",
+    "@stylistic/eslint-plugin-js": "^1.6.3",
     "@tsconfig/node18": "^18.2.2",
     "@types/chai": "^4.3.11",
     "@types/chai-as-promised": "^7.1.8",
