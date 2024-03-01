@@ -2,15 +2,15 @@ export const basicUpdateValue = (arg) => {
 	arg.dom.innerHTML = arg.newVal;
 };
 export const basicUpdateMotionValue = (arg) => {
-	// $dom.removeClass("motionyes");
-	// $dom.removeClass("motionno");
-	// if (newVal === true) {
-	// 	$dom.addClass("motionyes");
-	// 	$dom.html("Ja");
-	// } else {
-	// 	$dom.addClass("motionno");
-	// 	$dom.html("Nein");
-	// }
+	arg.dom.classList.remove("motionyes");
+	arg.dom.classList.remove("motionno");
+	if (arg.newVal === true) {
+		arg.dom.classList.add("motionyes");
+		arg.dom.innerHTML = "Ja";
+	} else {
+		arg.dom.classList.add("motionno");
+		arg.dom.innerHTML = "Nein";
+	}
 };
 export const basicUpdateValueName = (arg) => {
 	arg.dom.innerHTML = arg.newVal;
@@ -43,23 +43,22 @@ export const basicUpdateValueBrightness = (arg) => {
 	// $dom.append($b2);
 };
 export const basicUpdateDevicePower = (arg) => {
-	//($dom, _newVal, _options = {}, data = {}, _stageID = "", curDataPoint = {}) => {
-	// // console.log("update external");
-	// let exP = null;
-	// let percent = null;
-	// $.each(data, (k, v) => {
-	// 	if (typeof curDataPoint.externalPower !== "undefined" && curDataPoint.externalPower === k) exP = v;
-	// 	else if (typeof curDataPoint.batteryPercent !== "undefined" && curDataPoint.batteryPercent === k) percent = v;
-	// });
-	// $dom.removeClass("externalPower");
-	// $dom.removeClass("battery");
-	// if (exP !== null && typeof exP === "object" && exP.val === true) {
-	// 	$dom.addClass("externalPower");
-	// 	$dom.html("Energie");
-	// } else {
-	// 	$dom.addClass("battery");
-	// 	$dom.html(`${percent === null || typeof percent !== "object" ? percent : percent.val} %`);
-	// }
+	let exP = null;
+	let percent = null;
+	// eslint-disable-next-line array-callback-return
+	Object.entries(arg.state).map(([k, v]) => {
+		if (typeof arg.dataPoint.externalPower !== "undefined" && arg.dataPoint.externalPower === k) exP = v;
+		else if (typeof arg.dataPoint.batteryPercent !== "undefined" && arg.dataPoint.batteryPercent === k) percent = v;
+	});
+	arg.dom.classList.remove("externalPower");
+	arg.dom.classList.remove("battery");
+	if (exP !== null && typeof exP === "object" && exP.val === true) {
+		arg.dom.classList.add("externalPower");
+		arg.dom.innerHTML = "Energie";
+	} else {
+		arg.dom.classList.add("battery");
+		arg.dom.innerHTML = `${percent === null || typeof percent !== "object" ? percent : percent.val} %`;
+	}
 };
 export const basicUpdateTRVAck = (arg) => {
 	const $dom = arg.dom.querySelector("[name='svgShellyTRVButton']");

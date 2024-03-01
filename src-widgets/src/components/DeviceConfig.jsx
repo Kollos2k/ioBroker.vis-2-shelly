@@ -355,10 +355,12 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 					},
 					batteryPercent: {
 						name: "devicePower",
+						viewPoint: "externalPower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					externalPower: {
 						name: "devicePower",
+						viewPoint: "externalPower",
 						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					temperature: {
@@ -395,7 +397,6 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 						humidity: `${props.stateID}.Humidity0.Relative`,
 						externalPower: `${props.stateID}.DevicePower0.ExternalPower`,
 						batteryPercent: `${props.stateID}.DevicePower0.BatteryPercent`,
-						// name: val.stateID + ".name",
 						name: `${vsID}.0.name`,
 						room: `${vsID}.0.room`,
 						deviceID: props.id,
@@ -518,7 +519,7 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 					batteryPercent: {
 						name: "devicePower",
 						unit: "%",
-						updateValue: DeviceActions.basicUpdateValueUnit,
+						updateValue: DeviceActions.basicUpdateDevicePower,
 					},
 					motion: {
 						name: "motion",
@@ -541,7 +542,7 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 				view: {
 					info: {
 						temperature: { name: "temperature", class: "icon", html: "" },
-						batteryPercent: { name: "batteryPercent", class: "icon", html: "" },
+						batteryPercent: { name: "devicePower", class: "icon", html: "" },
 						lux: { name: "lux", class: "icon", html: "" },
 					},
 					action: {

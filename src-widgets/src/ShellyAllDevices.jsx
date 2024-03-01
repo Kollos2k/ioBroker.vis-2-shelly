@@ -54,12 +54,19 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 		//                        then this.state.rxData.type will have state value of `system.adapter.admin.0.alive`
 		// 3. this.state.rxStyle - contains all widget styles with replaced bindings. E.g. if this.state.styles.width is `{javascript.0.width}px`,
 		//                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
-		const ids = await this.props.context.socket.getForeignStates(["vis-2-shelly.0.devices.ids"]);
-		this.state.allDevices = JSON.parse(ids["vis-2-shelly.0.devices.ids"].val);
+		// const ids = await this.props.context.socket.getForeignStates(["vis-2-shelly.0.devices.ids"]);
+		// this.state.allDevices = JSON.parse(ids["vis-2-shelly.0.devices.ids"].val);
 	}
 
 	async componentDidMount() {
 		super.componentDidMount();
+		// const ids = await this.props.context.socket.getForeignStates(["vis-2-shelly.0.devices.ids"]);
+		// this.state.allDevices = JSON.parse(ids["vis-2-shelly.0.devices.ids"].val);
+		// this.forceUpdate();
+		this.props.context.socket.subscribeState(["vis-2-shelly.0.devices.ids"], (id, state) => {
+			this.state.allDevices = JSON.parse(state.val);
+			this.forceUpdate();
+		});
 
 		// Update data
 		await this.propertiesUpdate();

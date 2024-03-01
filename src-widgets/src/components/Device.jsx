@@ -2,18 +2,18 @@ import React, { Component, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { withStyles } from "@mui/styles";
 import "./device.css";
+import { object } from "prop-types";
 
 const styles = (theme) => ({});
 // let css = {};
 
 class Device extends Component {
 	el = React.createRef(null);
+
 	components = {};
 
 	constructor(props) {
 		super(props);
-
-		// const myContainer = useRef(null);
 		props.socket.subscribeState(Object.values(props.dataPoint), (id, state) => {
 			this.stateChange(id, state);
 		});
@@ -21,21 +21,26 @@ class Device extends Component {
 
 	async stateChange(id, state) {
 		this.props.state[id] = state;
-		const that = this;
-		if (typeof that.props.typeConfig.update === "undefined") return false;
+		if (typeof this.props.typeConfig.update === "undefined") return false;
 		let idKey;
-		Object.entries(that.props.dataPoint).forEach(([k, v]) => {
+		Object.entries(this.props.dataPoint).forEach(([k, v]) => {
 			if (v === id) idKey = k;
 		});
-		if (typeof this.components[idKey] === "undefined") return false;
 		if (typeof this.props.typeConfig.update[idKey] === "undefined") return false;
+		const updateKey =
+			typeof this.props.typeConfig.update[idKey].viewPoint !== "undefined"
+				? this.props.typeConfig.update[idKey].viewPoint
+				: idKey;
+		if (typeof this.components[updateKey] === "undefined") return false;
 		if (typeof this.props.typeConfig.update[idKey].updateValue === "function") {
 			const val = typeof state === "undefined" ? "" : state === null ? "" : state.val;
 			this.props.typeConfig.update[idKey].updateValue({
-				dom: this.components[idKey].current,
+				dom: this.components[updateKey].current,
 				newVal: val,
 				config: this.props.typeConfig.update[idKey],
 				socket: this.props.socket,
+				dataPoint: this.props.dataPoint,
+				state: this.props.state,
 			});
 		}
 		if (typeof this.props.typeConfig.update[idKey].updateAck === "function") {
@@ -45,33 +50,24 @@ class Device extends Component {
 				newAck: ack,
 				config: this.props.typeConfig.update[idKey],
 				socket: this.props.socket,
+				dataPoint: this.props.dataPoint,
+				state: this.props.state,
 			});
 		}
+		return true;
 	}
 
-	async propertiesUpdate() {
-		// if (typeof this.props.typeConfig.update[sType] === "undefined") return false;
-		// const configUpdate = this.props.typeConfig.update[sType];
-		// const $domDev = $("#" + widgetID).find("#" + deviceDomID);
-		// if ($domDev.length === 0) return false;
-		// const $dom = $domDev.find("[name='" + configUpdate.name + "']");
-		// if ($dom.length === 0) return false;
-		// var data = $domDev.data("data");
-		// if (typeof data !== "undefined") {
-		// 	if (typeof data[sID] === "undefined" || data[sID] === null) data[sID] = { val: "" };
-		// 	if (typeof newVal === "undefined") {
-		// 		newVal = data[sID].val;
-		// 	} else {
-		// 		if (typeof newVal === "object") data[sID] = newVal;
-		// 		else data[sID].val = newVal;
-		// 		if (typeof newVal === "object") newVal = newVal.val;
-		// 		$domDev.data("data", data);
-		// 	}
-		// 	configUpdate.updateValue($dom, newVal, configUpdate, data, sID, dataPoint);
-		// }
-	}
+	async propertiesUpdate() {}
 
 	async componentDidMount() {
+		const that = this;
+		if (typeof that.props.state !== "undefined" && that.props.state !== null) {
+			Object.values(that.props.dataPoint).forEach((value) => {
+				if (typeof that.props.state[value] !== "undefined") {
+					that.stateChange(value, that.props.state[value]);
+				}
+			});
+		}
 		await this.propertiesUpdate();
 	}
 
