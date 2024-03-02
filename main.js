@@ -33,6 +33,7 @@ class Vis2Shelly extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
+		if (typeof this.config["knownShellyIDs"] == "undefined") this.config["knownShellyIDs"] = {};
 		await this.subscribeForeignObjectsAsync("shelly.*");
 		// await this.subscribeObjectsAsync("rooms.*");
 		this.updateDeviceList(true);
@@ -61,85 +62,94 @@ class Vis2Shelly extends utils.Adapter {
 		if (!forceUpdate) {
 			const devIdsState = await this.getStateAsync("devices.ids");
 			if (typeof devIdsState === "string") devJSON = JSON.parse(devIdsState);
+			if (!Array.isArray(devJSON)) devJSON = [];
+		} else {
+			this.config["knownShellyIDs"] = {};
 		}
 		for (const deviceID of keysDevices) {
-			const deviceName = deviceID.substring(deviceID.lastIndexOf(".") + 1, deviceID.length);
-
-			const existDev = await this.getStatesAsync(`devices.${deviceName}`);
-			if (typeof existDev === "undefined" || forceUpdate) {
-				await this.setObjectNotExistsAsync("devices." + deviceName, {
-					type: "device",
-					common: {
-						name: deviceName,
-					},
-					native: {},
-				});
-				/** Create DEVICE TYPE */
-				await this.setObjectNotExistsAsync("devices." + deviceName + ".type", {
-					type: "state",
-					common: {
-						name: deviceName + ".type",
-						type: "string",
-						role: "name",
-						read: true,
-						write: true,
-					},
-					native: {},
-				});
-
-				/** GET RELAY COUNT example: plus2pm with more than 1 relay */
-				let relayCount = 1;
-				const typeState = await this.getForeignStateAsync(deviceID + ".type");
-				if (typeState != null) {
-					this.setState("devices." + deviceName + ".type", { val: typeState.val, ack: true });
-					devJSON.push({ stateId: deviceID, id: deviceName, type: typeState.val });
-					changeDeviceIds = true;
-					if (typeState.val == "shellyplus2pm") relayCount = 2;
-				}
-				/** CREATE vis-shelly DEVICE FROM shelly OBJECTS*/
-				for (let i = 0; i < relayCount; i++) {
-					await this.setObjectNotExistsAsync("devices." + deviceName + "." + i, {
-						type: "device",
-						common: {
-							name: "Device Realay " + deviceName,
-						},
-						native: {},
-					});
-					/** Set Name */
-					this.setObjectNotExists(
-						"devices." + deviceName + "." + i + ".name",
-						{
-							type: "state",
-							common: {
-								name: deviceName + ".name",
-								type: "string",
-								role: "name",
-								read: true,
-								write: true,
-								def: null,
-							},
-							native: {},
-						},
-						() => {
-							/* Update default Name */
-							this.getState(`devices.${deviceName}.${i}.name`, (err, state) => {
-								if (state == null) {
-									this.getForeignState(deviceID + ".name", (err, state) => {
-										let newName = "";
-										if (state == null || state.val == null || state.val == "") newName = deviceName;
-										else newName = state.val.toString();
-										if (relayCount > 1) newName += `-${i}`;
-										this.setState(`devices.${deviceName}.${i}.name`, { val: newName, ack: true });
-									});
-								}
-							});
-						},
-					);
-				}
-			}
+			if (await this.updateDevice(deviceID, devJSON, forceUpdate)) changeDeviceIds = true;
 		}
 		if (changeDeviceIds) await this.setStateAsync("devices.ids", { val: JSON.stringify(devJSON), ack: true });
 		this.log.info(`Devices updated (Force:${forceUpdate ? "yes" : "no"})`);
+	}
+	async updateDevice(deviceID, devJSON, forceUpdate) {
+		let changeDeviceIds = false;
+		const deviceName = deviceID.substring(deviceID.lastIndexOf(".") + 1, deviceID.length);
+
+		const existDev = await this.getStatesAsync(`devices.${deviceName}`);
+		if (typeof existDev === "undefined" || forceUpdate) {
+			await this.setObjectNotExistsAsync("devices." + deviceName, {
+				type: "device",
+				common: {
+					name: deviceName,
+				},
+				native: {},
+			});
+			/** Create DEVICE TYPE */
+			await this.setObjectNotExistsAsync("devices." + deviceName + ".type", {
+				type: "state",
+				common: {
+					name: deviceName + ".type",
+					type: "string",
+					role: "name",
+					read: true,
+					write: true,
+				},
+				native: {},
+			});
+
+			/** GET RELAY COUNT example: plus2pm with more than 1 relay */
+			let relayCount = 1;
+			const typeState = await this.getForeignStateAsync(deviceID + ".type");
+			if (typeState != null) {
+				this.setState("devices." + deviceName + ".type", { val: typeState.val, ack: true });
+				devJSON.push({ stateId: deviceID, id: deviceName, type: typeState.val });
+				this.config["knownShellyIDs"][deviceID] = true;
+				changeDeviceIds = true;
+				if (typeState.val == "shellyplus2pm") relayCount = 2;
+			}
+			/** CREATE vis-shelly DEVICE FROM shelly OBJECTS*/
+			for (let i = 0; i < relayCount; i++) {
+				await this.setObjectNotExistsAsync("devices." + deviceName + "." + i, {
+					type: "device",
+					common: {
+						name: "Device Realay " + deviceName,
+					},
+					native: {},
+				});
+				/** Set Name */
+				this.setObjectNotExists(
+					"devices." + deviceName + "." + i + ".name",
+					{
+						type: "state",
+						common: {
+							name: deviceName + ".name",
+							type: "string",
+							role: "name",
+							read: true,
+							write: true,
+							def: null,
+						},
+						native: {},
+					},
+					() => {
+						/* Update default Name */
+						this.getState(`devices.${deviceName}.${i}.name`, (err, state) => {
+							if (state == null) {
+								this.getForeignState(deviceID + ".name", (err, state) => {
+									let newName = "";
+									if (state == null || state.val == null || state.val == "") newName = deviceName;
+									else newName = state.val.toString();
+									if (relayCount > 1) newName += `-${i}`;
+									this.setState(`devices.${deviceName}.${i}.name`, { val: newName, ack: true });
+								});
+							}
+						});
+					},
+				);
+			}
+		}
+		return changeDeviceIds;
 	}
 
 	async updateRoomsList() {
@@ -214,7 +224,8 @@ class Vis2Shelly extends utils.Adapter {
 			// }
 		} else {
 			if (obj) {
-				if (obj.type == "device") this.updateDeviceList();
+				if (obj.type == "device" && typeof this.config["knownShellyIDs"][obj._id] === "undefined") {
+					this.updateDeviceList();
 			}
 		}
 	}
