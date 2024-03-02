@@ -218,14 +218,18 @@ class Vis2Shelly extends utils.Adapter {
 	 * @param {ioBroker.Object | null | undefined} obj
 	 */
 	onObjectChange(id, obj) {
+		// this.log.info(id);
+		// this.log.info(JSON.stringify(obj));
 		if (id.indexOf("vis-2-shelly") > -1) {
 			// if (id.indexOf(".rooms.") > -1) {
 			// 	this.updateRoomsList();
 			// }
 		} else {
 			if (obj) {
+				// this.log.info(JSON.stringify(obj));
 				if (obj.type == "device" && typeof this.config["knownShellyIDs"][obj._id] === "undefined") {
 					this.updateDeviceList();
+				}
 			}
 		}
 	}
