@@ -4,7 +4,7 @@ import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import * as serviceWorker from "./serviceWorker.js";
 import theme from "@iobroker/adapter-react-v5/Theme";
 import Utils from "@iobroker/adapter-react-v5/Components/Utils";
-import App from "./app";
+import App from "./App.jsx";
 import pkg from "../../package.json";
 
 let themeName = Utils.getThemeName();
