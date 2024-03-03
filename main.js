@@ -43,6 +43,7 @@ class Vis2Shelly extends utils.Adapter {
 		});
 		this.devJSON = {};
 		this.subcribedRooms = {};
+		this.subcribedNames = {};
 	}
 
 	/**
@@ -121,7 +122,9 @@ class Vis2Shelly extends utils.Adapter {
 			if (typeState != null && typeof this.typeConfig[typeState.val] !== "undefined") {
 				for (let relay = 0; relay < this.typeConfig[typeState.val].relayCount; relay++) {
 					const roomStateID = `devices.${deviceName}.${relay}.room`;
+					const nameStateID = `devices.${deviceName}.${relay}.name`;
 					const devRoom = await this.getStateAsync(roomStateID);
+					const devName = await this.getStateAsync(nameStateID);
 					this.devJSON[deviceID + relay] = {
 						stateId: deviceID,
 						id: deviceName,
@@ -129,10 +132,21 @@ class Vis2Shelly extends utils.Adapter {
 						relay: relay,
 						instance: this.instance,
 						room: devRoom == null ? null : devRoom.val,
+						name: devName == null ? null : devName.val,
 					};
-					if (typeof this.subcribedRooms[roomStateID] === "undefined") {
+					if (typeof this.subcribedNames[`vis-2-shelly.0.${nameStateID}`] === "undefined") {
+						this.subscribeStates(nameStateID, () => {});
+						this.subcribedNames[`vis-2-shelly.0.${nameStateID}`] = {
+							devID: `${deviceID}${relay}`,
+							subscribeID: nameStateID,
+						};
+					}
+					if (typeof this.subcribedRooms[`vis-2-shelly.0.${roomStateID}`] === "undefined") {
 						this.subscribeStates(roomStateID, () => {});
-						this.subcribedRooms[`vis-2-shelly.0.${roomStateID}`] = { devID: `${deviceID}${relay}` };
+						this.subcribedRooms[`vis-2-shelly.0.${roomStateID}`] = {
+							devID: `${deviceID}${relay}`,
+							subscribeID: roomStateID,
+						};
 					}
 				}
 				this.config["knownShellyIDs"][deviceID] = true;
@@ -237,6 +251,12 @@ class Vis2Shelly extends utils.Adapter {
 			this.setState("info.connection", false, true);
 			this.log.info("cleaned everything up...");
 			this.unsubscribeForeignObjects("shelly.*");
+			Object.values(this.subcribedNames).forEach((v) => {
+				this.unsubscribeStates(v.subscribeID);
+			});
+			Object.values(this.subcribedRooms).forEach((v) => {
+				this.unsubscribeStates(v.subscribeID);
+			});
 			callback();
 		} catch (e) {
 			callback();
@@ -274,6 +294,9 @@ class Vis2Shelly extends utils.Adapter {
 		if (state) {
 			if (typeof this.subcribedRooms[id] !== "undefined") {
 				this.devJSON[this.subcribedRooms[id].devID].room = state.val;
+				this.setState("devices.ids", { val: JSON.stringify(this.devJSON), ack: true }, () => {});
+			} else if (typeof this.subcribedNames[id] !== "undefined") {
+				this.devJSON[this.subcribedNames[id].devID].name = state.val;
 				this.setState("devices.ids", { val: JSON.stringify(this.devJSON), ack: true }, () => {});
 			}
 			// The state was changed

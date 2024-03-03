@@ -75,6 +75,16 @@ export const basicUpdateTRVAck = (arg) => {
 };
 export const basicUpdateSwitchAck = (arg) => {
 	const $dom = arg.dom.querySelector("[name='svgShellyButton']");
+	if (!$dom.hasAttribute("loadAck")) {
+		$dom.addEventListener(
+			"load",
+			() => {
+				basicUpdateSwitchAck(arg);
+			},
+			true,
+		);
+		$dom.setAttribute("loadAck", "true");
+	}
 	if ($dom === null) return false;
 	if ($dom.contentDocument === null) return false;
 	const element = $dom.contentDocument.firstChild;
@@ -88,13 +98,23 @@ export const basicUpdateSwitchAck = (arg) => {
 };
 export const basicUpdateSwitch = (arg) => {
 	const $dom = arg.dom.querySelector("[name='svgShellyButton']");
+	if (!$dom.hasAttribute("loadValue")) {
+		$dom.addEventListener(
+			"load",
+			() => {
+				basicUpdateSwitch(arg);
+			},
+			true,
+		);
+		$dom.setAttribute("loadValue", "true");
+	}
 	if ($dom !== null) {
-		// console.debug(button);
-		if ($dom.contentDocument === null) return;
+		if ($dom.contentDocument === null) {
+			return;
+		}
 		const element = $dom.contentDocument.firstChild;
-		// console.debug(element);
 		if (element === null) return;
-		if (arg.newVal === true) {
+		if (arg.newVal) {
 			element.classList.add("active");
 		} else {
 			element.classList.remove("active");

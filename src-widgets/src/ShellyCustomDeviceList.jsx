@@ -11,8 +11,8 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 		super(props);
 		// props.myContainer = useRef(null);
 		this.state.allDevices = {};
-		this.state.roomDevices = {};
-		console.debug("THIS ROOM");
+		this.state.deviceList = {};
+		console.debug("THIS DEVICES");
 		console.debug(this);
 	}
 
@@ -39,42 +39,45 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 							default: "block",
 						},
 						{
-							name: "rooms",
-							label: "vis_2_widgets_shelly_rooms",
+							name: "count",
+							type: "number",
+							default: 1,
+							label: "vis_2_widgets_shelly_device_count",
+							onChange: (field, data, changeData) => changeData(data),
+						},
+					],
+				},
+				{
+					name: "devices", // name of custom group
+					label: "vis_2_widgets_shelly_group_devices", // label of custom group
+					indexFrom: 1, // optional start index of iterator
+					indexTo: "count",
+					fields: [
+						{
+							name: "device",
+							label: "vis_2_widgets_shelly_device",
 							type: "custom",
 							component: (field, data, onDataChange, socket, widgetID, view, project) => {
-								// console.debug("Component");
-								// console.debug(this);
-								// console.debug(field);
-								// console.debug("DATA");
-								// console.debug(data);
-								// console.debug(socket);
-								const roomList =
-									typeof socket.context.socket.states.roomList !== "undefined"
-										? socket.context.socket.states.roomList
+								const deviceList =
+									typeof socket.context.socket.states.deviceList !== "undefined"
+										? socket.context.socket.states.deviceList
 										: {};
 								return (
 									<select
-										// id={`${widgetID}_ShellyRoomSelect`}
-										name="ShellyByRoom_RoomSelect"
+										name="ShellyDeviceList_DeviceSelect"
 										style={{ width: "100%" }}
 										value={data[field.name]}
 										onChange={(e) => {
-											onDataChange({ [field.name]: e.target.value }); // returns all changed field as object.
-											// If some propertiy is null, so it will be deleted from data
-											// this.updateRoomDevices();
-											console.debug(field);
-											console.debug(data);
-											console.debug(onDataChange);
-											console.debug(socket);
-											// console.debug(widgetID);
-											// console.debug(view);
-											// console.debug(project);
+											onDataChange({ [field.name]: e.target.value });
 										}}
 									>
-										<option value="">-- Select room --</option>
-										{Object.entries(roomList).map(([key, val]) => {
-											return <option value={key}>{val}</option>;
+										<option value="">-- Select device --</option>
+										{Object.entries(deviceList).map(([key, val]) => {
+											return (
+												<option value={key}>
+													{val.name !== null && val.name.length > 0 ? val.name : val.id}
+												</option>
+											);
 										})}
 									</select>
 								);
@@ -97,32 +100,28 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 		//                        then this.state.rxData.type will have state value of `system.adapter.admin.0.alive`
 		// 3. this.state.rxStyle - contains all widget styles with replaced bindings. E.g. if this.state.styles.width is `{javascript.0.width}px`,
 		//                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
-		this.updateRoomDevices();
+		this.updateDeviceList();
 	}
 
-	async updateRoomDevices() {
-		this.state.roomDevices = {};
-		if (typeof this.state.data.rooms !== "undefined") {
-			Object.entries(this.state.allDevices).forEach(([key, device]) => {
-				if (device.room === this.state.data.rooms) {
-					this.state.roomDevices[key] = device;
-				}
-			});
-			this.forceUpdate();
+	async updateDeviceList() {
+		this.state.deviceList = {};
+		for (let count = 1; count <= this.state.data.count; count++) {
+			if (
+				typeof this.state.data[`device${count}`] !== "undefined" &&
+				typeof this.state.allDevices[this.state.data[`device${count}`]] !== "undefined"
+			) {
+				this.state.deviceList[count] = this.state.allDevices[this.state.data[`device${count}`]];
+			}
 		}
+		this.forceUpdate();
 	}
 
 	async componentDidMount() {
 		super.componentDidMount();
-		if (typeof this.props.context.socket.states.roomList === "undefined") {
-			this.props.context.socket.subscribeState(["vis-2-shelly.0.devices.roomIds"], (id, state) => {
-				this.state.rooms = JSON.parse(state.val);
-				this.props.context.socket.states.roomList = this.state.rooms;
-			});
-		}
 		this.props.context.socket.subscribeState(["vis-2-shelly.0.devices.ids"], (id, state) => {
 			this.state.allDevices = JSON.parse(state.val);
-			this.updateRoomDevices();
+			this.props.context.socket.states.deviceList = this.state.allDevices;
+			this.updateDeviceList();
 			this.forceUpdate();
 		});
 
@@ -133,7 +132,7 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 	// Do not delete this method. It is used by vis to read the widget configuration.
 	// eslint-disable-next-line class-methods-use-this
 	getWidgetInfo() {
-		return ShellyByRoomDevices.getWidgetInfo();
+		return ShellyCustomDeviceList.getWidgetInfo();
 	}
 
 	// This function is called every time when rxData is changed
@@ -152,12 +151,10 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 
 	renderWidgetBody(props) {
 		super.renderWidgetBody(props);
-		console.debug("room devices");
-		console.debug(this.state.roomDevices);
 		return (
 			<Card style={{ width: "100%", height: "100%" }}>
 				<CardContent>
-					{Object.values(this.state.roomDevices).map((device) => {
+					{Object.values(this.state.deviceList).map((device) => {
 						this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
 						this.domID = device.id.replaceAll("#", "");
 						const typeConfig = getDeviceConfigByType(

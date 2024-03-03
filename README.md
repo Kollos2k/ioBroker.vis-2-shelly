@@ -20,7 +20,7 @@ A widget to display Shelly devices in vis-2
 With the help of this adapter it should be possible to easily display and control all Shelly devices in plain sight.<br/>
 
 So far it is possible to display all Shelly devices or to divide the devices into rooms.<br/>
-<img src="readme/images/FotoShellyAnleitung1.png">
+<img src="readme/images/PictureShellyReadme1.png">
 
 <br/><br/>The project is still in its early stages and is not stable<br/><br/>
 
@@ -50,6 +50,7 @@ Devices supported so far
 -   Update VIS-Shelly to VIS-2-Shelly (React)
 -   Add AllDevices Widget
 -   Add RoomDevices Widget
+-   Add CustomDeviceList Widget
 -   Rebuild main.js
 
 ## License

@@ -7,6 +7,7 @@ import { i18n as I18n } from "@iobroker/adapter-react-v5";
 import { Checkbox, TextField } from "@mui/material";
 import AllDevicesWidget from "./ShellyAllDevices";
 import ByRoomDevicesWidget from "./ShellyByRoomDevices";
+import CustomDeviceListWidget from "./ShellyCustomDeviceList";
 import translations from "./translations";
 // import css from "./style.css";
 
@@ -33,6 +34,7 @@ class App extends WidgetDemoApp {
 		const widgets = {
 			allDevices: AllDevicesWidget.getWidgetInfo(),
 			roomDevices: ByRoomDevicesWidget.getWidgetInfo(),
+			customDeviceList: CustomDeviceListWidget.getWidgetInfo(),
 		};
 
 		return (

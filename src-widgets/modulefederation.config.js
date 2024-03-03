@@ -5,6 +5,7 @@ module.exports = makeFederation(
 	{
 		"./ShellyAllDevices": "./src/ShellyAllDevices", // List of all widgets in this package
 		"./ShellyByRoomDevices": "./src/ShellyByRoomDevices",
+		"./ShellyCustomDeviceList": "./src/ShellyCustomDeviceList",
 		"./translations": "./src/translations",
 	},
 );

@@ -57,17 +57,17 @@ class Device extends Component {
 		return true;
 	}
 
-	async propertiesUpdate() {}
-
-	async componentDidMount() {
-		const that = this;
-		if (typeof that.props.state !== "undefined" && that.props.state !== null) {
-			Object.values(that.props.dataPoint).forEach((value) => {
-				if (typeof that.props.state[value] !== "undefined") {
-					that.stateChange(value, that.props.state[value]);
+	async propertiesUpdate() {
+		if (typeof this.props.state !== "undefined" && this.props.state !== null) {
+			Object.values(this.props.dataPoint).forEach((value) => {
+				if (typeof this.props.state[value] !== "undefined") {
+					this.stateChange(value, this.props.state[value]);
 				}
 			});
 		}
+	}
+
+	async componentDidMount() {
 		await this.propertiesUpdate();
 	}
 

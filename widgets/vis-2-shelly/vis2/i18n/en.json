@@ -1,10 +1,9 @@
 {
-	"vis_2_widgets_template": "Widgets template",
-	"vis_2_widgets_template_type": "Type",
-	"vis_2_widgets_template_private": "Private",
-	"vis_2_widgets_template_oid": "Object ID",
-	"My Demo widget: ": "My Demo widget: ",
-
 	"vis_2_widgets_shelly": "VIS-2 Shelly",
-  "AllDevices": "All Devices"
+	"AllDevices": "All Devices",
+	"vis_2_widgets_shelly_display": "Display type",
+	"vis_2_widgets_shelly_rooms": "Room",
+	"vis_2_widgets_shelly_device_count": "Count",
+	"vis_2_widgets_shelly_device": "Device",
+	"vis_2_widgets_shelly_group_devices": "Device"
 }
