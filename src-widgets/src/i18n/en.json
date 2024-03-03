@@ -6,5 +6,7 @@
 	"My Demo widget: ": "My Demo widget: ",
 
 	"vis_2_widgets_shelly": "VIS-2 Shelly",
-  "AllDevices": "All Devices"
+	"AllDevices": "All Devices",
+	"vis_2_widgets_shelly_display": "Display type",
+	"vis_2_widgets_shelly_rooms": "Room"
 }

@@ -27,12 +27,31 @@ class Vis2Shelly extends utils.Adapter {
 		// this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 		this.setState("info.connection", false, true);
+		this.typeConfig = {
+			"SHDM-2": { name: "Shelly Dimmer 2", relayCount: 1 },
+			shellyplus1pm: { name: "Shelly Plus 1pm", relayCount: 1 },
+			shellyplus2pm: { name: "Shelly Plus 2pm", relayCount: 2 },
+			"SHPLG-S": { name: "Shelly Plug S", relayCount: 1 },
+			shellyplusplugs: { name: "Shelly Plus Plug S", relayCount: 1 },
+			shellyplusht: { name: "Shelly Plus H&T", relayCount: 1 },
+			"SHTRV-01": { name: "Shelly TRV", relayCount: 1 },
+			"SHMOS-02": { name: "Shelly Motion 2", relayCount: 1 },
+		};
+		this.typeEnum = {};
+		Object.entries(this.typeConfig).forEach(([k, v]) => {
+			this.typeEnum[k] = v.name;
+		});
+		this.devJSON = {};
+		this.subcribedRooms = {};
 	}
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
+		const devIdsState = await this.getStateAsync("devices.ids");
+		if (typeof devIdsState === "string") this.devJSON = JSON.parse(devIdsState);
+		if (typeof this.devJSON !== "object") this.devJSON = {};
 		if (typeof this.config["knownShellyIDs"] == "undefined") this.config["knownShellyIDs"] = {};
 		await this.subscribeForeignObjectsAsync("shelly.*");
 		// await this.subscribeObjectsAsync("rooms.*");
@@ -44,7 +63,6 @@ class Vis2Shelly extends utils.Adapter {
 	async updateDeviceList(forceUpdate = false) {
 		const shellyDevices = await this.getForeignObjectsAsync("shelly.*", "device");
 		const keysDevices = Object.keys(shellyDevices);
-		let devJSON = [];
 		let changeDeviceIds = false;
 
 		await this.setObjectNotExistsAsync("devices.ids", {
@@ -59,20 +77,16 @@ class Vis2Shelly extends utils.Adapter {
 			},
 			native: {},
 		});
-		if (!forceUpdate) {
-			const devIdsState = await this.getStateAsync("devices.ids");
-			if (typeof devIdsState === "string") devJSON = JSON.parse(devIdsState);
-			if (!Array.isArray(devJSON)) devJSON = [];
-		} else {
+		if (forceUpdate) {
 			this.config["knownShellyIDs"] = {};
 		}
 		for (const deviceID of keysDevices) {
-			if (await this.updateDevice(deviceID, devJSON, forceUpdate)) changeDeviceIds = true;
+			if (await this.updateDevice(deviceID, forceUpdate)) changeDeviceIds = true;
 		}
-		if (changeDeviceIds) await this.setStateAsync("devices.ids", { val: JSON.stringify(devJSON), ack: true });
+		if (changeDeviceIds) await this.setStateAsync("devices.ids", { val: JSON.stringify(this.devJSON), ack: true });
 		this.log.info(`Devices updated (Force:${forceUpdate ? "yes" : "no"})`);
 	}
-	async updateDevice(deviceID, devJSON, forceUpdate) {
+	async updateDevice(deviceID, forceUpdate) {
 		let changeDeviceIds = false;
 		const deviceName = deviceID.substring(deviceID.lastIndexOf(".") + 1, deviceID.length);
 
@@ -86,7 +100,8 @@ class Vis2Shelly extends utils.Adapter {
 				native: {},
 			});
 			/** Create DEVICE TYPE */
-			await this.setObjectNotExistsAsync("devices." + deviceName + ".type", {
+			const typeState = await this.getForeignStateAsync(deviceID + ".type");
+			await this.setObjectAsync("devices." + deviceName + ".type", {
 				type: "state",
 				common: {
 					name: deviceName + ".type",
@@ -94,19 +109,35 @@ class Vis2Shelly extends utils.Adapter {
 					role: "name",
 					read: true,
 					write: true,
+					states: this.typeEnum,
+					def: typeState,
 				},
 				native: {},
 			});
 
 			/** GET RELAY COUNT example: plus2pm with more than 1 relay */
 			let relayCount = 1;
-			const typeState = await this.getForeignStateAsync(deviceID + ".type");
-			if (typeState != null) {
-				this.setState("devices." + deviceName + ".type", { val: typeState.val, ack: true });
-				devJSON.push({ stateId: deviceID, id: deviceName, type: typeState.val });
+
+			if (typeState != null && typeof this.typeConfig[typeState.val] !== "undefined") {
+				for (let relay = 0; relay < this.typeConfig[typeState.val].relayCount; relay++) {
+					const roomStateID = `devices.${deviceName}.${relay}.room`;
+					const devRoom = await this.getStateAsync(roomStateID);
+					this.devJSON[deviceID + relay] = {
+						stateId: deviceID,
+						id: deviceName,
+						type: typeState.val,
+						relay: relay,
+						instance: this.instance,
+						room: devRoom == null ? null : devRoom.val,
+					};
+					if (typeof this.subcribedRooms[roomStateID] === "undefined") {
+						this.subscribeStates(roomStateID, () => {});
+						this.subcribedRooms[`vis-2-shelly.0.${roomStateID}`] = { devID: `${deviceID}${relay}` };
+					}
+				}
 				this.config["knownShellyIDs"][deviceID] = true;
 				changeDeviceIds = true;
-				if (typeState.val == "shellyplus2pm") relayCount = 2;
+				relayCount = this.typeConfig[typeState.val].relayCount;
 			}
 			/** CREATE vis-shelly DEVICE FROM shelly OBJECTS*/
 			for (let i = 0; i < relayCount; i++) {
@@ -241,14 +272,24 @@ class Vis2Shelly extends utils.Adapter {
 	 */
 	onStateChange(id, state) {
 		if (state) {
+			if (typeof this.subcribedRooms[id] !== "undefined") {
+				this.devJSON[this.subcribedRooms[id].devID].room = state.val;
+				this.setState("devices.ids", { val: JSON.stringify(this.devJSON), ack: true }, () => {});
+			}
 			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			// this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 		} else {
 			// The state was deleted
-			this.log.info(`state ${id} deleted`);
+			// this.log.info(`state ${id} deleted`);
 		}
 	}
-
+	/**
+	 * Creates State if not exists and set State (UNUSED)
+	 * @param {string} foreignID
+	 * @param {string} selfID
+	 * @param {string} name
+	 * @param {string} role
+	 */
 	createAndSetState(foreignID, selfID, name, role) {
 		this.setObjectNotExists(
 			selfID,

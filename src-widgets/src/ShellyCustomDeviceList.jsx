@@ -6,7 +6,7 @@ import { VisRxWidget } from "@iobroker/vis-2-widgets-react-dev";
 import Device from "./components/Device";
 import getDeviceConfigByType from "./components/DeviceConfig";
 
-class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
+class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 	constructor(props) {
 		super(props);
 		// props.myContainer = useRef(null);
@@ -18,11 +18,11 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 
 	static getWidgetInfo() {
 		return {
-			id: "tplByRoomDevicesWidget",
+			id: "tplCustomDeviceListWidget",
 			visSet: "vis-2-shelly",
 			visSetLabel: "vis_2_widgets_shelly", // Widget set translated label (should be defined only in one widget of set)
 			visSetColor: "#cf00ff", // Color of widget set. it is enough to set color only in one widget of set
-			visName: "ByRoomDevices", // Name of widget
+			visName: "CustomDeviceList", // Name of widget
 			visAttrs: [
 				{
 					name: "common", // group name
@@ -193,4 +193,4 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 	}
 }
 
-export default ShellyByRoomDevices;
+export default ShellyCustomDeviceList;

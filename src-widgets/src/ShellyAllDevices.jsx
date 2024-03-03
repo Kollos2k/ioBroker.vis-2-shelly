@@ -95,7 +95,7 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 			<Card style={{ width: "100%", height: "100%" }}>
 				<CardContent>
 					{Object.values(this.state.allDevices).map((device) => {
-						this.vsID = `vis-2-shelly.0.devices.${device.id}`;
+						this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
 						this.domID = device.id.replaceAll("#", "");
 						const typeConfig = getDeviceConfigByType(
 							device.type,
@@ -103,9 +103,11 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 							{ stateID: device.stateId, type: device.type, id: device.id },
 							this.vsID,
 						);
-						const dataPointArray = typeof typeConfig.dataPoint === "undefined" ? [] : typeConfig.dataPoint;
-						return Object.entries(dataPointArray).map(([relay, dataPoint]) => {
-							const deviceDomID = typeConfig.domID + relay;
+						if (
+							typeof typeConfig.dataPoint !== "undefined" &&
+							typeof typeConfig.dataPoint[device.relay] !== "undefined"
+						) {
+							const deviceDomID = typeConfig.domID + device.relay;
 							return (
 								<Device
 									stateID={device.stateId}
@@ -113,14 +115,14 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 									id={device.id}
 									typeConfig={typeConfig}
 									deviceDomID={deviceDomID}
-									relay={relay}
+									relay={device.relay}
 									state={this.state}
-									dataPoint={dataPoint}
+									dataPoint={typeConfig.dataPoint[device.relay]}
 									socket={this.props.context.socket}
 									widID={this.props.id}
 								/>
 							);
-						});
+						}
 					})}
 					{/* {I18n.t("My Demo Shelly2: ")} */}
 					{/* {this.state.values[`${this.state.rxData.oid}.val`]} */}
