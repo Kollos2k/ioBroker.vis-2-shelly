@@ -45,8 +45,7 @@ Devices supported so far
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.0.2 (2024-03-04)
 
 -   (Kollos2k) initial release
 -   Update VIS-Shelly to VIS-2-Shelly (React)
