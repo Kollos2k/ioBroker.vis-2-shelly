@@ -106,7 +106,7 @@ class Vis2Shelly extends utils.Adapter {
 				type: "state",
 				common: {
 					name: deviceName + ".type",
-					type: "string",
+					type: "object",
 					role: "name",
 					read: true,
 					write: true,
@@ -219,7 +219,7 @@ class Vis2Shelly extends utils.Adapter {
 				type: "state",
 				common: {
 					name: "room",
-					type: "string",
+					type: "object",
 					role: "name",
 					read: true,
 					write: true,

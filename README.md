@@ -51,6 +51,7 @@ Devices supported so far
 -   Add AllDevices Widget
 -   Add RoomDevices Widget
 -   Add CustomDeviceList Widget
+-   Add CustomOverview Widget
 -   Rebuild main.js
 
 ## License
