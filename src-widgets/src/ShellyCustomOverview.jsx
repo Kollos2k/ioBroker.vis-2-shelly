@@ -55,7 +55,7 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 				},
 				{
 					name: "valueGroup", // name of custom group
-					label: "vis_2_widgets_shelly_group_values", // label of custom group
+					label: "vis_2_widgets_shelly_overview_group", // label of custom group
 					indexFrom: 1, // optional start index of iterator
 					indexTo: "valueGroupCount",
 					fields: [
@@ -98,7 +98,7 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 						{
 							name: "subAddIcon1_",
 							label: "vis_2_widgets_shelly_overview_subAddIcon1",
-							type: "text",
+							type: "image",
 						},
 						{
 							name: "subAddOID2_",
@@ -114,7 +114,7 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 						{
 							name: "subAddIcon2_",
 							label: "vis_2_widgets_shelly_overview_subAddIcon2",
-							type: "text",
+							type: "image",
 						},
 						{
 							name: "subHorizontal",
