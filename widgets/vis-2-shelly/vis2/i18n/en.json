@@ -24,5 +24,9 @@
 	"vis_2_widgets_shelly_overview_subAddOID2": "SubValue 2 ID",
 	"vis_2_widgets_shelly_overview_subAddUnit2": "SubValue 2 unit",
 	"vis_2_widgets_shelly_overview_subAddIcon2": "SubValue 2 icon",
-	"vis_2_widgets_shelly_overview_subHR": "Show sub horizontal"
+	"vis_2_widgets_shelly_overview_subHR": "Show sub horizontal",
+	"vis_2_widgets_shelly_overview_padding": "padding",
+	"vis_2_widgets_shelly_overview_margin": "margin",
+	"vis_2_widgets_shelly_overview_cssstyle": "Style",
+	"vis_2_widgets_shelly_overview_borderRadius": "border-radius"
 }

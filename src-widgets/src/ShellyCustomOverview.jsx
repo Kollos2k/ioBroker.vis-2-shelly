@@ -35,6 +35,19 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 							type: "image",
 						},
 						{
+							name: "valueGroupCount",
+							label: "vis_2_widgets_shelly_overview_valueGroupCount",
+							type: "number",
+							default: 1,
+							onChange: (field, data, changeData) => changeData(data),
+						},
+					],
+				},
+				{
+					name: "cssstyle",
+					label: "vis_2_widgets_shelly_overview_cssstyle",
+					fields: [
+						{
 							name: "backColor",
 							label: "vis_2_widgets_shelly_overview_backColor",
 							type: "color",
@@ -45,11 +58,19 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 							type: "color",
 						},
 						{
-							name: "valueGroupCount",
-							label: "vis_2_widgets_shelly_overview_valueGroupCount",
-							type: "number",
-							default: 1,
-							onChange: (field, data, changeData) => changeData(data),
+							name: "padding",
+							label: "vis_2_widgets_shelly_overview_padding",
+							type: "dimension",
+						},
+						{
+							name: "margin",
+							label: "vis_2_widgets_shelly_overview_margin",
+							type: "dimension",
+						},
+						{
+							name: "borderRadius",
+							label: "vis_2_widgets_shelly_overview_borderRadius",
+							type: "dimension",
 						},
 					],
 				},
@@ -171,11 +192,17 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 				style={{
 					width: "100%",
 					height: "100%",
-					backgroundColor: this.state.data.backColor,
-					color: this.state.data.textColor,
 				}}
 			>
-				<CardContent>
+				<CardContent
+					style={{
+						backgroundColor: this.state.data.backColor,
+						color: this.state.data.textColor,
+						margin: this.state.data.margin,
+						padding: this.state.data.padding,
+						borderRadius: this.state.data.borderRadius,
+					}}
+				>
 					<div className="vis-2-shelly-class vis-widget-body" style={{ padding: "2px" }}>
 						<div className="vis-2-shelly-customOverview-headDiv">
 							<span className="vis-2-shelly-customOverview-headIcon">
@@ -212,7 +239,7 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 													</td>
 												</tr>
 												<tr>
-													<td className="vis-2-shelly-customOverview-itemTemestamp">
+													<td className="vis-2-shelly-customOverview-itemTimestamp">
 														{this.getValueLC_formated(`subOID${i}`)}
 													</td>
 													<td className="vis-2-shelly-customOverview-itemSubItem">
