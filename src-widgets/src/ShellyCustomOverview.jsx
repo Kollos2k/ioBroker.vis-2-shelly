@@ -53,6 +53,11 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 							type: "color",
 						},
 						{
+							name: "backColorOut",
+							label: "vis_2_widgets_shelly_overview_backColorOut",
+							type: "color",
+						},
+						{
 							name: "textColor",
 							label: "vis_2_widgets_shelly_overview_textColor",
 							type: "color",
@@ -192,6 +197,7 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 				style={{
 					width: "100%",
 					height: "100%",
+					backgroundColor: this.state.data.backColorOut,
 				}}
 			>
 				<CardContent
@@ -204,6 +210,7 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 					}}
 				>
 					<div className="vis-2-shelly-class vis-widget-body" style={{ padding: "2px" }}>
+						<div>hallllllo</div>
 						<div className="vis-2-shelly-customOverview-headDiv">
 							<span className="vis-2-shelly-customOverview-headIcon">
 								{this.getImage(this.state.data.titleImage, { alt: "ICON", style: { width: "30px" } })}

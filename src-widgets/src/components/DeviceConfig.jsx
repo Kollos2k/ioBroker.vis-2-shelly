@@ -1,4 +1,5 @@
 import * as DeviceActions from "./DeviceActions";
+import * as SHDM2 from "./deviceDialogTabs/SHDM-2";
 
 const getDeviceConfigByType = (type, domID, props, vsID) => {
 	let typeConfig = {};
@@ -82,6 +83,19 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 						room: `${vsID}.0.room`,
 						deviceID: props.id,
 					},
+				},
+				dialog: {
+					tabs: [
+						{
+							name: "main",
+							title: "1",
+							icon: "",
+							content: {
+								title: "Main content",
+								body: SHDM2.Main,
+							},
+						},
+					],
 				},
 			};
 			break;

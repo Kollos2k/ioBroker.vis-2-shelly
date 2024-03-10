@@ -35,7 +35,43 @@ class Vis2Shelly extends utils.Adapter {
 			shellyplusplugs: { name: "Shelly Plus Plug S", relayCount: 1 },
 			shellyplusht: { name: "Shelly Plus H&T", relayCount: 1 },
 			"SHTRV-01": { name: "Shelly TRV", relayCount: 1 },
-			"SHMOS-02": { name: "Shelly Motion 2", relayCount: 1 },
+			"SHMOS-02": {
+				name: "Shelly Motion 2",
+				relayCount: 1,
+				dataPoints: {
+					sensor: {
+						type: "channel",
+						common: {
+							name: "",
+						},
+						native: {},
+					},
+					"sensor.illumination_dark": {
+						type: "state",
+						common: {
+							name: "dark",
+							type: "number",
+							unit: "lux",
+							read: true,
+							write: true,
+							def: 50,
+						},
+						native: {},
+					},
+					"sensor.illumination_twilight": {
+						type: "state",
+						common: {
+							name: "twilight",
+							type: "number",
+							unit: "lux",
+							read: true,
+							write: true,
+							def: 500,
+						},
+						native: {},
+					},
+				},
+			},
 		};
 		this.typeEnum = {};
 		Object.entries(this.typeConfig).forEach(([k, v]) => {
@@ -152,46 +188,52 @@ class Vis2Shelly extends utils.Adapter {
 				this.config["knownShellyIDs"][deviceID] = true;
 				changeDeviceIds = true;
 				relayCount = this.typeConfig[typeState.val].relayCount;
-			}
-			/** CREATE vis-shelly DEVICE FROM shelly OBJECTS*/
-			for (let i = 0; i < relayCount; i++) {
-				await this.setObjectNotExistsAsync("devices." + deviceName + "." + i, {
-					type: "device",
-					common: {
-						name: "Device Realay " + deviceName,
-					},
-					native: {},
-				});
-				/** Set Name */
-				this.setObjectNotExists(
-					"devices." + deviceName + "." + i + ".name",
-					{
-						type: "state",
+
+				/** CREATE vis-shelly DEVICE FROM shelly OBJECTS*/
+				for (let i = 0; i < relayCount; i++) {
+					await this.setObjectNotExistsAsync("devices." + deviceName + "." + i, {
+						type: "device",
 						common: {
-							name: deviceName + ".name",
-							type: "string",
-							role: "name",
-							read: true,
-							write: true,
-							def: null,
+							name: "Device Realay " + deviceName,
 						},
 						native: {},
-					},
-					() => {
-						/* Update default Name */
-						this.getState(`devices.${deviceName}.${i}.name`, (err, state) => {
-							if (state == null) {
-								this.getForeignState(deviceID + ".name", (err, state) => {
-									let newName = "";
-									if (state == null || state.val == null || state.val == "") newName = deviceName;
-									else newName = state.val.toString();
-									if (relayCount > 1) newName += `-${i}`;
-									this.setState(`devices.${deviceName}.${i}.name`, { val: newName, ack: true });
-								});
-							}
+					});
+					/** Set Name */
+					this.setObjectNotExists(
+						"devices." + deviceName + "." + i + ".name",
+						{
+							type: "state",
+							common: {
+								name: deviceName + ".name",
+								type: "string",
+								role: "name",
+								read: true,
+								write: true,
+								def: null,
+							},
+							native: {},
+						},
+						() => {
+							/* Update default Name */
+							this.getState(`devices.${deviceName}.${i}.name`, (err, state) => {
+								if (state == null) {
+									this.getForeignState(deviceID + ".name", (err, state) => {
+										let newName = "";
+										if (state == null || state.val == null || state.val == "") newName = deviceName;
+										else newName = state.val.toString();
+										if (relayCount > 1) newName += `-${i}`;
+										this.setState(`devices.${deviceName}.${i}.name`, { val: newName, ack: true });
+									});
+								}
+							});
+						},
+					);
+					if (typeof this.typeConfig[typeState.val].dataPoints === "object") {
+						Object.entries(this.typeConfig[typeState.val].dataPoints).forEach(([k, v]) => {
+							this.setObjectNotExists(`devices.${deviceName}.${i}.${k}`, v, () => {});
 						});
-					},
-				);
+					}
+				}
 			}
 		}
 		return changeDeviceIds;

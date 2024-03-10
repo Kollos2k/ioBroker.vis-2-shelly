@@ -6,10 +6,10 @@
 	"vis_2_widgets_shelly_device_count": "Count",
 	"vis_2_widgets_shelly_device": "Device",
 	"vis_2_widgets_shelly_group_devices": "Device",
-
 	"vis_2_widgets_shelly_overview_title": "Main title",
 	"vis_2_widgets_shelly_overview_titleImage": "main title icon",
-	"vis_2_widgets_shelly_overview_backColor": "Background color",
+	"vis_2_widgets_shelly_overview_backColor": "background color inner",
+	"vis_2_widgets_shelly_overview_backColorOut": "background-color outer",
 	"vis_2_widgets_shelly_overview_textColor": "Text color",
 	"vis_2_widgets_shelly_overview_valueGroupCount": "Value count",
 	"vis_2_widgets_shelly_overview_group": "Value",

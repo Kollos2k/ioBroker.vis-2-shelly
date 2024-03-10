@@ -1,19 +1,28 @@
-import React, { Component, useRef } from "react";
+import React, { useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { withStyles } from "@mui/styles";
+import CloseIcon from "@mui/icons-material";
 import "./device.css";
 import { object } from "prop-types";
+import DeviceDialog from "./DeviceDialog";
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 
-const styles = (theme) => ({});
+// eslint-disable-next-line arrow-body-style
+const styles = (theme) => ({
+	showDialogButton: {
+		cursor: "pointer",
+	},
+});
 // let css = {};
 
-class Device extends Component {
+class Device extends React.Component {
 	el = React.createRef(null);
 
 	components = {};
 
 	constructor(props) {
 		super(props);
+		this.state = { showDeviceDialog: false, hasDeviceDialog: typeof this.props.typeConfig.dialog === "object" };
 		props.socket.subscribeState(Object.values(props.dataPoint), (id, state) => {
 			this.stateChange(id, state);
 		});
@@ -71,6 +80,17 @@ class Device extends Component {
 		await this.propertiesUpdate();
 	}
 
+	showDeviceOptions() {
+		if (this.state.hasDeviceDialog) {
+			this.setState({ showDeviceDialog: !this.state.showDeviceDialog }, () => {});
+		}
+	}
+
+	// eslint-disable-next-line react/no-unused-class-component-methods
+	hideDeviceOptions() {
+		this.setState({ showDeviceDialog: false }, () => {});
+	}
+
 	render() {
 		if (typeof this.props.typeConfig.action === "undefined") this.props.typeConfig.action = {};
 		this.components.icon = React.createRef(null);
@@ -89,10 +109,23 @@ class Device extends Component {
 					</span>
 				</span>
 				<span name="icon" ref={this.components.icon}></span>
-				<span name="name" ref={this.components.name}>
+				<span
+					name="name"
+					ref={this.components.name}
+					onClick={() => {
+						this.showDeviceOptions();
+					}}
+					className={this.state.hasDeviceDialog ? this.props.classes.showDialogButton : {}}
+				>
 					{this.props.id}
 				</span>
-				<span name="info">
+				<span
+					name="info"
+					className={this.state.hasDeviceDialog ? this.props.classes.showDialogButton : {}}
+					onClick={() => {
+						this.showDeviceOptions();
+					}}
+				>
 					{Object.entries(this.props.typeConfig.view.info).map(([viewKey, viewVal]) => {
 						this.components[viewVal.name] = React.createRef(null);
 						return (
@@ -140,6 +173,16 @@ class Device extends Component {
 						);
 					})}
 				</span>
+				{this.state.hasDeviceDialog && this.state.showDeviceDialog && (
+					<DeviceDialog
+						parentThis={this}
+						dataPoint={this.props.dataPoint}
+						state={this.props.state}
+						typeConfig={this.props.typeConfig}
+						name={this.props.state[this.props.dataPoint.name]}
+						socket={this.props.socket}
+					/>
+				)}
 			</div>
 		);
 	}

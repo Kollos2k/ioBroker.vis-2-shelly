@@ -5,12 +5,14 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { VisRxWidget } from "@iobroker/vis-2-widgets-react-dev";
 import Device from "./components/Device";
 import getDeviceConfigByType from "./components/DeviceConfig";
+import DeviceDialog from "./components/DeviceDialog";
 
 class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 	constructor(props) {
 		super(props);
 		// props.myContainer = useRef(null);
 		this.state.allDevices = {};
+		this.state.showDeviceDialog = false;
 		console.debug("THIS");
 		console.debug(this);
 	}
@@ -87,6 +89,18 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 	// eslint-disable-next-line class-methods-use-this, no-unused-vars
 	async onStateUpdated(id, state) {}
 
+	showDeviceOptions() {
+		this.setState({ showDeviceDialog: true }, () => {
+			// this.forceUpdate();
+		});
+	}
+
+	hideDeviceOptions() {
+		this.setState({ showDeviceDialog: false }, () => {
+			// this.forceUpdate();
+		});
+	}
+
 	renderWidgetBody(props) {
 		super.renderWidgetBody(props);
 		console.debug(this.props.context.socket);
@@ -120,6 +134,7 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 									dataPoint={typeConfig.dataPoint[device.relay]}
 									socket={this.props.context.socket}
 									widID={this.props.id}
+									parentThis={this}
 								/>
 							);
 						}
@@ -127,6 +142,12 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 					{/* {I18n.t("My Demo Shelly2: ")} */}
 					{/* {this.state.values[`${this.state.rxData.oid}.val`]} */}
 				</CardContent>
+				{/* <DeviceDialog
+					showDeviceDialog={this.state.showDeviceDialog}
+					hideDialog={this.hideDeviceOptions}
+					parentThis={this}
+				/> */}
+				{this.state.showDeviceDialog && <div>test</div>}
 			</Card>
 		);
 	}
