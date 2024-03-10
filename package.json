@@ -34,7 +34,7 @@
     "@iobroker/adapter-react-v5": "^4.9.5",
     "@iobroker/testing": "^4.1.0",
     "@iobroker/vis-2-widgets-react-dev": "^1.0.1",
-    "@iobroker/vis-2-widgets-testing": "^0.3.0",
+    "@iobroker/vis-2-widgets-testing": "^1.0.0",
     "@mui/material": "^5.15.4",
     "@mui/styles": "5.15.4",
     "@stylistic/eslint-plugin-js": "^1.6.2",
