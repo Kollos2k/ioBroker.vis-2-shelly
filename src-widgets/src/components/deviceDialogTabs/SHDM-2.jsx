@@ -11,9 +11,20 @@ export const Main = (props) => {
 				margin: "20px",
 				textAlign: "center",
 				height: "100%",
-				maxHeight: `${window.innerHeight - 130}px`,
+				maxHeight: `${props.maxVisibleHeight}px`,
 			}}
 		>
+			{props.maxVisibleHeight > 200 && (
+				<div>
+					{Object.entries(props.typeConfig.view.info).map(([viewKey, viewVal]) => {
+						return (
+							<span name={viewVal.name} className={viewVal.class}>
+								{viewVal.html}
+							</span>
+						);
+					})}
+				</div>
+			)}
 			<Slider
 				sx={{
 					'& input[type="range"]': {

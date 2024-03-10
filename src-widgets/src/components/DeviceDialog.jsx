@@ -26,6 +26,12 @@ const styles = (_theme) => ({
 		gridTemplateRows: "50px auto",
 		gridGap: "0",
 	},
+	dialogHead: {
+		gridArea: "head",
+		display: "grid",
+		gridTemplateAreas: "'back title'",
+		gridTemplateColumns: "100px auto",
+	},
 	tabs: { gridArea: "tabs" },
 	tab: {
 		color: "white",
@@ -44,6 +50,9 @@ const styles = (_theme) => ({
 		padding: "10px",
 		color: "white",
 		backgroundColor: "#222",
+	},
+	tabContentTitle: {
+		verticalAlign: "center",
 	},
 	closeButton: {
 		color: "white",
@@ -80,7 +89,7 @@ class DeviceDialog extends React.Component {
 	render() {
 		return (
 			<div className={this.props.classes.dialog}>
-				<div id="responsive-dialog-title" style={{ gridArea: "head" }}>
+				<div id="responsive-dialog-title" className={this.props.classes.dialogHead}>
 					<Button
 						onClick={() => {
 							this.hideDeviceOptions();
@@ -90,7 +99,12 @@ class DeviceDialog extends React.Component {
 					>
 						&larr;
 					</Button>
-					<span className={this.props.classes.titleLabel}>
+					<span
+						className={this.props.classes.titleLabel}
+						onClick={() => {
+							this.hideDeviceOptions();
+						}}
+					>
 						{typeof this.props.name === "object" ? this.props.name.val : ""}
 					</span>
 				</div>
@@ -131,12 +145,14 @@ class DeviceDialog extends React.Component {
 					}
 					return (
 						<div value={tab.name} key={tab.name} className={this.props.classes.tabContent}>
-							<div>{tab.content.title}</div>
+							<div className={this.props.classes.tabContentTitle}>{tab.content.title}</div>
 							{typeof tab.content.body === "function"
 								? tab.content.body({
 										dataPoint: this.props.dataPoint,
 										state: this.props.state,
 										socket: this.props.socket,
+										maxVisibleHeight: window.innerHeight - 130,
+										typeConfig: this.props.typeConfig,
 									})
 								: tab.content.body}
 						</div>

@@ -210,7 +210,6 @@ class ShellyCustomOverview extends (window.visRxWidget || VisRxWidget) {
 					}}
 				>
 					<div className="vis-2-shelly-class vis-widget-body" style={{ padding: "2px" }}>
-						<div>hallllllo</div>
 						<div className="vis-2-shelly-customOverview-headDiv">
 							<span className="vis-2-shelly-customOverview-headIcon">
 								{this.getImage(this.state.data.titleImage, { alt: "ICON", style: { width: "30px" } })}
