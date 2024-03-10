@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "./static/js/main.80cb1bf2.js",
+    "main.js": "./static/js/main.22bc94ae.js",
     "vis2ShellyWidget.js": "./customWidgets.js",
     "static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.a25682ce.chunk.css": "./static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.a25682ce.chunk.css",
     "static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.8262f84c.chunk.js": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.8262f84c.chunk.js",
@@ -57,7 +57,7 @@
     "static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx.19dacc86.chunk.js": "./static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx.19dacc86.chunk.js",
     "static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_bootstrap_js-node_modules_iobroker_vis--bd19a3.c23cfb0f.chunk.js": "./static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_bootstrap_js-node_modules_iobroker_vis--bd19a3.c23cfb0f.chunk.js",
     "static/js/vendors-node_modules_react-dom_index_js.d25cbda4.chunk.js": "./static/js/vendors-node_modules_react-dom_index_js.d25cbda4.chunk.js",
-    "static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.11d58174.chunk.js": "./static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.11d58174.chunk.js",
+    "static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.d4657eb2.chunk.js": "./static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.d4657eb2.chunk.js",
     "static/media/Ground Floor.svg": "./static/media/Ground Floor.2b7c5c91db7f070935a2.svg",
     "static/media/Second Floor.svg": "./static/media/Second Floor.a2d5ed32df336591c06b.svg",
     "static/media/Cellar.svg": "./static/media/Cellar.7ec1b1803a2437c8b78c.svg",
@@ -191,7 +191,7 @@
     "static/media/shellyVoltage.svg": "./static/media/shellyVoltage.3cefe84f9725eef9b368.svg",
     "static/media/Upstairs.svg": "./static/media/Upstairs.441813e54e0daca0882d.svg",
     "static/media/shellyEnergy.svg": "./static/media/shellyEnergy.ef1827da325449978ea7.svg",
-    "main.80cb1bf2.js.map": "./static/js/main.80cb1bf2.js.map",
+    "main.22bc94ae.js.map": "./static/js/main.22bc94ae.js.map",
     "customWidgets.js.map": "./customWidgets.js.map",
     "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.a25682ce.chunk.css.map": "./static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.a25682ce.chunk.css.map",
     "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.8262f84c.chunk.js.map": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.8262f84c.chunk.js.map",
@@ -248,9 +248,9 @@
     "vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx.19dacc86.chunk.js.map": "./static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx.19dacc86.chunk.js.map",
     "vendors-node_modules_iobroker_vis-2-widgets-react-dev_bootstrap_js-node_modules_iobroker_vis--bd19a3.c23cfb0f.chunk.js.map": "./static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_bootstrap_js-node_modules_iobroker_vis--bd19a3.c23cfb0f.chunk.js.map",
     "vendors-node_modules_react-dom_index_js.d25cbda4.chunk.js.map": "./static/js/vendors-node_modules_react-dom_index_js.d25cbda4.chunk.js.map",
-    "src_components_Device_jsx-src_components_DeviceConfig_jsx.11d58174.chunk.js.map": "./static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.11d58174.chunk.js.map"
+    "src_components_Device_jsx-src_components_DeviceConfig_jsx.d4657eb2.chunk.js.map": "./static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.d4657eb2.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.80cb1bf2.js"
+    "static/js/main.22bc94ae.js"
   ]
 }

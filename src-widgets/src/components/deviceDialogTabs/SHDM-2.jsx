@@ -6,7 +6,14 @@ export const Main = (props) => {
 		props.socket.setState(props.dataPoint.brightness, value, false);
 	};
 	return (
-		<div style={{ margin: "20px", textAlign: "center", height: "-webkit-fill-available", maxHeight: "100%" }}>
+		<div
+			style={{
+				margin: "20px",
+				textAlign: "center",
+				height: "100%",
+				maxHeight: `${window.innerHeight - 130}px`,
+			}}
+		>
 			<Slider
 				sx={{
 					'& input[type="range"]': {
