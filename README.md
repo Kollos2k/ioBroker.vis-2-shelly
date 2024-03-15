@@ -40,8 +40,7 @@ Devices supported so far
 </div>
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 0.0.3 (2024-03-15)
 
 -   Add Dialog support for Devices (Change Brightness,view History,....)
 -   Add Main Dialog for SHDM-2
