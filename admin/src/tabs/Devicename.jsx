@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from "react";
 import { Component } from "react";
 import PropTypes from "prop-types";
@@ -22,16 +21,20 @@ import {
 } from "@mui/material";
 import { TreeTable, I18n } from "@iobroker/adapter-react-v5";
 import { Edit as EditIcon, Info as IconInfo } from "@mui/icons-material";
-import { sha1 } from "crypto-hash";
 
 const styles = (theme) => ({
 	tableDiv: {
-		width: "100%",
-		overflow: "hidden",
+		// width: "100dvw",
+		// overflow: "hidden",
 	},
 	tableClass: {
 		height: "100%",
-		width: "100%",
+		width: "100dvw",
+		"& table": {
+			minWidth: "300px !important",
+		},
+		"& td": { width: "30px" },
+		"& thead th:nth-last-child(-n+2)": { maxWidth: "30px" },
 	},
 	tabContent: {},
 });
@@ -42,7 +45,11 @@ class DeviceNames extends Component {
 		console.log("native");
 		console.log(props.native);
 		console.log(props);
-		this.state = { data: props.native.rooms };
+		this.state = { data: [] };
+		this.props.socket.subscribeObject([`vis-2-shelly.0.devices`], (id, obj) => {
+			console.debug(id);
+			console.debug(obj);
+		});
 		this.columns = [
 			{
 				title: "RoomID",
@@ -77,31 +84,6 @@ class DeviceNames extends Component {
 			},
 		];
 	}
-	generateHash() {
-		const length = 30;
-		const allowedCharRegex = /[0-9a-z]/g;
-		let curHash = "";
-		while (curHash.length < length) {
-			var i = Math.floor(122 * Math.random());
-			if (String.fromCharCode(i).match(allowedCharRegex)) {
-				curHash += String.fromCharCode(i);
-			}
-		}
-		return curHash;
-	}
-	// updateTableColumnWidth = () => {
-	// 	// const header = document.getElementById("myHeader");
-	// 	const content = document.getElementById("myContent");
-	// 	if (content) {
-	// 		const tHead = document.getElementsByTagName("thead")[0].children;
-	// 		const tRows = document.getElementsByTagName("tbody")[0].children;
-	// 		// @ts-ignore
-	// 		tHead[0].style.width = "40px";
-	// 		Array.from(tRows).forEach((row) => {
-	// 			row.children[0].style.width = "40px";
-	// 		});
-	// 	}
-	// };
 
 	render() {
 		return (
@@ -114,17 +96,18 @@ class DeviceNames extends Component {
 					indentation={20}
 					className="roomTable"
 					glowOnChange={true}
+					noAdd={true}
 					onUpdate={(newData, oldData) => {
 						const data = JSON.parse(JSON.stringify(this.state.data));
 
 						// Added new line
 						if (newData === true) {
-							let id = this.generateHash();
+							// let id = this.generateHash();
 							// Math.random().toString(36).substr(2, 9)
-							data.push({
-								id,
-								name: I18n.t("New room"),
-							});
+							// data.push({
+							// 	id,
+							// 	name: I18n.t("New room"),
+							// });
 						} else {
 							// existing line was modifed
 							const pos = this.state.data.indexOf(oldData);

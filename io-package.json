@@ -30,7 +30,6 @@
 				"zh-cn": "首次出版"
 			}
 		},
-		"title": "vis-2-shelly",
 		"titleLang": {
 			"en": "vis-2-shelly",
 			"de": "vis-2-shelly",
@@ -59,6 +58,7 @@
 		},
 		"authors": ["Kollos2k <kollos@vorsicht-bissig.de>"],
 		"keywords": ["shelly", "vis-2"],
+		"license": "MIT",
 		"licenseInformation": {
 			"type": "free",
 			"license": "MIT"
@@ -73,7 +73,7 @@
 		"tier": 3,
 		"restartAdapters": ["vis-2"],
 		"mode": "daemon",
-		"type": "visualization",
+		"type": "visualization-widgets",
 		"compact": true,
 		"connectionType": "local",
 		"dataSource": "poll",
@@ -103,7 +103,7 @@
 		],
 		"globalDependencies": [
 			{
-				"admin": ">=5.0.0"
+				"admin": ">=6.0.0"
 			}
 		]
 	},

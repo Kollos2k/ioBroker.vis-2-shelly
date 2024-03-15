@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from "react";
 import { Component } from "react";
 import PropTypes from "prop-types";
@@ -22,16 +21,20 @@ import {
 } from "@mui/material";
 import { TreeTable, I18n } from "@iobroker/adapter-react-v5";
 import { Edit as EditIcon, Info as IconInfo } from "@mui/icons-material";
-import { sha1 } from "crypto-hash";
 
 const styles = (theme) => ({
 	tableDiv: {
-		width: "100%",
-		overflow: "hidden",
+		// width: "100dvw",
+		// overflow: "hidden",
 	},
 	tableClass: {
 		height: "100%",
-		width: "100%",
+		width: "100dvw",
+		"& table": {
+			minWidth: "300px !important",
+		},
+		"& td": { width: "30px" },
+		"& thead th:nth-last-child(-n+2)": { maxWidth: "30px" },
 	},
 	tabContent: {},
 });
@@ -60,8 +63,8 @@ class Rooms extends Component {
 				cellStyle: {
 					// 	overflow: "hidden",
 					// 	wordBreak: "break-word",
-					widthMin: "200px",
-					widthMax: "calc(100% - 50px)",
+					minWidth: "200px",
+					maxWidth: "calc(100dvw - 50px)",
 				},
 				type: "string",
 			},
@@ -89,23 +92,8 @@ class Rooms extends Component {
 		}
 		return curHash;
 	}
-	// updateTableColumnWidth = () => {
-	// 	// const header = document.getElementById("myHeader");
-	// 	const content = document.getElementById("myContent");
-	// 	if (content) {
-	// 		const tHead = document.getElementsByTagName("thead")[0].children;
-	// 		const tRows = document.getElementsByTagName("tbody")[0].children;
-	// 		// @ts-ignore
-	// 		tHead[0].style.width = "40px";
-	// 		Array.from(tRows).forEach((row) => {
-	// 			row.children[0].style.width = "40px";
-	// 		});
-	// 	}
-	// };
 
 	render() {
-		// console.log("tableClass");
-		// console.log(this.props.classes.tableClass);
 		return (
 			<div className={this.props.classes.tableDiv}>
 				<TreeTable
@@ -114,7 +102,8 @@ class Rooms extends Component {
 					columns={this.columns}
 					data={this.state.data}
 					indentation={20}
-					className="roomTable"
+					className={this.props.classes.tableClass}
+					classes={{ table: { minWidth: "100px" } }}
 					glowOnChange={true}
 					onUpdate={(newData, oldData) => {
 						const data = JSON.parse(JSON.stringify(this.state.data));
