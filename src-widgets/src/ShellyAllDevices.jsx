@@ -5,7 +5,6 @@ import { I18n } from "@iobroker/adapter-react-v5";
 import { VisRxWidget } from "@iobroker/vis-2-widgets-react-dev";
 import Device from "./components/Device";
 import getDeviceConfigByType from "./components/DeviceConfig";
-import DeviceDialog from "./components/DeviceDialog";
 
 class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 	constructor(props) {
@@ -21,9 +20,9 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 		return {
 			id: "tplAllDevicesWidget",
 			visSet: "vis-2-shelly",
-			visSetLabel: "vis_2_widgets_shelly", // Widget set translated label (should be defined only in one widget of set)
-			visSetColor: "#cf00ff", // Color of widget set. it is enough to set color only in one widget of set
-			visName: "AllDevices", // Name of widget
+			visSetLabel: "vis_2_widgets_shelly",
+			visSetColor: "#cf00ff",
+			visName: "AllDevices",
 			visAttrs: [
 				{
 					name: "common", // group name

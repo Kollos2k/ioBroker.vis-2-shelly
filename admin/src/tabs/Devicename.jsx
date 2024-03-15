@@ -28,7 +28,6 @@ const styles = (theme) => ({
 	tableDiv: {
 		width: "100%",
 		overflow: "hidden",
-		height: "calc(100% - 48px)",
 	},
 	tableClass: {
 		height: "100%",
@@ -105,53 +104,55 @@ class DeviceNames extends Component {
 	// };
 
 	render() {
-		<div className={this.props.classes.tableDiv}>
-			<TreeTable
-				id="roomsTable"
-				name="roomsTable"
-				columns={this.columns}
-				data={this.state.data}
-				indentation={20}
-				className="roomTable"
-				glowOnChange={true}
-				onUpdate={(newData, oldData) => {
-					const data = JSON.parse(JSON.stringify(this.state.data));
-
-					// Added new line
-					if (newData === true) {
-						let id = this.generateHash();
-						// Math.random().toString(36).substr(2, 9)
-						data.push({
-							id,
-							name: I18n.t("New room"),
-						});
-					} else {
-						// existing line was modifed
-						const pos = this.state.data.indexOf(oldData);
-						// console.log("Data modified");
-						if (pos !== -1) {
-							Object.keys(newData).forEach((attr) => (data[pos][attr] = newData[attr]));
-						}
-					}
-
-					// this.state.native.rooms = data;
-					this.props.native.rooms = data;
-					this.props.changeNative(this.props.native);
-					this.setState({ data });
-				}}
-				onDelete={(oldData) => {
-					console.log("Delete: " + JSON.stringify(oldData));
-					const pos = this.state.data.indexOf(oldData);
-					if (pos !== -1) {
+		return (
+			<div className={this.props.classes.tableDiv}>
+				<TreeTable
+					id="roomsTable"
+					name="roomsTable"
+					columns={this.columns}
+					data={this.state.data}
+					indentation={20}
+					className="roomTable"
+					glowOnChange={true}
+					onUpdate={(newData, oldData) => {
 						const data = JSON.parse(JSON.stringify(this.state.data));
-						data.splice(pos, 1);
+
+						// Added new line
+						if (newData === true) {
+							let id = this.generateHash();
+							// Math.random().toString(36).substr(2, 9)
+							data.push({
+								id,
+								name: I18n.t("New room"),
+							});
+						} else {
+							// existing line was modifed
+							const pos = this.state.data.indexOf(oldData);
+							// console.log("Data modified");
+							if (pos !== -1) {
+								Object.keys(newData).forEach((attr) => (data[pos][attr] = newData[attr]));
+							}
+						}
+
+						// this.state.native.rooms = data;
 						this.props.native.rooms = data;
 						this.props.changeNative(this.props.native);
 						this.setState({ data });
-					}
-				}}
-			/>
-		</div>;
+					}}
+					onDelete={(oldData) => {
+						console.log("Delete: " + JSON.stringify(oldData));
+						const pos = this.state.data.indexOf(oldData);
+						if (pos !== -1) {
+							const data = JSON.parse(JSON.stringify(this.state.data));
+							data.splice(pos, 1);
+							this.props.native.rooms = data;
+							this.props.changeNative(this.props.native);
+							this.setState({ data });
+						}
+					}}
+				/>
+			</div>
+		);
 	}
 }
 

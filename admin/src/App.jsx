@@ -15,20 +15,13 @@ import TabNames from "./tabs/Devicename";
 const styles = (_theme) => ({
 	root: {},
 	tabContentDiv: {
-		padding: 10,
-		paddingTop: 0,
-		// height: "calc(100% - 64px - 48px - 20px)",
-		// height: "calc(100% - 64px - 48px)",
-		height: "100%",
-		overflow: "auto",
+		padding: "10px",
+		position: "relative",
 	},
 	tabContentIFrame: {
 		padding: 10,
 		paddingTop: 0,
-		// height: "calc(100% - 64px - 48px - 20px - 38px)",
-		// height: "calc(100% - 64px - 48px)",
-		height: "95%",
-		overflow: "auto",
+		position: "relative",
 	},
 	tab: {
 		width: "100%",
@@ -46,12 +39,6 @@ const tabs = [
 		name: "roomsTab",
 		title: I18n.t("tabRooms"),
 		component: TabRooms,
-		tooltip: "Rooms",
-	},
-	{
-		name: "namesTab",
-		title: I18n.t("tabNames"),
-		component: TabNames,
 		tooltip: "Rooms",
 	},
 ];
@@ -197,26 +184,35 @@ class App extends GenericApp {
 	onConnectionReady() {
 		super.onConnectionReady();
 		console.log("connection Ready");
-		this.updateTopPaddingOnLoad();
+		this.updateDimensions();
 	}
 
-	updateTopPaddingOnLoad() {
+	updateDimensions() {
 		const header = document.getElementById("myHeader");
 		const content = document.getElementById("myContent");
-		if (header && content) {
-			const tHead = document.getElementsByTagName("th");
-			content.style.paddingTop = header.clientHeight + 10 + "";
+		const footer = document.getElementById("myFooter");
+		if (header && content && footer) {
+			const footer2 = footer.getElementsByClassName("MuiToolbar-root")[0];
+			// const tHead = document.getElementsByTagName("th");
+			content.style.top = header.clientHeight + 10 + "px";
+			// @ts-ignore
+			content.style.height = `calc(100dvh - ${header.clientHeight + 10}px - ${footer2.offsetHeight + 5}px)`;
 			// tHead[0].className={`${tHead[0].className},`}
-			tHead[0].style.width = "30px";
+			// tHead[0].style.width = "30px";
 		}
 	}
 
+	// componentDidMount() {
+	// 	window.addEventListener("resize", this.updateDimensions);
+	// }
+	// componentWillUnmount() {
+	// 	window.removeEventListener("resize", this.updateDimensions);
+	// }
 	render() {
 		console.debug("THIS");
 		console.debug(this);
 
 		if (!this.state.loaded) {
-			// this.socket.loadData();
 			return (
 				<StyledEngineProvider injectFirst>
 					<ThemeProvider theme={this.state.theme}>
@@ -230,7 +226,7 @@ class App extends GenericApp {
 			<StyledEngineProvider injectFirst>
 				<ThemeProvider theme={this.state.theme}>
 					<SnackbarProvider>
-						<div className="App" onLoad={this.updateTopPaddingOnLoad}>
+						<div className="App" onLoad={this.updateDimensions}>
 							<AppBar id="myHeader">
 								<Tabs
 									indicatorColor="secondary"
@@ -318,9 +314,11 @@ class App extends GenericApp {
 									);
 								})}
 							</div>
-							{this.renderError()}
-							{this.renderToast()}
-							{this.renderSaveCloseButtons()}
+							<div id="myFooter">
+								{this.renderError()}
+								{this.renderToast()}
+								{this.renderSaveCloseButtons()}
+							</div>
 						</div>
 					</SnackbarProvider>
 				</ThemeProvider>
@@ -328,4 +326,5 @@ class App extends GenericApp {
 		);
 	}
 }
+// @ts-ignore
 export default withStyles(styles)(App);

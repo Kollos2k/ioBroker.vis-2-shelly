@@ -16,13 +16,14 @@ export const Main = (props) => {
 		>
 			{props.maxVisibleHeight > 200 && (
 				<div>
-					{Object.entries(props.typeConfig.view.info).map(([viewKey, viewVal]) => {
+					{props.state[props.dataPoint.power].val}
+					{/* {Object.entries(props.typeConfig.view.info).map(([viewKey, viewVal]) => {
 						return (
 							<span name={viewVal.name} className={viewVal.class}>
 								{viewVal.html}
 							</span>
 						);
-					})}
+					})} */}
 				</div>
 			)}
 			<Slider

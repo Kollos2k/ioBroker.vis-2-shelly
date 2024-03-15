@@ -28,7 +28,6 @@ const styles = (theme) => ({
 	tableDiv: {
 		width: "100%",
 		overflow: "hidden",
-		height: "calc(100% - 48px)",
 	},
 	tableClass: {
 		height: "100%",

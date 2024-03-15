@@ -1,11 +1,7 @@
-import React, { useRef } from "react";
-import ReactDOM from "react-dom/client";
+import React from "react";
 import { withStyles } from "@mui/styles";
-import CloseIcon from "@mui/icons-material";
 import "./device.css";
-import { object } from "prop-types";
 import DeviceDialog from "./DeviceDialog";
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 
 // eslint-disable-next-line arrow-body-style
 const styles = (theme) => ({
