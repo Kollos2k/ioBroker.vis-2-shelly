@@ -148,7 +148,7 @@ class Vis2Shelly extends utils.Adapter {
 					read: true,
 					write: true,
 					states: this.typeEnum,
-					def: typeState,
+					def: typeof typeState === "object" && typeState !== null ? typeState.val : "",
 				},
 				native: {},
 			});
