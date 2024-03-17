@@ -49,6 +49,7 @@ gulp.task("widget-3-copy", () =>
 	]),
 );
 
-gulp.task("widget-build", gulp.series(["widget-0-clean", "widget-1-npm", "widget-2-compile", "widget-3-copy"]));
+// gulp.task("widget-build", gulp.series(["widget-0-clean", "widget-1-npm", "widget-2-compile", "widget-3-copy"]));
+gulp.task("widget-build", gulp.series(["widget-0-clean", "widget-2-compile", "widget-3-copy"]));
 
 gulp.task("default", gulp.series("widget-build"));

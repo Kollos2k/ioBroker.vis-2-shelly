@@ -35,6 +35,7 @@ class Vis2Shelly extends utils.Adapter {
 			shellyplusplugs: { name: "Shelly Plus Plug S", relayCount: 1 },
 			shellyplusht: { name: "Shelly Plus H&T", relayCount: 1 },
 			"SHTRV-01": { name: "Shelly TRV", relayCount: 1 },
+			"SHDW-2": { name: "Shelly Door Window 2", relayCount: 1 },
 			"SHMOS-02": {
 				name: "Shelly Motion 2",
 				relayCount: 1,

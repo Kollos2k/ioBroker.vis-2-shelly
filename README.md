@@ -30,6 +30,7 @@ Devices supported so far
 
 <div>
     Dimmer 2<br/>
+    DoorWindow 2<br/>
     Motion 2<br/>
     PlugS<br/>
     PlugS Plus<br/>
@@ -40,6 +41,12 @@ Devices supported so far
 </div>
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+-   New Device "Shelly Door/Window 2"
+-   Config is now editable (see <a href="readme/ModifyDeviceConfig.md">Modify device config</a>)
+
 ### 0.0.3 (2024-03-15)
 
 -   Add Dialog support for Devices (Change Brightness,view History,....)

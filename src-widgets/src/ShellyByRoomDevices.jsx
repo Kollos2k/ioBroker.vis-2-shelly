@@ -163,7 +163,12 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 						const typeConfig = getDeviceConfigByType(
 							device.type,
 							this.domID,
-							{ stateID: device.stateId, type: device.type, id: device.id },
+							{
+								stateID: device.stateId,
+								type: device.type,
+								id: device.id,
+								socket: this.props.context.socket,
+							},
 							this.vsID,
 						);
 						if (

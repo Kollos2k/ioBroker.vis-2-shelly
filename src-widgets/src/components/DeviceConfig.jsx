@@ -1,7 +1,7 @@
 import * as DeviceActions from "./DeviceActions";
 import * as SHDM2 from "./deviceDialogTabs/SHDM-2";
 
-const getDeviceConfigByType = (type, domID, props, vsID) => {
+const getDeviceConfigByType = async (type, domID, props, vsID) => {
 	let typeConfig = {};
 	const switchButton = (
 		<object
@@ -584,8 +584,89 @@ const getDeviceConfigByType = (type, domID, props, vsID) => {
 				},
 			};
 			break;
+		case "SHDW-2":
+			typeConfig = {
+				domID,
+				update: {
+					lux: {
+						name: "lux",
+						unit: "Lux",
+						updateValue: DeviceActions.basicUpdateValueUnit,
+					},
+					batteryPercent: {
+						name: "devicePower",
+						unit: "%",
+						viewPoint: "devicePower",
+						updateValue: DeviceActions.basicUpdateDevicePower,
+					},
+					door: {
+						name: "door",
+						updateValue: DeviceActions.basicUpdateValue,
+					},
+					temperature: {
+						name: "temperature",
+						unit: "°C",
+						updateValue: DeviceActions.basicUpdateValueUnit,
+					},
+					name: {
+						name: "name",
+						updateValue: DeviceActions.basicUpdateValueName,
+					},
+				},
+				view: {
+					info: {
+						temperature: { name: "temperature", class: "icon", html: "" },
+						batteryPercent: { name: "devicePower", class: "icon", html: "" },
+						lux: { name: "lux", class: "icon", html: "" },
+					},
+					action: {
+						door: {
+							name: "door",
+							style: { width: "70px" },
+							class: "darkBack",
+							html: "",
+						},
+					},
+				},
+				dataPoint: {
+					0: {
+						temperature: `${props.stateID}.sensor.temperatureC`,
+						door: `${props.stateID}.sensor.door`,
+						lux: `${props.stateID}.sensor.lux`,
+						batteryPercent: `${props.stateID}.sensor.battery`,
+						name: `${vsID}.0.name`,
+						room: `${vsID}.0.room`,
+						deviceID: props.id,
+					},
+				},
+			};
+			break;
 		default:
 	}
+	const customConfig = await props.socket.getState(`${vsID}.customConfig`);
+	if (typeof customConfig === "object" && customConfig !== null) {
+		try {
+			const cc = JSON.parse(customConfig.val);
+			if (typeof cc.dataPoint === "object") {
+				Object.entries(cc.dataPoint).forEach(([instance, dataObject]) => {
+					Object.entries(dataObject).forEach(([name, dataPoint]) => {
+						typeConfig.dataPoint[instance][name] = dataPoint;
+					});
+				});
+			}
+			if (typeof cc.update === "object") {
+				Object.entries(cc.update).forEach(([name, value]) => {
+					typeConfig.update[name] = value;
+				});
+			}
+			if (typeof cc.view === "object") {
+				Object.entries(cc.view).forEach(([name, value]) => {
+					typeConfig.view[name] = value;
+				});
+			}
+		} catch (e) {}
+	}
+
 	return typeConfig;
 };
 

@@ -1,4 +1,4 @@
-# Documentation (Version 0.0.1)
+# Documentation (Version 0.0.3)
 
 ### Widgets
 
@@ -6,6 +6,7 @@
 -   AllDevices
 -   RoomDevices
 -   CustomDeviceList
+-   <a href="ModifyDeviceConfig.md">Modify device config</a>
 
 ## Usage
 

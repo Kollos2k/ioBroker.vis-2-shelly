@@ -57,11 +57,37 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 		//                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
 	}
 
+	async updateTypeConfig(devices) {
+		this.state.typeConfig = {};
+		for (const key in devices) {
+			const device = devices[key];
+			this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
+			this.domID = device.id.replaceAll("#", "");
+
+			// console.log(key);
+			devices[key].typeConfig = await getDeviceConfigByType(
+				device.type,
+				this.domID,
+				{
+					stateID: device.stateId,
+					type: device.type,
+					id: device.id,
+					socket: this.props.context.socket,
+				},
+				this.vsID,
+			);
+		}
+		this.state.allDevices = devices;
+		this.setState({ allDevices: devices });
+		// this.forceUpdate();
+	}
+
 	async componentDidMount() {
 		super.componentDidMount();
 		this.props.context.socket.subscribeState(["vis-2-shelly.0.devices.ids"], (id, state) => {
-			this.state.allDevices = JSON.parse(state.val);
-			this.forceUpdate();
+			// this.state.allDevices = JSON.parse(state.val);
+			// this.setState({ allDevices: JSON.parse(state.val) });
+			this.updateTypeConfig(JSON.parse(state.val));
 		});
 
 		// Update data
@@ -102,21 +128,32 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 
 	renderWidgetBody(props) {
 		super.renderWidgetBody(props);
-		console.debug(this.props.context.socket);
-		// Object.values(this.state.allDevices).map((device) => console.log(device));
+		// console.debug(this.props.context.socket);
+		// // Object.values(this.state.allDevices).map((device) => console.log(device));
+		// console.debug("ALL DEVICES");
+		// console.debug(this.state.allDevices);
 		return (
 			<Card style={{ width: "100%", height: "100%" }}>
 				<CardContent>
 					{Object.values(this.state.allDevices).map((device) => {
 						this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
+						console.debug(this.vsID);
 						this.domID = device.id.replaceAll("#", "");
-						const typeConfig = getDeviceConfigByType(
-							device.type,
-							this.domID,
-							{ stateID: device.stateId, type: device.type, id: device.id },
-							this.vsID,
-						);
+						const typeConfig = device.typeConfig;
+						// const typeConfig = getDeviceConfigByType(
+						// 	device.type,
+						// 	this.domID,
+						// 	{
+						// 		stateID: device.stateId,
+						// 		type: device.type,
+						// 		id: device.id,
+						// 		socket: this.props.context.socket,
+						// 	},
+						// 	this.vsID,
+						// );
+						console.debug(typeConfig);
 						if (
+							typeof typeConfig !== "undefined" &&
 							typeof typeConfig.dataPoint !== "undefined" &&
 							typeof typeConfig.dataPoint[device.relay] !== "undefined"
 						) {
