@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.js": "./static/js/main.38d2d37a.js",
+    "main.js": "./static/js/main.30a77aa5.js",
     "vis2ShellyWidget.js": "./customWidgets.js",
     "static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.d3a97911.chunk.css": "./static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.d3a97911.chunk.css",
-    "static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.f617bbc9.chunk.js": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.f617bbc9.chunk.js",
+    "static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.33f6e865.chunk.js": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.33f6e865.chunk.js",
     "static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js",
     "static/js/node_modules_react_jsx-runtime_js-node_modules_babel_runtime_helpers_interopRequireDefault_js.0c5688b8.chunk.js": "./static/js/node_modules_react_jsx-runtime_js-node_modules_babel_runtime_helpers_interopRequireDefault_js.0c5688b8.chunk.js",
     "static/js/node_modules_mui_material_styles_getOverlayAlpha_js-node_modules_mui_material_styles_useTheme-c52008.ae8cf77c.chunk.js": "./static/js/node_modules_mui_material_styles_getOverlayAlpha_js-node_modules_mui_material_styles_useTheme-c52008.ae8cf77c.chunk.js",
@@ -25,9 +25,9 @@
     "static/css/src_ShellyAllDevices_jsx-src_components_device_css.d3a97911.chunk.css": "./static/css/src_ShellyAllDevices_jsx-src_components_device_css.d3a97911.chunk.css",
     "static/js/src_ShellyAllDevices_jsx-src_components_device_css.e333de76.chunk.js": "./static/js/src_ShellyAllDevices_jsx-src_components_device_css.e333de76.chunk.js",
     "static/css/src_ShellyByRoomDevices_jsx-src_components_device_css.d3a97911.chunk.css": "./static/css/src_ShellyByRoomDevices_jsx-src_components_device_css.d3a97911.chunk.css",
-    "static/js/src_ShellyByRoomDevices_jsx-src_components_device_css.2e7bc9e6.chunk.js": "./static/js/src_ShellyByRoomDevices_jsx-src_components_device_css.2e7bc9e6.chunk.js",
+    "static/js/src_ShellyByRoomDevices_jsx-src_components_device_css.d2e4a96f.chunk.js": "./static/js/src_ShellyByRoomDevices_jsx-src_components_device_css.d2e4a96f.chunk.js",
     "static/css/src_ShellyCustomDeviceList_jsx-src_components_device_css.d3a97911.chunk.css": "./static/css/src_ShellyCustomDeviceList_jsx-src_components_device_css.d3a97911.chunk.css",
-    "static/js/src_ShellyCustomDeviceList_jsx-src_components_device_css.8037ab3e.chunk.js": "./static/js/src_ShellyCustomDeviceList_jsx-src_components_device_css.8037ab3e.chunk.js",
+    "static/js/src_ShellyCustomDeviceList_jsx-src_components_device_css.cf26e915.chunk.js": "./static/js/src_ShellyCustomDeviceList_jsx-src_components_device_css.cf26e915.chunk.js",
     "static/js/src_translations_js.67c90a30.chunk.js": "./static/js/src_translations_js.67c90a30.chunk.js",
     "static/js/node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js": "./static/js/node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js",
     "static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js",
@@ -191,10 +191,10 @@
     "static/media/shellyVoltage.svg": "./static/media/shellyVoltage.3cefe84f9725eef9b368.svg",
     "static/media/Upstairs.svg": "./static/media/Upstairs.441813e54e0daca0882d.svg",
     "static/media/shellyEnergy.svg": "./static/media/shellyEnergy.ef1827da325449978ea7.svg",
-    "main.38d2d37a.js.map": "./static/js/main.38d2d37a.js.map",
+    "main.30a77aa5.js.map": "./static/js/main.30a77aa5.js.map",
     "customWidgets.js.map": "./customWidgets.js.map",
     "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.d3a97911.chunk.css.map": "./static/css/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.d3a97911.chunk.css.map",
-    "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.f617bbc9.chunk.js.map": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.f617bbc9.chunk.js.map",
+    "src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.33f6e865.chunk.js.map": "./static/js/src_bootstrap_js-webpack_sharing_consume_default_mui_material_styles_mui_material_styles-webp-03197f.33f6e865.chunk.js.map",
     "node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js.map": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694110.e8b0e886.chunk.js.map",
     "node_modules_react_jsx-runtime_js-node_modules_babel_runtime_helpers_interopRequireDefault_js.0c5688b8.chunk.js.map": "./static/js/node_modules_react_jsx-runtime_js-node_modules_babel_runtime_helpers_interopRequireDefault_js.0c5688b8.chunk.js.map",
     "node_modules_mui_material_styles_getOverlayAlpha_js-node_modules_mui_material_styles_useTheme-c52008.ae8cf77c.chunk.js.map": "./static/js/node_modules_mui_material_styles_getOverlayAlpha_js-node_modules_mui_material_styles_useTheme-c52008.ae8cf77c.chunk.js.map",
@@ -216,9 +216,9 @@
     "src_ShellyAllDevices_jsx-src_components_device_css.d3a97911.chunk.css.map": "./static/css/src_ShellyAllDevices_jsx-src_components_device_css.d3a97911.chunk.css.map",
     "src_ShellyAllDevices_jsx-src_components_device_css.e333de76.chunk.js.map": "./static/js/src_ShellyAllDevices_jsx-src_components_device_css.e333de76.chunk.js.map",
     "src_ShellyByRoomDevices_jsx-src_components_device_css.d3a97911.chunk.css.map": "./static/css/src_ShellyByRoomDevices_jsx-src_components_device_css.d3a97911.chunk.css.map",
-    "src_ShellyByRoomDevices_jsx-src_components_device_css.2e7bc9e6.chunk.js.map": "./static/js/src_ShellyByRoomDevices_jsx-src_components_device_css.2e7bc9e6.chunk.js.map",
+    "src_ShellyByRoomDevices_jsx-src_components_device_css.d2e4a96f.chunk.js.map": "./static/js/src_ShellyByRoomDevices_jsx-src_components_device_css.d2e4a96f.chunk.js.map",
     "src_ShellyCustomDeviceList_jsx-src_components_device_css.d3a97911.chunk.css.map": "./static/css/src_ShellyCustomDeviceList_jsx-src_components_device_css.d3a97911.chunk.css.map",
-    "src_ShellyCustomDeviceList_jsx-src_components_device_css.8037ab3e.chunk.js.map": "./static/js/src_ShellyCustomDeviceList_jsx-src_components_device_css.8037ab3e.chunk.js.map",
+    "src_ShellyCustomDeviceList_jsx-src_components_device_css.cf26e915.chunk.js.map": "./static/js/src_ShellyCustomDeviceList_jsx-src_components_device_css.cf26e915.chunk.js.map",
     "src_translations_js.67c90a30.chunk.js.map": "./static/js/src_translations_js.67c90a30.chunk.js.map",
     "node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js.map": "./static/js/node_modules_mui_utils_deepmerge_deepmerge_js-node_modules_mui_utils_formatMuiErrorMessage_fo-02dde20.9ad42408.chunk.js.map",
     "node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js.map": "./static/js/node_modules_iobroker_adapter-react-v5_assets_devices_sync_recursive_-node_modules_iobroker_a-b694111.73309191.chunk.js.map",
@@ -251,6 +251,6 @@
     "src_components_Device_jsx-src_components_DeviceConfig_jsx.c8ae1faa.chunk.js.map": "./static/js/src_components_Device_jsx-src_components_DeviceConfig_jsx.c8ae1faa.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.38d2d37a.js"
+    "static/js/main.30a77aa5.js"
   ]
 }

@@ -108,8 +108,33 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 					this.state.roomDevices[key] = device;
 				}
 			});
-			this.forceUpdate();
+			this.updateTypeConfig(this.state.roomDevices);
 		}
+	}
+
+	async updateTypeConfig(devices) {
+		this.state.typeConfig = {};
+		for (const key in devices) {
+			const device = devices[key];
+			this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
+			this.domID = device.id.replaceAll("#", "");
+
+			// console.log(key);
+			devices[key].typeConfig = await getDeviceConfigByType(
+				device.type,
+				this.domID,
+				{
+					stateID: device.stateId,
+					type: device.type,
+					id: device.id,
+					socket: this.props.context.socket,
+				},
+				this.vsID,
+			);
+		}
+		this.state.allDevices = devices;
+		this.setState({ roomDevices: devices });
+		this.forceUpdate();
 	}
 
 	async componentDidMount() {
@@ -160,18 +185,9 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 					{Object.values(this.state.roomDevices).map((device) => {
 						this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
 						this.domID = device.id.replaceAll("#", "");
-						const typeConfig = getDeviceConfigByType(
-							device.type,
-							this.domID,
-							{
-								stateID: device.stateId,
-								type: device.type,
-								id: device.id,
-								socket: this.props.context.socket,
-							},
-							this.vsID,
-						);
+						const typeConfig = device.typeConfig;
 						if (
+							typeof typeConfig !== "undefined" &&
 							typeof typeConfig.dataPoint !== "undefined" &&
 							typeof typeConfig.dataPoint[device.relay] !== "undefined"
 						) {

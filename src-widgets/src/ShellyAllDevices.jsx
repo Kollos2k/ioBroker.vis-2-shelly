@@ -79,7 +79,6 @@ class ShellyAllDevices extends (window.visRxWidget || VisRxWidget) {
 		}
 		this.state.allDevices = devices;
 		this.setState({ allDevices: devices });
-		// this.forceUpdate();
 	}
 
 	async componentDidMount() {

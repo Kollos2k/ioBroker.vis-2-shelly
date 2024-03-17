@@ -113,7 +113,7 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 				this.state.deviceList[count] = this.state.allDevices[this.state.data[`device${count}`]];
 			}
 		}
-		// this.updateTypeConfig(this.state.deviceList);
+		this.updateTypeConfig(this.state.deviceList);
 		// this.forceUpdate();
 	}
 
@@ -124,8 +124,8 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 			this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
 			this.domID = device.id.replaceAll("#", "");
 
-			console.log(key);
-			device.typeConfig = await getDeviceConfigByType(
+			// console.log(key);
+			devices[key].typeConfig = await getDeviceConfigByType(
 				device.type,
 				this.domID,
 				{
@@ -137,8 +137,9 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 				this.vsID,
 			);
 		}
+		this.state.allDevices = devices;
 		this.setState({ deviceList: devices });
-		// this.forceUpdate();
+		this.forceUpdate();
 	}
 
 	async componentDidMount() {
@@ -182,18 +183,18 @@ class ShellyCustomDeviceList extends (window.visRxWidget || VisRxWidget) {
 					{Object.values(this.state.deviceList).map((device) => {
 						this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
 						this.domID = device.id.replaceAll("#", "");
-						// const typeConfig = device.typeConfig;
-						const typeConfig = getDeviceConfigByType(
-							device.type,
-							this.domID,
-							{
-								stateID: device.stateId,
-								type: device.type,
-								id: device.id,
-								socket: this.props.context.socket,
-							},
-							this.vsID,
-						);
+						const typeConfig = device.typeConfig;
+						// const typeConfig = getDeviceConfigByType(
+						// 	device.type,
+						// 	this.domID,
+						// 	{
+						// 		stateID: device.stateId,
+						// 		type: device.type,
+						// 		id: device.id,
+						// 		socket: this.props.context.socket,
+						// 	},
+						// 	this.vsID,
+						// );
 						if (
 							typeof typeConfig !== "undefined" &&
 							typeof typeConfig.dataPoint !== "undefined" &&
