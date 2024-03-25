@@ -114,7 +114,7 @@ class Rooms extends Component {
 							// Math.random().toString(36).substr(2, 9)
 							data.push({
 								id,
-								name: I18n.t("New room"),
+								name: I18n.t("newRoom"),
 							});
 						} else {
 							// existing line was modifed

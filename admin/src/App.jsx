@@ -131,7 +131,7 @@ class App extends GenericApp {
 				"system",
 				"device",
 				`vis-2-shelly.${this.instance}.devices.`,
-				`vis-2-shelly.0.devices.\u9999`,
+				`vis-2-shelly.${this.instance}.devices.\u9999`,
 			)
 			.then((objects) => {
 				console.log("rdy");

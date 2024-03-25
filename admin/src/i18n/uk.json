@@ -1,5 +1,6 @@
 {
 	"vis-2-shelly adapter settings": "Налаштування адаптера для vis-2-shelly",
-	"option1": "варіант1",
-	"option2": "варіант2"
+	"tabRooms": "Номери",
+	"RoomTitle": "Назва номеру",
+	"newRoom": "Новий номер"
 }

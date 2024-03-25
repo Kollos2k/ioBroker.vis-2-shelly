@@ -1,5 +1,6 @@
 {
 	"vis-2-shelly adapter settings": "vis-2-shelly的适配器设置",
-	"option1": "选项1",
-	"option2": "选项2"
+	"tabRooms": "会议室",
+	"RoomTitle": "房间名称",
+	"newRoom": "新房间"
 }

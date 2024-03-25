@@ -1,5 +1,6 @@
 {
 	"vis-2-shelly adapter settings": "Ustawienia adaptera dla vis-2-shelly",
-	"option1": "opcja 1",
-	"option2": "Opcja 2"
+	"tabRooms": "Pokoje",
+	"RoomTitle": "Nazwa pokoju",
+	"newRoom": "Nowy pokój"
 }

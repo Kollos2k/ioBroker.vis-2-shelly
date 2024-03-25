@@ -1,5 +1,6 @@
 {
 	"vis-2-shelly adapter settings": "Impostazioni dell'adattatore per vis-2-shelly",
-	"option1": "opzione 1",
-	"option2": "opzione 2"
+	"tabRooms": "Camere",
+	"RoomTitle": "Nome della stanza",
+	"newRoom": "Camera nuova"
 }
