@@ -106,7 +106,19 @@ class Vis2Shelly extends utils.Adapter {
 		await this.setObjectNotExistsAsync(this.name2id("devices.ids"), {
 			type: "state",
 			common: {
-				name: "Shelly DeviceList",
+				name: {
+					en: "Shelly DeviceList",
+					de: "Shelly DeviceList",
+					ru: "Shelly DeviceList",
+					pt: "Dispositivo de ShellyList",
+					nl: "Shelly DeviceList",
+					fr: "Liste des périphériques Shelly",
+					it: "Shelly DeviceList",
+					es: "Shelly DeviceList",
+					pl: "Shelly DeviceList",
+					uk: "Shelly Пристрої",
+					"zh-cn": "Shelly 设备列表",
+				},
 				type: "array",
 				role: "list",
 				read: true,
@@ -144,7 +156,19 @@ class Vis2Shelly extends utils.Adapter {
 			await this.setObjectNotExistsAsync("devices." + deviceName + ".type", {
 				type: "state",
 				common: {
-					name: deviceName + ".type",
+					name: {
+						en: "Device type",
+						de: "Gerätetyp",
+						ru: "Тип устройства",
+						pt: "Tipo de dispositivo",
+						nl: "Apparaattype",
+						fr: "Type de périphérique",
+						it: "Tipo di dispositivo",
+						es: "Tipo de dispositivo",
+						pl: "Typ urządzenia",
+						uk: "Тип пристрою",
+						"zh-cn": "设备类型",
+					},
 					type: "object",
 					role: "text",
 					read: true,
@@ -200,7 +224,19 @@ class Vis2Shelly extends utils.Adapter {
 					await this.setObjectNotExistsAsync("devices." + deviceName + "." + i, {
 						type: "device",
 						common: {
-							name: "Device Realay " + deviceName,
+							name: {
+								en: "Device Relay",
+								de: "Gerät Relais",
+								ru: "Устройство Relay",
+								pt: "Dispositivo Reposição",
+								nl: "Apparaat Relais",
+								fr: "Appareil Relais",
+								it: "Dispositivo Relè",
+								es: "Dispositivo Relay",
+								pl: "Urządzenie Przekaz",
+								uk: "Пристрої Реле",
+								"zh-cn": "设备中继",
+							},
 						},
 						native: {},
 					});
@@ -210,7 +246,19 @@ class Vis2Shelly extends utils.Adapter {
 						{
 							type: "state",
 							common: {
-								name: deviceName + ".name",
+								name: {
+									en: "Device name",
+									de: "Name des Geräts",
+									ru: "Название устройства",
+									pt: "Nome do dispositivo",
+									nl: "Apparaatnaam",
+									fr: "Nom du périphérique",
+									it: "Nome del dispositivo",
+									es: "Nombre del dispositivo",
+									pl: "Nazwa urządzenia",
+									uk: "Назва пристрою",
+									"zh-cn": "设备名称",
+								},
 								type: "string",
 								role: "text",
 								read: true,
@@ -266,7 +314,19 @@ class Vis2Shelly extends utils.Adapter {
 			this.setObjectAsync("devices." + devName[0][1] + ".room", {
 				type: "state",
 				common: {
-					name: "room",
+					name: {
+						en: "room",
+						de: "zimmer",
+						ru: "комната",
+						pt: "quarto",
+						nl: "kamer",
+						fr: "chambre",
+						it: "camera",
+						es: "habitación",
+						pl: "pokój",
+						uk: "кімната",
+						"zh-cn": "房间",
+					},
 					type: "object",
 					role: "text",
 					read: true,
@@ -280,7 +340,19 @@ class Vis2Shelly extends utils.Adapter {
 		this.setObjectAsync("devices.roomIds", {
 			type: "state",
 			common: {
-				name: "room",
+				name: {
+					en: "room",
+					de: "zimmer",
+					ru: "комната",
+					pt: "quarto",
+					nl: "kamer",
+					fr: "chambre",
+					it: "camera",
+					es: "habitación",
+					pl: "pokój",
+					uk: "кімната",
+					"zh-cn": "房间",
+				},
 				type: "array",
 				role: "list",
 				read: true,
