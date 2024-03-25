@@ -339,7 +339,7 @@ class Vis2Shelly extends utils.Adapter {
 	 * @param {ioBroker.State | null | undefined} state
 	 */
 	onStateChange(id, state) {
-		if (state) {
+		if (state && state.ack) {
 			if (typeof this.subcribedRooms[id] !== "undefined") {
 				this.devJSON[this.subcribedRooms[id].devID].room = state.val;
 				this.setState("devices.ids", { val: JSON.stringify(this.devJSON), ack: true }, () => {});
