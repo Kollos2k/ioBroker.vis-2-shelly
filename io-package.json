@@ -71,7 +71,10 @@
 		},
 		"authors": ["Kollos2k <kollos@vorsicht-bissig.de>"],
 		"keywords": ["shelly", "vis-2"],
-		"license": "MIT",
+		"licenseInformation": {
+			"license": "MIT",
+			"type": "free"
+		},
 		"platform": "Javascript/Node.js",
 		"main": "main.js",
 		"icon": "vis-2-shelly.png",
@@ -88,6 +91,7 @@
 		"messagebox": false,
 		"connectionType": "local",
 		"dataSource": "poll",
+		"singleton": true,
 		"visWidgets": {
 			"vis2ShellyWidget": {
 				"i18n": "component",

@@ -17,12 +17,12 @@ A widget to display Shelly devices in vis-2
 
 ## Information
 
-<a href="readme/Documentation.md">Documentation</a>
+<a href="doc/Documentation.md">Documentation</a>
 
 With the help of this adapter it should be possible to easily display and control all Shelly devices in plain sight.<br/>
 
 So far it is possible to display all Shelly devices or to divide the devices into rooms.<br/>
-<img src="readme/images/PictureShellyReadme1.png">
+<img src="doc/images/PictureShellyReadme1.png">
 
 <br/><br/>The project is still in its early stages and is not stable<br/><br/>
 
