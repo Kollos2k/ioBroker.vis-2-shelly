@@ -45,7 +45,7 @@ Devices supported so far
 ### **WORK IN PROGRESS**
 
 -   New Device "Shelly Door/Window 2"
--   Config is now editable (see <a href="readme/ModifyDeviceConfig.md">Modify device config</a>)
+-   Config is now editable (see <a href="doc/ModifyDeviceConfig.md">Modify device config</a>)
 
 ### 0.0.3 (2024-03-15)
 
