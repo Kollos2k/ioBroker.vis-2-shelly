@@ -92,7 +92,7 @@ class Vis2Shelly extends utils.Adapter {
 		if (typeof this.devJSON !== "object") this.devJSON = {};
 		if (typeof this.config["knownShellyIDs"] == "undefined") this.config["knownShellyIDs"] = {};
 		await this.subscribeForeignObjectsAsync("shelly.*");
-		// await this.subscribeObjectsAsync("rooms.*");
+
 		this.updateDeviceList(true);
 		this.updateRoomsList();
 		this.setState("info.connection", true, true);
@@ -103,12 +103,12 @@ class Vis2Shelly extends utils.Adapter {
 		const keysDevices = Object.keys(shellyDevices);
 		let changeDeviceIds = false;
 
-		await this.setObjectNotExistsAsync("devices.ids", {
+		await this.setObjectNotExistsAsync(this.name2id("devices.ids"), {
 			type: "state",
 			common: {
 				name: "Shelly DeviceList",
 				type: "array",
-				role: "shelly.deviceList",
+				role: "list",
 				read: true,
 				write: true,
 				def: "[]",
@@ -121,12 +121,13 @@ class Vis2Shelly extends utils.Adapter {
 		for (const deviceID of keysDevices) {
 			if (await this.updateDevice(deviceID, forceUpdate)) changeDeviceIds = true;
 		}
-		if (changeDeviceIds) await this.setStateAsync("devices.ids", { val: JSON.stringify(this.devJSON), ack: true });
+		if (changeDeviceIds)
+			await this.setStateAsync(this.name2id("devices.ids"), { val: JSON.stringify(this.devJSON), ack: true });
 		this.log.info(`Devices updated (Force:${forceUpdate ? "yes" : "no"})`);
 	}
 	async updateDevice(deviceID, forceUpdate) {
 		let changeDeviceIds = false;
-		const deviceName = deviceID.substring(deviceID.lastIndexOf(".") + 1, deviceID.length);
+		const deviceName = this.name2id(deviceID.substring(deviceID.lastIndexOf(".") + 1, deviceID.length));
 
 		const existDev = await this.getStatesAsync(`devices.${deviceName}`);
 		if (typeof existDev === "undefined" || forceUpdate) {
@@ -139,18 +140,22 @@ class Vis2Shelly extends utils.Adapter {
 			});
 			/** Create DEVICE TYPE */
 			const typeState = await this.getForeignStateAsync(deviceID + ".type");
-			await this.setObjectAsync("devices." + deviceName + ".type", {
+			/** maybe extendObject */
+			await this.setObjectNotExistsAsync("devices." + deviceName + ".type", {
 				type: "state",
 				common: {
 					name: deviceName + ".type",
 					type: "object",
-					role: "name",
+					role: "text",
 					read: true,
 					write: true,
 					states: this.typeEnum,
 					def: typeof typeState === "object" && typeState !== null ? typeState.val : "",
 				},
 				native: {},
+			});
+			this.extendObject("devices." + deviceName + ".type", {
+				common: { states: this.typeEnum },
 			});
 
 			/** GET RELAY COUNT example: plus2pm with more than 1 relay */
@@ -171,16 +176,16 @@ class Vis2Shelly extends utils.Adapter {
 						room: devRoom == null ? null : devRoom.val,
 						name: devName == null ? null : devName.val,
 					};
-					if (typeof this.subcribedNames[`vis-2-shelly.0.${nameStateID}`] === "undefined") {
+					if (typeof this.subcribedNames[`vis-2-shelly.${this.instance}.${nameStateID}`] === "undefined") {
 						this.subscribeStates(nameStateID, () => {});
-						this.subcribedNames[`vis-2-shelly.0.${nameStateID}`] = {
+						this.subcribedNames[`vis-2-shelly.${this.instance}.${nameStateID}`] = {
 							devID: `${deviceID}${relay}`,
 							subscribeID: nameStateID,
 						};
 					}
-					if (typeof this.subcribedRooms[`vis-2-shelly.0.${roomStateID}`] === "undefined") {
+					if (typeof this.subcribedRooms[`vis-2-shelly.${this.instance}.${roomStateID}`] === "undefined") {
 						this.subscribeStates(roomStateID, () => {});
-						this.subcribedRooms[`vis-2-shelly.0.${roomStateID}`] = {
+						this.subcribedRooms[`vis-2-shelly.${this.instance}.${roomStateID}`] = {
 							devID: `${deviceID}${relay}`,
 							subscribeID: roomStateID,
 						};
@@ -207,7 +212,7 @@ class Vis2Shelly extends utils.Adapter {
 							common: {
 								name: deviceName + ".name",
 								type: "string",
-								role: "name",
+								role: "text",
 								read: true,
 								write: true,
 								def: null,
@@ -263,7 +268,7 @@ class Vis2Shelly extends utils.Adapter {
 				common: {
 					name: "room",
 					type: "object",
-					role: "name",
+					role: "text",
 					read: true,
 					write: true,
 					states: roomEnum,
@@ -277,7 +282,7 @@ class Vis2Shelly extends utils.Adapter {
 			common: {
 				name: "room",
 				type: "array",
-				role: "name",
+				role: "list",
 				read: true,
 				write: false,
 			},
@@ -349,32 +354,6 @@ class Vis2Shelly extends utils.Adapter {
 			// this.log.info(`state ${id} deleted`);
 		}
 	}
-	/**
-	 * Creates State if not exists and set State (UNUSED)
-	 * @param {string} foreignID
-	 * @param {string} selfID
-	 * @param {string} name
-	 * @param {string} role
-	 */
-	createAndSetState(foreignID, selfID, name, role) {
-		this.setObjectNotExists(
-			selfID,
-			{
-				type: "state",
-				common: {
-					name: name,
-					type: "string",
-					role: role,
-					read: true,
-					write: true,
-				},
-				native: {},
-			},
-			() => {
-				this.setState(selfID, { val: foreignID, ack: true });
-			},
-		);
-	}
 
 	/**
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
@@ -392,6 +371,10 @@ class Vis2Shelly extends utils.Adapter {
 	// 		}
 	// 	}
 	// }
+
+	name2id(pName) {
+		return (pName || "").replace(this.FORBIDDEN_CHARS, "_");
+	}
 }
 
 if (require.main !== module) {
