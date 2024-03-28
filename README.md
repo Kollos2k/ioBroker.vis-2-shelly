@@ -40,12 +40,22 @@ Devices supported so far
     TRV
 </div>
 
+## TODO
+
+-   Add more Devices
+-   Add Dialog for all Devices
+-   Add Device informations to Dialog (IP/Firmware/...)
+-   Try Javascript Events/Triggers ....
+-   Add Template Support
+
 ## Changelog
 
 ### **WORK IN PROGRESS**
 
 -   New Device "Shelly Door/Window 2"
 -   Config is now editable (see <a href="doc/ModifyDeviceConfig.md">Modify device config</a>)
+-   Fixed some bugs
+-   Updatet sourcecode by community rules
 
 ### 0.0.3 (2024-03-15)
 
