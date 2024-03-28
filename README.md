@@ -49,8 +49,7 @@ Devices supported so far
 -   Add Template Support
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 0.0.4 (2024-03-28)
 
 -   New Device "Shelly Door/Window 2"
 -   Config is now editable (see <a href="doc/ModifyDeviceConfig.md">Modify device config</a>)
