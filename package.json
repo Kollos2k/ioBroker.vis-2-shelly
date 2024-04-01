@@ -20,7 +20,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.0.4",
+    "@iobroker/adapter-core": "^3.0.6",
     "notistack": "^3.0.1",
     "socket.io": "^4.7.4"
   },
