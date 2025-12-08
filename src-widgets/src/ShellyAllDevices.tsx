@@ -184,37 +184,34 @@ class ShellyAllDevices extends Generic<StaticRxData, StaticState> {
 	renderWidgetBody(props: RxRenderWidgetProps): React.JSX.Element | React.JSX.Element[] | null {
 		super.renderWidgetBody(props);
 		return (
-			<Card style={{ width: "100%", height: "100%" }}>
-				<CardContent>
-					{this.state.deviceList.map((device: DeviceObject) => {
-						const typeConfig = device.typeConfig;
-						if (
-							typeof typeConfig !== "undefined" &&
-							typeof typeConfig.dataPoint !== "undefined" &&
-							typeof typeConfig.domID !== "undefined" &&
-							typeof typeConfig.dataPoint[device.relay] !== "undefined"
-						) {
-							const deviceDomID = typeConfig.domID + device.relay;
-							return (
-								<Device
-									stateID={device.stateId}
-									type={device.type}
-									id={device.id}
-									typeConfig={typeConfig}
-									deviceDomID={deviceDomID}
-									relay={device.relay}
-									state={this.state}
-									dataPoint={typeConfig.dataPoint[device.relay]}
-									socket={this.props.context.socket}
-									widID={this.props.id}
-									key={this.props.id + device.id}
-								/>
-							);
-						}
-					})}
-				</CardContent>
-				{this.state.showDeviceDialog && <div>test</div>}
-			</Card>
+			<div style={{ width: "100%", height: "100%" }}>
+				{this.state.deviceList.map((device: DeviceObject) => {
+					const typeConfig = device.typeConfig;
+					if (
+						typeof typeConfig !== "undefined" &&
+						typeof typeConfig.dataPoint !== "undefined" &&
+						typeof typeConfig.domID !== "undefined" &&
+						typeof typeConfig.dataPoint[device.relay] !== "undefined"
+					) {
+						const deviceDomID = typeConfig.domID + device.relay;
+						return (
+							<Device
+								stateID={device.stateId}
+								type={device.type}
+								id={device.id}
+								typeConfig={typeConfig}
+								deviceDomID={deviceDomID}
+								relay={device.relay}
+								state={this.state}
+								dataPoint={typeConfig.dataPoint[device.relay]}
+								socket={this.props.context.socket}
+								widID={this.props.id}
+								key={this.props.id + device.id}
+							/>
+						);
+					}
+				})}
+			</div>
 		);
 	}
 }
