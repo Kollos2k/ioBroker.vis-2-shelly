@@ -11,7 +11,7 @@ updates:
 <<<<<<< HEAD
       - Kollos2k
 =======
-      - kollos
+      - Kollos2k
 >>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
     versioning-strategy: increase
 
@@ -26,5 +26,5 @@ updates:
 <<<<<<< HEAD
       - Kollos2k
 =======
-      - kollos
+      - Kollos2k
 >>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
