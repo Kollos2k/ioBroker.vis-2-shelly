@@ -42,6 +42,7 @@ Devices supported so far
 
 ## TODO
 
+<<<<<<< HEAD
 -   Add more Devices
 -   Add Dialog for all Devices
 -   Add Device informations to Dialog (IP/Firmware/...)
@@ -74,6 +75,45 @@ Devices supported so far
 -   Add CustomDeviceList Widget
 -   Add CustomOverview Widget
 -   Rebuild main.js
+=======
+- Add more Devices
+- Add Dialog for all Devices
+- Add Device informations to Dialog (IP/Firmware/...)
+- Try Javascript Events/Triggers ....
+- Add Template Support
+
+## Changelog
+
+### 0.0.5 (2025-12-07)
+
+- Code Refresh. All is now in TypeScript.
+
+### 0.0.4 (2024-03-28)
+
+- New Device "Shelly Door/Window 2"
+- Config is now editable (see <a href="doc/ModifyDeviceConfig.md">Modify device config</a>)
+- Fixed some bugs
+- Updatet sourcecode by community rules
+
+### 0.0.3 (2024-03-15)
+
+- Add Dialog support for Devices (Change Brightness,view History,....)
+- Add Main Dialog for SHDM-2
+    <!--
+    	Placeholder for the next version (at the beginning of the line):
+    	### **WORK IN PROGRESS**
+    -->
+
+### 0.0.2 (2024-03-04)
+
+- (Kollos2k) initial release
+- Update VIS-Shelly to VIS-2-Shelly (React)
+- Add AllDevices Widget
+- Add RoomDevices Widget
+- Add CustomDeviceList Widget
+- Add CustomOverview Widget
+- Rebuild main.js
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 
 ## License
 

@@ -1,10 +1,19 @@
 import React from "react";
+<<<<<<< HEAD
 import { Card, CardContent, TextField, Select, Option } from "@mui/material";
 
 import { I18n, ObjectBrowser } from "@iobroker/adapter-react-v5";
 import { VisRxWidget } from "@iobroker/vis-2-widgets-react-dev";
 import Device from "./components/Device";
 import getDeviceConfigByType from "./components/DeviceConfig";
+=======
+import { Card, CardContent } from "@mui/material";
+
+import { VisRxWidget } from "@iobroker/vis-2-widgets-react-dev";
+import Device from "./components/Device";
+import getDeviceConfigByType from "./components/DeviceConfig";
+import { getProps } from "@iobroker/vis-2-widgets-react-dev/visDevUtils";
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 
 class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 	constructor(props) {
@@ -14,6 +23,23 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 		this.state.roomDevices = {};
 		console.debug("THIS ROOM");
 		console.debug(this);
+<<<<<<< HEAD
+=======
+		this.widgetProps = getProps(
+			{
+				socket: this.socket,
+				theme: this.state.theme,
+				refParent: this.refParent,
+			},
+			{
+				type: "all",
+			},
+			{
+				width: 600,
+				height: 200,
+			},
+		);
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 	}
 
 	static getWidgetInfo() {
@@ -74,7 +100,15 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 									>
 										<option value="">-- Select room --</option>
 										{Object.entries(roomList).map(([key, val]) => {
+<<<<<<< HEAD
 											return <option value={key}>{val}</option>;
+=======
+											return (
+												<option value={key} key={key}>
+													{val}
+												</option>
+											);
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 										})}
 									</select>
 								);
@@ -84,7 +118,11 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 				},
 				// check here all possible types https://github.com/ioBroker/ioBroker.vis/blob/react/src/src/Attributes/Widget/SCHEMA.md
 			],
+<<<<<<< HEAD
 			visPrev: "widgets/vis-2-shelly/vis2/img/editor/allDevices.png",
+=======
+			visPrev: "widgets/vis-2-shelly/img/editor/allDevices.png",
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 		};
 	}
 
@@ -204,6 +242,10 @@ class ShellyByRoomDevices extends (window.visRxWidget || VisRxWidget) {
 									dataPoint={typeConfig.dataPoint[device.relay]}
 									socket={this.props.context.socket}
 									widID={this.props.id}
+<<<<<<< HEAD
+=======
+									key={device.id}
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 								/>
 							);
 						}

@@ -1,6 +1,7 @@
 {
 	"vis_2_widgets_shelly": "VIS-2 Shelly",
 	"AllDevices": "Tutti i dispositivi",
+<<<<<<< HEAD
 	"vis_2_widgets_shelly_display": "Tipo di esposizione",
 	"vis_2_widgets_shelly_rooms": "Camera",
 	"vis_2_widgets_shelly_device_count": "Conte",
@@ -29,4 +30,36 @@
 	"vis_2_widgets_shelly_overview_margin": "margin",
 	"vis_2_widgets_shelly_overview_cssstyle": "Style",
 	"vis_2_widgets_shelly_overview_borderRadius": "border-radius"
+=======
+	"display": "Tipo di esposizione",
+	"rooms": "Camera",
+	"device_count": "Conte",
+	"device": "Dispositivo",
+	"group_devices": "Dispositivo",
+	"overview_title": "Titolo principale",
+	"overview_titleImage": "Icona del titolo principale",
+	"overview_backColor": "background color inner",
+	"overview_backColorOut": "background-color outer",
+	"overview_textColor": "Text color",
+	"overview_valueGroupCount": "Value count",
+	"overview_group": "Value",
+	"overview_subTitle": "Value title",
+	"overview_subOID": "Value ID",
+	"overview_subUnit": "Value unit",
+	"overview_subIcon": "Value icon",
+	"overview_subSeperator": "Value seperator",
+	"overview_subAddOID1": "SubValue 1 ID",
+	"overview_subAddUnit1": "SubValue 1 unit",
+	"overview_subAddIcon1": "SubValue 1 icon",
+	"overview_subAddOID2": "SubValue 2 ID",
+	"overview_subAddUnit2": "SubValue 2 unit",
+	"overview_subAddIcon2": "SubValue 2 icon",
+	"overview_subHR": "Show sub horizontal",
+	"overview_padding": "padding",
+	"overview_margin": "margin",
+	"overview_cssstyle": "Style",
+	"overview_borderRadius": "border-radius",
+	"overview_subRound": "Round",
+	"overview_subRoundDigets": "Round digets"
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 }

@@ -1,4 +1,9 @@
 admin/build/
 .prettierrc.js
 **/.eslintrc.js
+<<<<<<< HEAD
 admin/words.js
+=======
+admin/words.js
+src-widgets/build/
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)

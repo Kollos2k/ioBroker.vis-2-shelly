@@ -1,0 +1,1 @@
+import{v as _,a as i}from"./vis2ShellyWidget__mf_v__runtimeInit__mf_v__-BWLv5-c2.js";const{loadShare:t}=i,{initPromise:r}=_,a=r.then(e=>t("@mui/material",{customShareInfo:{shareConfig:{singleton:!0,strictVersion:!1,requiredVersion:"*"}}})),o=await a.then(e=>e());var n=o;export{n as v};

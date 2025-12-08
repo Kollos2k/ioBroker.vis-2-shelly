@@ -8,7 +8,11 @@ updates:
       timezone: Europe/Berlin
     open-pull-requests-limit: 5
     assignees:
+<<<<<<< HEAD
       - Kollos2k
+=======
+      - kollos
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
     versioning-strategy: increase
 
   - package-ecosystem: github-actions
@@ -19,4 +23,8 @@ updates:
       timezone: Europe/Berlin
     open-pull-requests-limit: 5
     assignees:
+<<<<<<< HEAD
       - Kollos2k
+=======
+      - kollos
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)

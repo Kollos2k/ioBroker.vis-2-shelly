@@ -1,6 +1,12 @@
 {
+<<<<<<< HEAD
 	"vis-2-shelly adapter settings": "Configurações do adaptador para vis-2-shelly",
 	"tabRooms": "Quartos",
 	"RoomTitle": "Nome do quarto",
 	"newRoom": "Novo quarto"
+=======
+    "vis-2-shelly adapter settings": "Configurações do adaptador para vis-2-shelly",
+    "option1": "opção1",
+    "option2": "opção2"
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 }

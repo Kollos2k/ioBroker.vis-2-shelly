@@ -47,7 +47,11 @@
 }
 .vis-2-shelly-customOverview-itemSubItemGrid {
 	display: grid;
+<<<<<<< HEAD
 	grid-template: "icon1 value1" "icon2 value2";
+=======
+	grid-template: "icon1 value1" "subValueSpacer" "icon2 value2";
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 	width: fit-content;
 	margin: auto 5px auto auto;
 }

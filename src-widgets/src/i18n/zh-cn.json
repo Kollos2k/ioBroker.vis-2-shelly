@@ -1,6 +1,7 @@
 {
 	"vis_2_widgets_shelly": "VIS-2 Shelly",
 	"AllDevices": "所有设备",
+<<<<<<< HEAD
 	"vis_2_widgets_shelly_display": "显示类型",
 	"vis_2_widgets_shelly_rooms": "会议室",
 	"vis_2_widgets_shelly_device_count": "计数",
@@ -29,4 +30,36 @@
 	"vis_2_widgets_shelly_overview_margin": "margin",
 	"vis_2_widgets_shelly_overview_cssstyle": "Style",
 	"vis_2_widgets_shelly_overview_borderRadius": "border-radius"
+=======
+	"display": "显示类型",
+	"rooms": "会议室",
+	"device_count": "计数",
+	"device": "设备",
+	"group_devices": "设备",
+	"overview_title": "主要标题",
+	"overview_titleImage": "主要标题图标",
+	"overview_backColor": "background color inner",
+	"overview_backColorOut": "background-color outer",
+	"overview_textColor": "Text color",
+	"overview_valueGroupCount": "Value count",
+	"overview_group": "Value",
+	"overview_subTitle": "Value title",
+	"overview_subOID": "Value ID",
+	"overview_subUnit": "Value unit",
+	"overview_subIcon": "Value icon",
+	"overview_subSeperator": "Value seperator",
+	"overview_subAddOID1": "SubValue 1 ID",
+	"overview_subAddUnit1": "SubValue 1 unit",
+	"overview_subAddIcon1": "SubValue 1 icon",
+	"overview_subAddOID2": "SubValue 2 ID",
+	"overview_subAddUnit2": "SubValue 2 unit",
+	"overview_subAddIcon2": "SubValue 2 icon",
+	"overview_subHR": "Show sub horizontal",
+	"overview_padding": "padding",
+	"overview_margin": "margin",
+	"overview_cssstyle": "Style",
+	"overview_borderRadius": "border-radius",
+	"overview_subRound": "Round",
+	"overview_subRoundDigets": "Round digets"
+>>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 }
