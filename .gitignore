@@ -6,10 +6,7 @@
 *.code-workspace
 node_modules
 nbproject
-<<<<<<< HEAD
-=======
 src-widgets/node_modules
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 
 # npm package files
 iobroker.*.tgz

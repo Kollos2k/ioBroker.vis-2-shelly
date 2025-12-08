@@ -15,15 +15,8 @@ cp ./README.md ./.dev-server/default/node_modules/iobroker.vis-2-shelly
 
 # ./.dev-server/default/iob restart vis
 #dev-server update
-<<<<<<< HEAD
-
-./.dev-server/default/iob restart admin
-./.dev-server/default/iob restart vis-2
-./.dev-server/default/iob restart vis-2-shelly
-=======
 dev-server upload
 
 #./.dev-server/default/iob restart admin
 #./.dev-server/default/iob restart vis-2
 #./.dev-server/default/iob restart vis-2-shelly
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)

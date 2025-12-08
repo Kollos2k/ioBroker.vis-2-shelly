@@ -1,45 +1,6 @@
 {
     "name": "iobroker.vis-2-shelly",
     "private": true,
-<<<<<<< HEAD
-    "version": "0.0.3",
-    "dependencies": {
-        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-        "@craco/craco": "^7.1.0",
-        "@emotion/react": "^11.11.4",
-        "@emotion/styled": "^11.11.0",
-        "@iobroker/adapter-react-v5": "^4.9.10",
-        "@iobroker/vis-2-widgets-react-dev": "^1.0.5",
-        "@mui/icons-material": "^5.15.12",
-        "@mui/material": "^5.15.12",
-        "@mui/styles": "^5.15.12",
-        "@mui/x-date-pickers": "^6.19.6",
-        "@stylistic/eslint-plugin-js": "^1.6.3",
-        "craco-esbuild": "^0.5.2",
-        "craco-module-federation": "^1.1.0",
-        "eslint": "^8.54.0",
-        "eslint-config-airbnb": "^19.0.4",
-        "eslint-plugin-eqeqeq-fix": "^1.0.3",
-        "eslint-plugin-import": "^2.29.0",
-        "eslint-plugin-jsx-a11y": "^6.7.1",
-        "eslint-plugin-only-warn": "^1.1.0",
-        "eslint-plugin-react": "^7.33.1",
-        "eslint-plugin-react-hooks": "^4.6.0",
-        "node-sass": "^9.0.0",
-        "prop-types": "^15.8.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-icons": "^4.12.0",
-        "react-scripts": "^5.0.1",
-        "sass": "^1.64.2"
-    },
-    "scripts": {
-        "start": "set PORT=4173 && craco start",
-        "lint": "eslint --fix --ext .js,.jsx src",
-        "build": "craco build",
-        "i18n": "node node_modules/@iobroker/vis-2-widgets-react-dev/searchI18n vis-2-shelly",
-        "update-browsers": "npx browserslist@latest --update-db"
-=======
     "version": "0.0.5",
     "type": "module",
     "dependencies": {
@@ -63,7 +24,6 @@
         "build": "tsc && vite build",
         "translate": "translate-adapter",
         "preview": "vite preview"
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
     },
     "eslintConfig": {
         "extends": "react-app"

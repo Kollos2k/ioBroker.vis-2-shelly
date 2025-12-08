@@ -5,10 +5,6 @@
 		"node": true,
 		"mocha": true
 	},
-<<<<<<< HEAD
-	"extends": ["eslint:recommended"],
-	"plugins": [],
-=======
 	"extends": ["eslint:recommended", "plugin:react/recommended"],
 	"plugins": ["react", "import"],
 	"settings": {
@@ -16,7 +12,6 @@
 			"version": "detect"
 		}
 	},
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 	"rules": {
 		"indent": [
 			"error",
@@ -26,20 +21,9 @@
 			}
 		],
 		"no-console": "off",
-<<<<<<< HEAD
-		"no-unused-vars": [
-			"error",
-			{
-				"ignoreRestSiblings": true,
-				"argsIgnorePattern": "^_"
-			}
-		],
-		"no-var": "error",
-=======
 		"no-unused-vars": "off",
 		"no-var": "error",
 		"no-empty": "off",
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 		"no-trailing-spaces": "error",
 		"prefer-const": "error",
 		"quotes": [
@@ -50,12 +34,6 @@
 				"allowTemplateLiterals": true
 			}
 		],
-<<<<<<< HEAD
-		"semi": ["error", "always"]
-	},
-	"parserOptions": {
-		"ecmaVersion": 2020
-=======
 		"semi": ["error", "always"],
 		"react/react-in-jsx-scope": "off",
 		"import/prefer-default-export": "warn",
@@ -66,6 +44,5 @@
 		"ecmaFeatures": {
 			"jsx": true
 		}
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 	}
 }
