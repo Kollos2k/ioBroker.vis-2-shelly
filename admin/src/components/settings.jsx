@@ -1,20 +1,5 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
-<<<<<<< HEAD
-import TextField from "@mui/material/TextField";
-import Input from "@mui/material/Input";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import I18n from "@iobroker/adapter-react-v5/i18n";
-
-/**
- * @type {() => Record<string, import("@mui/styles/withStyles").CreateCSSProperties>}
- */
-=======
 import {
 	TextField,
 	Input,
@@ -27,7 +12,6 @@ import {
 } from "@mui/material";
 import I18n from "@iobroker/adapter-react/i18n";
 
->>>>>>> 0fcbb07 (Alles in TypeScript geschriben)
 const styles = () => ({
 	input: {
 		marginTop: 0,

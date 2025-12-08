@@ -13,7 +13,6 @@ const config = {
 			name: "vis2ShellyWidget",
 			filename: "customWidgets.js",
 			exposes: {
-				"./TestApp": "./src/TestApp",
 				"./ShellyCustomOverview": "./src/ShellyCustomOverview",
 				"./ShellyAllDevices": "./src/ShellyAllDevices",
 				"./ShellyCustomDeviceList": "./src/ShellyCustomDeviceList",
