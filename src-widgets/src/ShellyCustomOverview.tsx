@@ -3,7 +3,10 @@ import React from "react";
 import "./components/customOverview.css";
 import Generic from "./Generic";
 import type { RxRenderWidgetProps, RxWidgetInfo, VisRxWidgetProps, VisRxWidgetState } from "@iobroker/types-vis-2";
-
+import { basicUpdateSwitch } from "./components/DeviceActions";
+import type { DeviceActionArgument } from "./components/DeviceActions";
+import { switchButton, switchTRVButton } from "./components/DeviceConfig";
+// import { Socket } from "dgram";
 interface StaticRxData {
 	title: string;
 	titleImage: string;
@@ -18,8 +21,10 @@ interface StaticRxData {
 	[key: `subOID${number}`]: string;
 	[key: `subUnit${number}`]: string;
 	[key: `subIcon${number}`]: string;
+	[key: `subAction${number}`]: boolean | "false";
+	[key: `subActionNumberStep${number}`]: number | "1";
 	[key: `subRound${number}`]: "not" | "floor" | "ceil" | "fit";
-	[key: `subRoundDigets${number}`]: number | 1;
+	[key: `subRoundDigets${number}`]: number;
 	[key: `subModifyType${number}`]: "nothing" | "multiplied by" | "divided by";
 	[key: `subModifyFaktor${number}`]: number;
 	[key: `subSeperator${number}`]: string;
@@ -27,20 +32,23 @@ interface StaticRxData {
 	[key: `subAddUnit1_${number}`]: string;
 	[key: `subAddIcon1_${number}`]: string;
 	[key: `subAddRound1_${number}`]: "not" | "floor" | "ceil" | "fit";
-	[key: `subAddRoundDigets1_${number}`]: number | 1;
+	[key: `subAddRoundDigets1_${number}`]: number;
 	[key: `subAddModifyType1_${number}`]: "nothing" | "multiplied by" | "divided by";
 	[key: `subAddModifyFaktor1_${number}`]: number;
 	[key: `subAddOID2_${number}`]: string;
 	[key: `subAddUnit2_${number}`]: string;
 	[key: `subAddIcon2_${number}`]: string;
 	[key: `subAddRound2_${number}`]: "not" | "floor" | "ceil" | "fit";
-	[key: `subAddRoundDigets2_${number}`]: number | 1;
+	[key: `subAddRoundDigets2_${number}`]: number;
 	[key: `subAddModifyType2_${number}`]: "nothing" | "multiplied by" | "divided by";
 	[key: `subAddModifyFaktor2_${number}`]: number;
 	[key: `subHorizontal${number}`]: boolean | "false";
 }
 
-interface StaticState extends VisRxWidgetState {}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface StaticState extends VisRxWidgetState {
+	valueConfig: { [key: string]: any };
+}
 
 class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 	constructor(props: VisRxWidgetProps) {
@@ -75,7 +83,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							label: "overview_valueGroupCount",
 							type: "number",
 							default: 1,
-							onChange: (field, data, changeData, socket, index): Promise<void> => {
+							onChange: (field, data, changeData, _socket, _index): Promise<void> => {
 								changeData(data);
 								return Promise.resolve();
 							},
@@ -143,6 +151,13 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							name: "subIcon",
 							label: "overview_subIcon",
 							type: "image",
+						},
+						{ name: "subAction", label: "overview_subAction", type: "checkbox" },
+						{
+							name: "subActionNumberStep",
+							label: "overview_subActionNStep",
+							type: "number",
+							hidden: '!data["subAction" + index]',
 						},
 						{
 							name: "subRound",
@@ -297,17 +312,39 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 
 	// This function is called every time when rxStyle is changed
 	// eslint-disable-next-line class-methods-use-this
-	async onRxStyleChanged() {}
+	onRxStyleChanged(): void {}
 
 	// This function is called every time when some Object State updated, but all changes lands into this.state.values too
-	// eslint-disable-next-line class-methods-use-this, no-unused-vars
-	onStateUpdated(_id: string, _state: ioBroker.State | null | undefined) {}
+	// eslint-disable-next-line class-methods-use-this
+	async onStateUpdated(_id: string, _state: ioBroker.State | null | undefined): Promise<void> {
+		if (!this.state?.valueConfig?.[_id]) {
+			const obj: any = await this.props.context.socket.getObject(_id);
+			this.setState(
+				(p) => ({ valueConfig: { ...p.valueConfig, [_id]: obj } }),
+				() => {
+					console.error(this.state);
+				},
+			);
+		} else {
+			const common = this.state.valueConfig[_id]?.common;
+			const arg: DeviceActionArgument = {
+				dom: this.state.valueConfig[_id]?.current.current,
+				newVal: _state?.val,
+			};
+			switch (common.type) {
+				case "boolean":
+					basicUpdateSwitch(arg);
+					break;
+			}
+		}
+	}
 
 	renderWidgetBody(props: RxRenderWidgetProps): React.JSX.Element | React.JSX.Element[] | null {
 		super.renderWidgetBody(props);
-		const that = this;
 		const valueGroup: number[] = [];
-		for (let c = 1; c <= this.state.data.valueGroupCount; c++) valueGroup.push(c);
+		for (let c = 1; c <= this.state.data.valueGroupCount; c++) {
+			valueGroup.push(c);
+		}
 		const content = (
 			<div
 				style={{
@@ -362,9 +399,10 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 															`subRoundDigets${i}`,
 															`subModifyType${i}`,
 															`subModifyFaktor${i}`,
+															`subUnit${i}`,
+															`subAction${i}`,
+															i,
 														)}
-														&nbsp;
-														{this.getData(`subUnit${i}`)}
 													</td>
 												</tr>
 												<tr>
@@ -402,9 +440,8 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 																	`subAddRoundDigets1_${i}`,
 																	`subAddModifyType1_${i}`,
 																	`subAddModifyFaktor1_${i}`,
+																	`subAddUnit1_${i}`,
 																)}
-																&nbsp;
-																{this.getData(`subAddUnit1_${i}`)}
 															</div>
 															<div style={{ gridArea: "subValueSpacer" }}>
 																{this.state.data[`subHorizontal${i}`] === true &&
@@ -435,9 +472,8 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 																	`subAddRoundDigets2_${i}`,
 																	`subAddModifyType2_${i}`,
 																	`subAddModifyFaktor2_${i}`,
+																	`subAddUnit2_${i}`,
 																)}
-																&nbsp;
-																{this.getData(`subAddUnit2_${i}`)}
 															</div>
 														</div>
 													</td>
@@ -452,17 +488,10 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 				</div>
 			</div>
 		);
-		return this.wrapContent(content);
+		// return content;
+		return this.wrapContent(content, null, { padding: 0 }, {});
 	}
 
-	/**
-	 *
-	 * @param {string} src
-	 * @param {string} altText
-	 * @param {object} style
-	 * @param {string} className
-	 * @returns
-	 */
 	getImage(src: string, props = {}): React.JSX.Element | React.JSX.Element[] | string {
 		if (src && src.length > 0) {
 			return <img src={this.imageReplacePRJNAME(src)} {...props}></img>;
@@ -472,24 +501,27 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 
 	getSource(name: string): string {
 		name = this.state.data[name];
-		if (typeof name !== "undefined" && name !== null) return name;
+		if (typeof name !== "undefined" && name !== null) {
+			return name;
+		}
 		return "";
 	}
 	getData(name: string, def = ""): string | number | boolean | null {
 		name = this.state.data[name];
-		if (typeof name !== "undefined" && name !== null) return name;
+		if (typeof name !== "undefined" && name !== null) {
+			return name;
+		}
 		return def;
 	}
 	getDataRound(name: string, isRoundName: string, digetsName: string): number | string | null {
-		let value: number = this.state.data[name];
-		let isRound: boolean = this.state.data[isRoundName];
-		let digets: number = this.state.data[digetsName];
+		const value: number = this.state.data[name];
+		const isRound: boolean = this.state.data[isRoundName];
+		const digets: number = this.state.data[digetsName];
 		if (typeof value !== "undefined" && value !== null) {
 			if (typeof isRound !== "undefined" && isRound && typeof digets !== "undefined" && !Number.isNaN(value)) {
 				return Number(value).toFixed(digets);
-			} else {
-				return value;
 			}
+			return value;
 		}
 		return 0;
 	}
@@ -501,41 +533,147 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 		digetsName: string = "",
 		modTypeName: string = "",
 		modFaktorName: string = "",
-	): string | number | null {
+		unit: string = "",
+		actionName: string = "",
+		counter: number = 0,
+	): string | number | boolean | null | React.JSX.Element {
 		oid = this.state.data[oid];
 		if (oid && typeof this.state.values[`${oid}.val`] !== "undefined") {
-			let round: string = this.state.data[roundName];
-			let digets: number = this.state.data[digetsName] || 0;
-			let value: string | number = this.state.values[`${oid}.val`];
-			if (
-				this.state.data[modTypeName] !== "nothing" &&
-				!Number.isNaN(value) &&
-				Number(this.state.data[modFaktorName]) > 0
-			) {
-				value =
-					this.state.data[modTypeName] == "multiplied by"
-						? Number(value) * Number(this.state.data[modFaktorName])
-						: Number(value) / Number(this.state.data[modFaktorName]);
-			}
-			if (
-				typeof round !== "undefined" &&
-				round !== "not" &&
-				typeof digets !== "undefined" &&
-				!Number.isNaN(value) &&
-				digets > 0
-			) {
-				switch (round) {
-					case "floor":
-						value = Math.floor(Number(value) * (digets * 10)) / (digets * 10);
-						break;
-					case "ceil":
-						value = Math.ceil(Number(value) * (digets * 10)) / (digets * 10);
-						break;
+			const round: string = this.state.data[roundName];
+			const digets: number = this.state.data[digetsName] || 0;
+			const action: boolean = this.state.data[actionName] || false;
+			let value: string | number | boolean = this.state.values[`${oid}.val`];
+			if ((action && this.state?.valueConfig?.[oid]) || false) {
+				const common = this.state.valueConfig[oid]?.common;
+				switch (common.type) {
+					case "boolean":
+						this.state.valueConfig[oid].current = React.createRef<HTMLDivElement>();
+						return (
+							<div style={{ position: "relative" }} ref={this.state.valueConfig[oid].current}>
+								{switchButton({
+									style: { width: "30px" },
+									onLoad: (evt: Event) => {
+										const obj = evt.target as HTMLObjectElement;
+										const node = obj.contentDocument?.firstElementChild;
+										obj?.setAttribute("loadValue", "true");
+										if (value) {
+											node?.classList.add("active");
+										}
+									},
+								})}
+								<span
+									onClick={() => {
+										void this.props.context.socket.setState(oid, value ? false : true);
+									}}
+									style={{
+										top: "0px",
+										left: "0px",
+										height: "100%",
+										width: "100%",
+										cursor: "pointer",
+										position: "absolute",
+									}}
+								></span>
+							</div>
+						);
+					case "number":
+						this.state.valueConfig[oid].current = React.createRef<HTMLDivElement>();
+						return (
+							<div style={{ position: "relative" }} ref={this.state.valueConfig[oid].current}>
+								{switchTRVButton({
+									style: { height: "30px" },
+									// onLoad: (evt: Event) => {
+									// 	const obj = evt.target as HTMLObjectElement;
+									// 	const node = obj.contentDocument?.firstElementChild;
+									// 	obj?.setAttribute("loadValue", "true");
+									// 	if (value) {
+									// 		node?.classList.add("active");
+									// 	}
+									// },
+								})}
+								<span
+									style={{
+										position: "absolute",
+										top: "9px",
+										right: "27px",
+										fontSize: "7pt",
+										width: "22px",
+										textAlign: "center",
+										overflow: "hidden",
+									}}
+								>
+									{value}
+								</span>
+								<span
+									onClick={() => {
+										void this.props.context.socket.setState(
+											oid,
+											Number(value) -
+												Number(this.state.data[`subActionNumberStep${counter}`] || 1),
+										);
+									}}
+									style={{
+										top: "0px",
+										right: "48px",
+										height: "100%",
+										width: "30px",
+										cursor: "pointer",
+										position: "absolute",
+									}}
+								></span>
+								<span
+									onClick={() => {
+										void this.props.context.socket.setState(
+											oid,
+											Number(value) +
+												Number(this.state.data[`subActionNumberStep${counter}`] || 1),
+										);
+									}}
+									style={{
+										top: "0px",
+										right: "0px",
+										height: "100%",
+										width: "30px",
+										cursor: "pointer",
+										position: "absolute",
+									}}
+								></span>
+							</div>
+						);
 				}
-				return Number(value).toFixed(digets);
-			} else {
-				return value;
 			}
+			if (typeof value === "boolean") {
+				value = value ? "true" : "false";
+			} else if (!Number.isNaN(value)) {
+				if (
+					this.state.data[modTypeName] !== "nothing" &&
+					!Number.isNaN(value) &&
+					Number(this.state.data[modFaktorName]) > 0
+				) {
+					value =
+						this.state.data[modTypeName] == "multiplied by"
+							? Number(value) * Number(this.state.data[modFaktorName])
+							: Number(value) / Number(this.state.data[modFaktorName]);
+				}
+				if (
+					typeof round !== "undefined" &&
+					round !== "not" &&
+					typeof digets !== "undefined" &&
+					!Number.isNaN(value) &&
+					digets > 0
+				) {
+					switch (round) {
+						case "floor":
+							value = Math.floor(Number(value) * (digets * 10)) / (digets * 10);
+							break;
+						case "ceil":
+							value = Math.ceil(Number(value) * (digets * 10)) / (digets * 10);
+							break;
+					}
+					return Number(value).toFixed(digets);
+				}
+			}
+			return `${value} ${this.getData(unit)}`;
 		}
 		return def;
 	}
@@ -550,7 +688,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 
 	/**
 	 *
-	 * @param {string} src
+	 * @param src description: Setzt einen richtigen Pfad zum Image
 	 * @returns string
 	 */
 	imageReplacePRJNAME(src: string): string {

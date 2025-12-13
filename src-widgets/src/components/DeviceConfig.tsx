@@ -47,90 +47,119 @@ export function isDeviceObject(obj: unknown): obj is DeviceObject {
 	);
 }
 
-const getDeviceConfigByType = async (device: DeviceObject, socket: any): Promise<TypeConfig> => {
-	let typeConfig: TypeConfig = { dataPoint: {}, update: {}, view: {} as TypeConfigView };
-	const switchButton = (
+export function switchButton(props = {}): React.JSX.Element {
+	return (
 		<object
 			name="svgShellyButton"
 			type="image/svg+xml"
 			data="/vis-2/widgets/vis-2-shelly/img/shellySwitchButton.svg"
 			title="Switch"
+			{...props}
 		></object>
 	);
-	const switchTRVButton = (
+}
+export function switchTRVButton(props = {}): React.JSX.Element {
+	return (
 		<object
 			name="svgShellyTRVButton"
 			type="image/svg+xml"
 			data="/vis-2/widgets/vis-2-shelly/img/shellyTRVButton.svg"
 			style={{ margin: "5px", width: "125px" }}
 			title="TRVSwitch"
+			{...props}
 		></object>
 	);
+}
+
+const getDeviceConfigByType = async (device: DeviceObject, socket: any): Promise<TypeConfig> => {
+	const typeConfig: TypeConfig = {
+		domID: device.domID,
+		dataPoint: {},
+		update: {},
+		view: {} as TypeConfigView,
+		dialog: {},
+	};
+	// const switchButton = switchButton();
+	// (
+	// 	<object
+	// 		name="svgShellyButton"
+	// 		type="image/svg+xml"
+	// 		data="/vis-2/widgets/vis-2-shelly/img/shellySwitchButton.svg"
+	// 		title="Switch"
+	// 	></object>,
+	// );
+	// const switchTRVButton = (
+	// 	<object
+	// 		name="svgShellyTRVButton"
+	// 		type="image/svg+xml"
+	// 		data="/vis-2/widgets/vis-2-shelly/img/shellyTRVButton.svg"
+	// 		style={{ margin: "5px", width: "125px" }}
+	// 		title="TRVSwitch"
+	// 	></object>
+	// );
 	switch (device.type) {
 		case "SHDM-2":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					power: {
-						name: "power",
-						unit: "W",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					brightness: {
-						name: "brightness",
-						unit: "%",
-						updateValue: DeviceActions.basicUpdateValueBrightness,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					switch: {
-						name: "switch",
-						updateAck: DeviceActions.basicUpdateSwitchAck,
-						updateValue: DeviceActions.basicUpdateSwitch,
-					},
+			typeConfig.update = {
+				power: {
+					name: "power",
+					unit: "W",
+					updateValue: DeviceActions.basicUpdateValueUnit,
 				},
-				view: {
-					info: {
-						power: { name: "power", class: "icon", html: "" },
-						brightness: { name: "brightness", class: "icon", html: "" },
-					},
-					action: {
-						switch: {
-							name: "switch",
-							style: { width: "70px" },
-							class: "",
-							html: switchButton,
-						},
-					},
+				brightness: {
+					name: "brightness",
+					unit: "%",
+					updateValue: DeviceActions.basicUpdateValueBrightness,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				switch: {
+					name: "switch",
+					updateAck: DeviceActions.basicUpdateSwitchAck,
+					updateValue: DeviceActions.basicUpdateSwitch,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					power: { name: "power", class: "icon", html: "" },
+					brightness: { name: "brightness", class: "icon", html: "" },
 				},
 				action: {
 					switch: {
 						name: "switch",
-						x: "0px",
-						y: "0px",
-						w: "100%",
-						h: "100%",
-						dataPoint: "switch",
-						click: DeviceActions.basicActionBooleanToggle,
+						style: { width: "70px" },
+						class: "",
+						html: switchButton(),
 					},
 				},
-				dataPoint: {
-					0: {
-						power: `${device.stateId}.lights.Power`,
-						switch: `${device.stateId}.lights.Switch`,
-						brightness: `${device.stateId}.lights.brightness`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
+			};
+			typeConfig.action = {
+				switch: {
+					name: "switch",
+					x: "0px",
+					y: "0px",
+					w: "100%",
+					h: "100%",
+					dataPoint: "switch",
+					click: DeviceActions.basicActionBooleanToggle,
 				},
-				dialog: {
+			};
+			((typeConfig.dataPoint = {
+				0: {
+					power: `${device.stateId}.lights.Power`,
+					switch: `${device.stateId}.lights.Switch`,
+					brightness: `${device.stateId}.lights.brightness`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
+				},
+			}),
+				(typeConfig.dialog = {
 					tabs: [
 						{
 							name: "main",
@@ -142,560 +171,524 @@ const getDeviceConfigByType = async (device: DeviceObject, socket: any): Promise
 							},
 						},
 					],
-				},
-			};
+				}));
 			break;
 		case "SHPLG-S":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					power: {
-						name: "power",
-						unit: "W",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					switch: {
-						name: "switch",
-						updateAck: DeviceActions.basicUpdateSwitchAck,
-						updateValue: DeviceActions.basicUpdateSwitch,
-					},
+			typeConfig.update = {
+				power: {
+					name: "power",
+					unit: "W",
+					updateValue: DeviceActions.basicUpdateValueUnit,
 				},
-				view: {
-					info: { power: { name: "power", class: "icon", html: "" } },
-					action: {
-						switch: {
-							name: "switch",
-							style: { width: "70px" },
-							class: "",
-							html: switchButton,
-						},
-					},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
 				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				switch: {
+					name: "switch",
+					updateAck: DeviceActions.basicUpdateSwitchAck,
+					updateValue: DeviceActions.basicUpdateSwitch,
+				},
+			};
+			typeConfig.view = {
+				info: { power: { name: "power", class: "icon", html: "" } },
 				action: {
 					switch: {
 						name: "switch",
-						x: "0px",
-						y: "0px",
-						w: "100%",
-						h: "100%",
-						dataPoint: "switch",
-						click: DeviceActions.basicActionBooleanToggle,
+						style: { width: "70px" },
+						class: "",
+						html: switchButton(),
 					},
 				},
-				dataPoint: {
-					0: {
-						power: `${device.stateId}.Relay0.Power`,
-						switch: `${device.stateId}.Relay0.Switch`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
+			};
+			typeConfig.action = {
+				switch: {
+					name: "switch",
+					x: "0px",
+					y: "0px",
+					w: "100%",
+					h: "100%",
+					dataPoint: "switch",
+					click: DeviceActions.basicActionBooleanToggle,
 				},
-				dialog: {},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					power: `${device.stateId}.Relay0.Power`,
+					switch: `${device.stateId}.Relay0.Switch`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
+				},
 			};
 			break;
 		case "shellyplus1pm":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					power: {
-						name: "power",
-						unit: "W",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					voltage: {
-						name: "voltage",
-						unit: "V",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					switch: {
-						name: "switch",
-						updateAck: DeviceActions.basicUpdateSwitchAck,
-						updateValue: DeviceActions.basicUpdateSwitch,
-					},
+			typeConfig.update = {
+				power: {
+					name: "power",
+					unit: "W",
+					updateValue: DeviceActions.basicUpdateValueUnit,
 				},
-				view: {
-					info: {
-						power: { name: "power", class: "icon", html: "" },
-						voltage: { name: "voltage", class: "icon", html: "" },
-					},
-					action: {
-						switch: {
-							name: "switch",
-							style: { width: "70px" },
-							class: "",
-							html: switchButton,
-						},
-					},
+				voltage: {
+					name: "voltage",
+					unit: "V",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				switch: {
+					name: "switch",
+					updateAck: DeviceActions.basicUpdateSwitchAck,
+					updateValue: DeviceActions.basicUpdateSwitch,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					power: { name: "power", class: "icon", html: "" },
+					voltage: { name: "voltage", class: "icon", html: "" },
 				},
 				action: {
 					switch: {
 						name: "switch",
-						x: "0px",
-						y: "0px",
-						w: "100%",
-						h: "100%",
-						dataPoint: "switch",
-						click: DeviceActions.basicActionBooleanToggle,
+						style: { width: "70px" },
+						class: "",
+						html: switchButton(),
 					},
 				},
-				dataPoint: {
-					0: {
-						power: `${device.stateId}.Relay0.Power`,
-						switch: `${device.stateId}.Relay0.Switch`,
-						voltage: `${device.stateId}.Relay0.Voltage`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
+			};
+			typeConfig.action = {
+				switch: {
+					name: "switch",
+					x: "0px",
+					y: "0px",
+					w: "100%",
+					h: "100%",
+					dataPoint: "switch",
+					click: DeviceActions.basicActionBooleanToggle,
 				},
-				dialog: {},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					power: `${device.stateId}.Relay0.Power`,
+					switch: `${device.stateId}.Relay0.Switch`,
+					voltage: `${device.stateId}.Relay0.Voltage`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
+				},
 			};
 			break;
 		case "shellyplusplugs":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					power: {
-						name: "power",
-						unit: "W",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					voltage: {
-						name: "voltage",
-						unit: "V",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					switch: {
-						name: "switch",
-						updateAck: DeviceActions.basicUpdateSwitchAck,
-						updateValue: DeviceActions.basicUpdateSwitch,
-					},
+			typeConfig.update = {
+				power: {
+					name: "power",
+					unit: "W",
+					updateValue: DeviceActions.basicUpdateValueUnit,
 				},
-				view: {
-					info: {
-						power: { name: "power", class: "icon", html: "" },
-						voltage: { name: "voltage", class: "icon", html: "" },
-					},
-					action: {
-						switch: {
-							name: "switch",
-							style: { width: "70px" },
-							class: "",
-							html: switchButton,
-						},
-					},
+				voltage: {
+					name: "voltage",
+					unit: "V",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				switch: {
+					name: "switch",
+					updateAck: DeviceActions.basicUpdateSwitchAck,
+					updateValue: DeviceActions.basicUpdateSwitch,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					power: { name: "power", class: "icon", html: "" },
+					voltage: { name: "voltage", class: "icon", html: "" },
 				},
 				action: {
 					switch: {
 						name: "switch",
-						x: "0px",
-						y: "0px",
-						w: "100%",
-						h: "100%",
-						dataPoint: "switch",
-						click: DeviceActions.basicActionBooleanToggle,
+						style: { width: "70px" },
+						class: "",
+						html: switchButton(),
 					},
 				},
-				dataPoint: {
-					0: {
-						power: `${device.stateId}.Relay0.Power`,
-						switch: `${device.stateId}.Relay0.Switch`,
-						voltage: `${device.stateId}.Relay0.Voltage`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
+			};
+			typeConfig.action = {
+				switch: {
+					name: "switch",
+					x: "0px",
+					y: "0px",
+					w: "100%",
+					h: "100%",
+					dataPoint: "switch",
+					click: DeviceActions.basicActionBooleanToggle,
 				},
-				dialog: {},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					power: `${device.stateId}.Relay0.Power`,
+					switch: `${device.stateId}.Relay0.Switch`,
+					voltage: `${device.stateId}.Relay0.Voltage`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
+				},
 			};
 			break;
 		case "shellyplus2pm":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					power: {
-						name: "power",
-						unit: "W",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					voltage: {
-						name: "voltage",
-						unit: "V",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					switch: {
-						name: "switch",
-						updateAck: DeviceActions.basicUpdateSwitchAck,
-						updateValue: DeviceActions.basicUpdateSwitch,
-					},
+			typeConfig.update = {
+				power: {
+					name: "power",
+					unit: "W",
+					updateValue: DeviceActions.basicUpdateValueUnit,
 				},
-				view: {
-					info: {
-						power: { name: "power", class: "icon", html: "" },
-						voltage: { name: "voltage", class: "icon", html: "" },
-					},
-					action: {
-						switch: {
-							name: "switch",
-							style: { width: "70px" },
-							class: "",
-							html: switchButton,
-						},
-					},
+				voltage: {
+					name: "voltage",
+					unit: "V",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				switch: {
+					name: "switch",
+					updateAck: DeviceActions.basicUpdateSwitchAck,
+					updateValue: DeviceActions.basicUpdateSwitch,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					power: { name: "power", class: "icon", html: "" },
+					voltage: { name: "voltage", class: "icon", html: "" },
 				},
 				action: {
 					switch: {
 						name: "switch",
-						x: "0px",
-						y: "0px",
-						w: "100%",
-						h: "100%",
-						dataPoint: "switch",
-						click: DeviceActions.basicActionBooleanToggle,
+						style: { width: "70px" },
+						class: "",
+						html: switchButton(),
 					},
 				},
-				dataPoint: {
-					0: {
-						power: `${device.stateId}.Relay0.Power`,
-						switch: `${device.stateId}.Relay0.Switch`,
-						voltage: `${device.stateId}.Relay0.Voltage`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
-					1: {
-						power: `${device.stateId}.Relay1.Power`,
-						switch: `${device.stateId}.Relay1.Switch`,
-						voltage: `${device.stateId}.Relay1.Voltage`,
-						name: `${device.vsID}.1.name`,
-						room: `${device.vsID}.1.room`,
-						deviceID: device.id,
-					},
+			};
+			typeConfig.action = {
+				switch: {
+					name: "switch",
+					x: "0px",
+					y: "0px",
+					w: "100%",
+					h: "100%",
+					dataPoint: "switch",
+					click: DeviceActions.basicActionBooleanToggle,
 				},
-				dialog: {},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					power: `${device.stateId}.Relay0.Power`,
+					switch: `${device.stateId}.Relay0.Switch`,
+					voltage: `${device.stateId}.Relay0.Voltage`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
+				},
+				1: {
+					power: `${device.stateId}.Relay1.Power`,
+					switch: `${device.stateId}.Relay1.Switch`,
+					voltage: `${device.stateId}.Relay1.Voltage`,
+					name: `${device.vsID}.1.name`,
+					room: `${device.vsID}.1.room`,
+					deviceID: device.id,
+				},
 			};
 			break;
 		case "shellyplusht":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					humidity: {
-						name: "humidity",
-						unit: "%",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					batteryPercent: {
-						name: "devicePower",
-						viewPoint: "devicePower",
-						updateValue: DeviceActions.basicUpdateDevicePower,
-					},
-					externalPower: {
-						name: "devicePower",
-						viewPoint: "devicePower",
-						updateValue: DeviceActions.basicUpdateDevicePower,
-					},
+			typeConfig.update = {
+				humidity: {
+					name: "humidity",
+					unit: "%",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				batteryPercent: {
+					name: "devicePower",
+					viewPoint: "devicePower",
+					updateValue: DeviceActions.basicUpdateDevicePower,
+				},
+				externalPower: {
+					name: "devicePower",
+					viewPoint: "devicePower",
+					updateValue: DeviceActions.basicUpdateDevicePower,
+				},
+				temperature: {
+					name: "temperature",
+					unit: "°C",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					humidity: { name: "humidity", class: "icon", html: "" },
+					externalPower: { name: "devicePower", class: "icon", html: "" },
+				},
+				action: {
 					temperature: {
 						name: "temperature",
-						unit: "°C",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
+						style: { width: "70px" },
+						class: "temperature",
+						html: "",
 					},
 				},
-				view: {
-					info: {
-						humidity: { name: "humidity", class: "icon", html: "" },
-						externalPower: { name: "devicePower", class: "icon", html: "" },
-					},
-					action: {
-						temperature: {
-							name: "temperature",
-							style: { width: "70px" },
-							class: "temperature",
-							html: "",
-						},
-					},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					temperature: `${device.stateId}.Temperature0.Celsius`,
+					humidity: `${device.stateId}.Humidity0.Relative`,
+					externalPower: `${device.stateId}.DevicePower0.ExternalPower`,
+					batteryPercent: `${device.stateId}.DevicePower0.BatteryPercent`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
 				},
-				dataPoint: {
-					0: {
-						temperature: `${device.stateId}.Temperature0.Celsius`,
-						humidity: `${device.stateId}.Humidity0.Relative`,
-						externalPower: `${device.stateId}.DevicePower0.ExternalPower`,
-						batteryPercent: `${device.stateId}.DevicePower0.BatteryPercent`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
-				},
-				action: {},
-				dialog: {},
 			};
 			break;
 		case "SHTRV-01":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					valvePosition: {
-						name: "valvePosition",
-						unit: "%",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					batteryPercent: {
-						name: "devicePower",
-						viewPoint: "devicePower",
-						updateValue: DeviceActions.basicUpdateDevicePower,
-					},
-					externalPower: {
-						name: "devicePower",
-						viewPoint: "devicePower",
-						updateValue: DeviceActions.basicUpdateDevicePower,
-					},
-					temperature: {
-						name: "temperature",
-						unit: "°C",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					temperatureTarget: {
-						name: "temperatureTarget",
-						unit: "°C",
-						updateAck: DeviceActions.basicUpdateTRVAck,
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
+			typeConfig.update = {
+				valvePosition: {
+					name: "valvePosition",
+					unit: "%",
+					updateValue: DeviceActions.basicUpdateValueUnit,
 				},
-				view: {
-					info: {
-						temperature: { name: "temperature", class: "icon", html: "" },
-						valvePosition: { name: "valvePosition", class: "icon", html: "" },
-						devicePower: { name: "devicePower", class: "icon", html: "" },
-					},
-					action: {
-						temperatureTarget: {
-							name: "temperatureTarget",
-							style: {},
-							class: "TRVValue",
-							html: "",
-						},
-						buttons: {
-							name: "buttons",
-							style: { width: "135px" },
-							class: "TRVButton",
-							html: switchTRVButton,
-						},
-					},
+				batteryPercent: {
+					name: "devicePower",
+					viewPoint: "devicePower",
+					updateValue: DeviceActions.basicUpdateDevicePower,
+				},
+				externalPower: {
+					name: "devicePower",
+					viewPoint: "devicePower",
+					updateValue: DeviceActions.basicUpdateDevicePower,
+				},
+				temperature: {
+					name: "temperature",
+					unit: "°C",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				temperatureTarget: {
+					name: "temperatureTarget",
+					unit: "°C",
+					updateAck: DeviceActions.basicUpdateTRVAck,
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					temperature: { name: "temperature", class: "icon", html: "" },
+					valvePosition: { name: "valvePosition", class: "icon", html: "" },
+					devicePower: { name: "devicePower", class: "icon", html: "" },
 				},
 				action: {
-					down: {
-						name: "buttons",
-						x: "5px",
-						y: "5px",
-						w: "45px",
-						h: "50px",
-						minValue: 15,
-						maxValue: 30,
-						step: -0.5,
-						dataPoint: "temperatureTarget",
-						click: DeviceActions.basicActionNumberStepper,
+					temperatureTarget: {
+						name: "temperatureTarget",
+						style: {},
+						class: "TRVValue",
+						html: "",
 					},
-					up: {
+					buttons: {
 						name: "buttons",
-						x: "85px",
-						y: "5px",
-						w: "45px",
-						h: "50px",
-						minValue: 15,
-						maxValue: 30,
-						step: +0.5,
-						dataPoint: "temperatureTarget",
-						onClick: {
-							find: "[name='svgShellyTRVButton']",
-							contentDocument: true,
-							className: "animatedAction",
-						},
-						click: DeviceActions.basicActionNumberStepper,
+						style: { width: "135px" },
+						class: "TRVButton",
+						html: switchTRVButton(),
 					},
 				},
-				dataPoint: {
-					0: {
-						temperature: `${device.stateId}.tmp.temperatureC`,
-						temperatureTarget: `${device.stateId}.tmp.temperatureTargetC`,
-						valvePosition: `${device.stateId}.tmp.valvePosition`,
-						externalPower: `${device.stateId}.bat.charger`,
-						batteryPercent: `${device.stateId}.bat.value`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
+			};
+			typeConfig.action = {
+				down: {
+					name: "buttons",
+					x: "5px",
+					y: "5px",
+					w: "45px",
+					h: "50px",
+					minValue: 15,
+					maxValue: 30,
+					step: -0.5,
+					dataPoint: "temperatureTarget",
+					click: DeviceActions.basicActionNumberStepper,
 				},
-				dialog: {},
+				up: {
+					name: "buttons",
+					x: "85px",
+					y: "5px",
+					w: "45px",
+					h: "50px",
+					minValue: 15,
+					maxValue: 30,
+					step: +0.5,
+					dataPoint: "temperatureTarget",
+					onClick: {
+						find: "[name='svgShellyTRVButton']",
+						contentDocument: true,
+						className: "animatedAction",
+					},
+					click: DeviceActions.basicActionNumberStepper,
+				},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					temperature: `${device.stateId}.tmp.temperatureC`,
+					temperatureTarget: `${device.stateId}.tmp.temperatureTargetC`,
+					valvePosition: `${device.stateId}.tmp.valvePosition`,
+					externalPower: `${device.stateId}.bat.charger`,
+					batteryPercent: `${device.stateId}.bat.value`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
+				},
 			};
 			break;
 		case "SHMOS-02":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					lux: {
-						name: "lux",
-						unit: "Lux",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					batteryPercent: {
-						name: "devicePower",
-						unit: "%",
-						viewPoint: "devicePower",
-						updateValue: DeviceActions.basicUpdateDevicePower,
-					},
+			typeConfig.update = {
+				lux: {
+					name: "lux",
+					unit: "Lux",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				batteryPercent: {
+					name: "devicePower",
+					unit: "%",
+					viewPoint: "devicePower",
+					updateValue: DeviceActions.basicUpdateDevicePower,
+				},
+				motion: {
+					name: "motion",
+					updateValue: DeviceActions.basicUpdateMotionValue,
+				},
+				temperature: {
+					name: "temperature",
+					unit: "°C",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+				oname: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					temperature: { name: "temperature", class: "icon", html: "" },
+					batteryPercent: { name: "devicePower", class: "icon", html: "" },
+					lux: { name: "lux", class: "icon", html: "" },
+				},
+				action: {
 					motion: {
 						name: "motion",
-						updateValue: DeviceActions.basicUpdateMotionValue,
-					},
-					temperature: {
-						name: "temperature",
-						unit: "°C",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
-					},
-					oname: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
+						style: { width: "70px" },
+						class: "",
+						html: "",
 					},
 				},
-				view: {
-					info: {
-						temperature: { name: "temperature", class: "icon", html: "" },
-						batteryPercent: { name: "devicePower", class: "icon", html: "" },
-						lux: { name: "lux", class: "icon", html: "" },
-					},
-					action: {
-						motion: {
-							name: "motion",
-							style: { width: "70px" },
-							class: "",
-							html: "",
-						},
-					},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					temperature: `${device.stateId}.sensor.temperatureC`,
+					motion: `${device.stateId}.sensor.motion`,
+					lux: `${device.stateId}.sensor.lux`,
+					batteryPercent: `${device.stateId}.sensor.battery`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
 				},
-				dataPoint: {
-					0: {
-						temperature: `${device.stateId}.sensor.temperatureC`,
-						motion: `${device.stateId}.sensor.motion`,
-						lux: `${device.stateId}.sensor.lux`,
-						batteryPercent: `${device.stateId}.sensor.battery`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
-				},
-				action: {},
-				dialog: {},
 			};
 			break;
 		case "SHDW-2":
-			typeConfig = {
-				domID: device.domID,
-				update: {
-					lux: {
-						name: "lux",
-						unit: "Lux",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					batteryPercent: {
-						name: "devicePower",
-						unit: "%",
-						viewPoint: "devicePower",
-						updateValue: DeviceActions.basicUpdateDevicePower,
-					},
+			typeConfig.update = {
+				lux: {
+					name: "lux",
+					unit: "Lux",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				batteryPercent: {
+					name: "devicePower",
+					unit: "%",
+					viewPoint: "devicePower",
+					updateValue: DeviceActions.basicUpdateDevicePower,
+				},
+				door: {
+					name: "door",
+					updateValue: DeviceActions.basicUpdateValue,
+				},
+				temperature: {
+					name: "temperature",
+					unit: "°C",
+					updateValue: DeviceActions.basicUpdateValueUnit,
+				},
+				name: {
+					name: "name",
+					updateValue: DeviceActions.basicUpdateValueName,
+				},
+			};
+			typeConfig.view = {
+				info: {
+					temperature: { name: "temperature", class: "icon", html: "" },
+					batteryPercent: { name: "devicePower", class: "icon", html: "" },
+					lux: { name: "lux", class: "icon", html: "" },
+				},
+				action: {
 					door: {
 						name: "door",
-						updateValue: DeviceActions.basicUpdateValue,
-					},
-					temperature: {
-						name: "temperature",
-						unit: "°C",
-						updateValue: DeviceActions.basicUpdateValueUnit,
-					},
-					name: {
-						name: "name",
-						updateValue: DeviceActions.basicUpdateValueName,
+						style: { width: "70px" },
+						class: "darkBack",
+						html: "",
 					},
 				},
-				view: {
-					info: {
-						temperature: { name: "temperature", class: "icon", html: "" },
-						batteryPercent: { name: "devicePower", class: "icon", html: "" },
-						lux: { name: "lux", class: "icon", html: "" },
-					},
-					action: {
-						door: {
-							name: "door",
-							style: { width: "70px" },
-							class: "darkBack",
-							html: "",
-						},
-					},
+			};
+			typeConfig.dataPoint = {
+				0: {
+					temperature: `${device.stateId}.sensor.temperatureC`,
+					door: `${device.stateId}.sensor.door`,
+					lux: `${device.stateId}.sensor.lux`,
+					batteryPercent: `${device.stateId}.sensor.battery`,
+					name: `${device.vsID}.0.name`,
+					room: `${device.vsID}.0.room`,
+					deviceID: device.id,
 				},
-				dataPoint: {
-					0: {
-						temperature: `${device.stateId}.sensor.temperatureC`,
-						door: `${device.stateId}.sensor.door`,
-						lux: `${device.stateId}.sensor.lux`,
-						batteryPercent: `${device.stateId}.sensor.battery`,
-						name: `${device.vsID}.0.name`,
-						room: `${device.vsID}.0.room`,
-						deviceID: device.id,
-					},
-				},
-				action: {},
-				dialog: {},
 			};
 			break;
 		default:

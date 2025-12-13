@@ -3,11 +3,11 @@ const getObjectOrUndefined = (value: any): object | undefined => (isObject(value
 export interface DeviceActionArgument {
 	dom: any;
 	newVal: any;
-	config: { [key: string]: any };
-	socket: any;
-	dataPoint: { [key: string]: any };
-	state: any;
-	action: { [key: string]: any };
+	config?: { [key: string]: any };
+	socket?: any;
+	dataPoint?: { [key: string]: any };
+	state?: any;
+	action?: { [key: string]: any };
 	newAck?: boolean;
 }
 export const basicUpdateValue = (arg: DeviceActionArgument): void => {
@@ -28,18 +28,27 @@ export const basicUpdateValueName = (arg: DeviceActionArgument): void => {
 	arg.dom.innerHTML = arg.newVal;
 };
 export const basicUpdateValueUnit = (arg: DeviceActionArgument): void => {
+	if (!arg.config) {
+		return;
+	}
 	arg.dom.innerHTML = `${arg.newVal} ${arg.config.unit}`;
 };
 export const basicUpdateValueBrightness = (arg: DeviceActionArgument): void => {
+	if (!arg.config) {
+		return;
+	}
 	arg.dom.innerHTML = `${arg.newVal} ${arg.config.unit}`;
 };
 export const basicUpdateDevicePower = (arg: DeviceActionArgument): void => {
+	if (!arg.state || !arg.dataPoint) {
+		return;
+	}
 	let exP: { [key: string]: any } | undefined;
 	let percent: { [key: string]: any } | undefined;
 	Object.entries(arg.state).map(([k, v]) => {
-		if (typeof arg.dataPoint.externalPower !== "undefined" && arg.dataPoint.externalPower === k) {
+		if (typeof arg.dataPoint?.externalPower !== "undefined" && arg.dataPoint.externalPower === k) {
 			exP = getObjectOrUndefined(v);
-		} else if (typeof arg.dataPoint.batteryPercent !== "undefined" && arg.dataPoint.batteryPercent === k) {
+		} else if (typeof arg.dataPoint?.batteryPercent !== "undefined" && arg.dataPoint.batteryPercent === k) {
 			percent = getObjectOrUndefined(v);
 		}
 	});
@@ -129,7 +138,10 @@ export const basicUpdateSwitch = (arg: DeviceActionArgument): void => {
 	}
 };
 export const basicActionNumberStepper = (arg: DeviceActionArgument): boolean => {
-	const stateID = arg.dataPoint[arg.action.dataPoint];
+	if (!arg.state || !arg.dataPoint || !arg.action) {
+		return false;
+	}
+	const stateID = arg.dataPoint?.[arg.action.dataPoint];
 	if (typeof stateID === "undefined") {
 		return false;
 	}
@@ -151,6 +163,9 @@ export const basicActionNumberStepper = (arg: DeviceActionArgument): boolean => 
 	return true;
 };
 export const basicActionBooleanToggle = (arg: DeviceActionArgument): boolean => {
+	if (!arg.state || !arg.dataPoint || !arg.action) {
+		return false;
+	}
 	const stateID = arg.dataPoint[arg.action.dataPoint];
 	if (typeof stateID === "undefined") {
 		return false;

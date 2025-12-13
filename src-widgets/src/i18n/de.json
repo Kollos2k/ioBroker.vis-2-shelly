@@ -17,6 +17,8 @@
 	"overview_subOID": "Value ID",
 	"overview_subUnit": "Value unit",
 	"overview_subIcon": "Value icon",
+	"overview_subAction": "Auslöser aktivieren",
+	"overview_subActionNStep": "Step für Number",
 	"overview_subSeperator": "Value seperator",
 	"overview_subAddOID1": "SubValue 1 ID",
 	"overview_subAddUnit1": "SubValue 1 unit",

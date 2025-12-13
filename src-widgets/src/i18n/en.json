@@ -17,6 +17,8 @@
 	"overview_subOID": "Value ID",
 	"overview_subUnit": "Value unit",
 	"overview_subIcon": "Value icon",
+	"overview_subAction": "Enable action",
+	"overview_subActionNStep": "Step for Number Action",
 	"overview_subRound": "Round",
 	"overview_subRoundDigets": "Round digets",
 	"overview_subModify": "change unit",

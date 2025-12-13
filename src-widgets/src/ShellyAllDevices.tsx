@@ -1,5 +1,4 @@
 import React from "react";
-import { Card, CardContent } from "@mui/material";
 
 import Device from "./components/Device";
 // import getDeviceConfigByType from "./components/DeviceConfig";
@@ -30,25 +29,6 @@ class ShellyAllDevices extends Generic<StaticRxData, StaticState> {
 		ShellyIDController.registerCallback(this.props.context.socket, () => {
 			void this.updateDeviceList();
 		});
-		// console.debug("THIS");
-		// console.debug(this);
-		// this.refParent = React.createRef();
-
-		// socket: this.socket, CHANGED TO THIS:PROPS
-		// this.widgetProps = getProps(
-		// 	{
-		// 		socket: this.props.context.socket,
-		// 		theme: this.state.theme,
-		// 		refParent: this.refParent,
-		// 	},
-		// 	{
-		// 		type: "all",
-		// 	},
-		// 	{
-		// 		width: 600,
-		// 		height: 200,
-		// 	},
-		// );
 	}
 
 	static getWidgetInfo(): RxWidgetInfo {
@@ -86,13 +66,6 @@ class ShellyAllDevices extends Generic<StaticRxData, StaticState> {
 		Object.values(allDevices).forEach((dev) => {
 			deviceList.push(dev);
 		});
-		// for (let count = 1; count <= this.state.data.count; count++) {
-		// 	const devID: any = this.state.data[`device${count}`];
-		// 	const device: DeviceObject | undefined = await ShellyIDController.getDeviceByID(devID);
-		// 	if (device !== undefined) {
-		// 		deviceList.push(device);
-		// 	}
-		// }
 		this.setState({ deviceList: deviceList }, () => {
 			this.forceUpdate();
 		});
@@ -108,30 +81,6 @@ class ShellyAllDevices extends Generic<StaticRxData, StaticState> {
 		// 3. this.state.rxStyle - contains all widget styles with replaced bindings. E.g. if this.state.styles.width is `{javascript.0.width}px`,
 		//                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
 	}
-
-	// async updateTypeConfig(devices) {
-	// 	this.state.typeConfig = {};
-	// 	for (const key in devices) {
-	// 		const device = devices[key];
-	// 		this.vsID = `vis-2-shelly.${device.instance}.devices.${device.id}`;
-	// 		this.domID = device.id.replaceAll("#", "");
-
-	// 		// console.log(key);
-	// 		devices[key].typeConfig = await getDeviceConfigByType(
-	// 			device.type,
-	// 			this.domID,
-	// 			{
-	// 				stateID: device.stateId,
-	// 				type: device.type,
-	// 				id: device.id,
-	// 				socket: this.props.context.socket,
-	// 			},
-	// 			this.vsID,
-	// 		);
-	// 	}
-	// 	this.state.allDevices = devices;
-	// 	this.setState({ allDevices: devices });
-	// }
 
 	componentDidMount(): void {
 		super.componentDidMount();
