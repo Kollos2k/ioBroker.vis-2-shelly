@@ -674,7 +674,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							value = Math.ceil(Number(value) * (digets * 10)) / (digets * 10);
 							break;
 					}
-					return Number(value).toFixed(digets);
+					return `${Number(value).toFixed(digets)} ${this.getData(unit)}`;
 				}
 			}
 			return `${value} ${this.getData(unit)}`;
