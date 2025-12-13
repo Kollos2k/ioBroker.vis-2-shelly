@@ -606,11 +606,13 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 								</span>
 								<span
 									onClick={() => {
-										void this.props.context.socket.setState(
-											oid,
+										let newVal =
 											Number(value) -
-												Number(this.state.data[`subActionNumberStep${counter}`] || 1),
-										);
+											Number(this.state.data[`subActionNumberStep${counter}`] || 1);
+										if (common.min !== undefined && common.min > newVal) {
+											newVal = common.min;
+										}
+										void this.props.context.socket.setState(oid, newVal);
 									}}
 									style={{
 										top: "0px",
@@ -623,11 +625,13 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 								></span>
 								<span
 									onClick={() => {
-										void this.props.context.socket.setState(
-											oid,
+										let newVal =
 											Number(value) +
-												Number(this.state.data[`subActionNumberStep${counter}`] || 1),
-										);
+											Number(this.state.data[`subActionNumberStep${counter}`] || 1);
+										if (common.max !== undefined && common.max < newVal) {
+											newVal = common.max;
+										}
+										void this.props.context.socket.setState(oid, newVal);
 									}}
 									style={{
 										top: "0px",
