@@ -1,4 +1,3 @@
-import React from "react";
 import type { DeviceObject } from "./types";
 
 export function isDeviceObject(obj: unknown): obj is DeviceObject {

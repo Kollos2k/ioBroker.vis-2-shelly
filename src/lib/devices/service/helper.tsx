@@ -1,5 +1,4 @@
 import React from "react";
-import type { DeviceObject } from "./types";
 const imgFolder = "/vis-2/widgets/vis-2-shelly/img";
 
 export function switchButtonElement(props = {}): React.JSX.Element {

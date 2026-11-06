@@ -42,6 +42,7 @@ class Vis2Shelly extends utils.Adapter {
 			this.log.info("cleaned everything up...");
 			callback();
 		} catch (e) {
+			this.log.error("error cleaning up: " + e);
 			callback();
 		}
 	}
@@ -149,7 +150,7 @@ class Vis2Shelly extends utils.Adapter {
 			try {
 				await this.setStateAsync("info.connection", true, true);
 			} catch (e) {
-				// ignore
+				console.error("Fehler beim Setzen von info.connection: " + e);
 			}
 
 			if (this.killTimer) {
