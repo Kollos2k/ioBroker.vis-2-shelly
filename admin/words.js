@@ -1,4 +1,5 @@
-/* eslint no-unused-vars: off */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint no-global-assign: off */
 /* global systemDictionary */
 "use strict";

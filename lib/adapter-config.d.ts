@@ -11,6 +11,7 @@ declare global {
 	namespace ioBroker {
 		interface AdapterConfig extends _AdapterConfig {
 			// Do not enter anything here!
+			dummy?: boolean;
 		}
 	}
 }
