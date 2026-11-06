@@ -1,153 +1,169 @@
 {
-	"common": {
-		"name": "vis-2-shelly",
-		"version": "0.0.5",
-		"news": {
-			"0.0.6": {
-				"de": "Alles mit AI überarbeitet und für die Zukunft vorbereitet",
-				"en": "Everything revised with AI and prepared for the future"
-			},
-			"0.0.5": { "en": "Now in Typescript", "de": "In Typescript geändert" },
-			"0.0.4": {
-				"en": "New Device \"Shelly Door/Window 2\"\nConfig is now editable (see <a href=\"doc/ModifyDeviceConfig.md\">Modify device config</a>)\nFixed some bugs\nUpdatet sourcecode by community rules",
-				"de": "Neues Gerät \"Schale Tür/Fenster 2\"\nConfig ist jetzt editierbar (siehe <a href=\"doc/ModifyDeviceConfig.md\">Modify device config</a>)\nEinige Fehler behoben\nAktualisieren von Quellcode durch Gemeinschaftsregeln"
-			},
-			"0.0.3": {
-				"en": "Add Dialog support for Devices (Change Brightness, view History,....)\nAdd Main Dialog for SHDM-2",
-				"de": "Hinzufügen von Dialog-Unterstützung für Geräte (Helligkeit ändern, Ansicht Geschichte,....)\nHauptdialog für SHDM-2 hinzufügen"
-			},
-			"0.0.2": {
-				"en": "initial release\nUpdate VIS-Shelly to VIS-2-Shelly (React)\nAdd AllDevices Widget\nAdd RoomDevices Widget\nAdd CustomDeviceList Widget\nAdd CustomOverview Widget\nRebuild main.js",
-				"de": "erstausstrahlung\nUpdate VIS-Shelly auf VIS-2-Shelly (React)\nAlleGeräte Widget hinzufügen\nZimmerausstattung Widget hinzufügen\nFügen Sie CustomDeviceList Widget hinzu\nHinzufügen von CustomOverview Widget\nRebuild main.js"
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung"
-			}
-		},
-		"titleLang": {
-			"en": "VIS 2 Shelly",
-			"de": "Vis 2 Shelly",
-			"ru": "Вис 2 Шелли",
-			"pt": "Vis 2 Shelly",
-			"nl": "Vis 2 Shelly",
-			"fr": "Vis 2 Shelly",
-			"it": "Vis 2 Shelly",
-			"es": "Vis 2 Shelly",
-			"pl": "Vis 2 Shelly",
-			"uk": "Vis 2 Shelly",
-			"zh-cn": "VIS 2雪莉"
-		},
-		"desc": {
-			"en": "A widget to display Shelly devices in vis-2",
-			"de": "Ein Widget zum Anzeigen von Shelly-Geräten in vis-2",
-			"ru": "Виджет для отображения устройств Shelly в vis-2",
-			"pt": "Um widget para exibir dispositivos Shelly no vis-2",
-			"nl": "Een widget om Shelly-apparaten in vis-2 weer te geven",
-			"fr": "Un widget pour afficher les appareils Shelly en vis-2",
-			"it": "Un widget per visualizzare i dispositivi Shelly in vis-2",
-			"es": "Un widget para mostrar dispositivos Shelly en vis-2",
-			"pl": "Widżet do wyświetlania urządzeń Shelly w vis-2",
-			"uk": "Віджет для відображення пристроїв Shelly у vis-2",
-			"zh-cn": "在 vis-2 中显示 Shelly 设备的小部件"
-		},
-		"authors": ["Kollos2k <kollos@vorsicht-bissig.de>"],
-		"keywords": ["shelly", "vis-2"],
-		"licenseInformation": {
-			"type": "free",
-			"license": "MIT"
-		},
-		"platform": "Javascript/Node.js",
-		"stopBeforeUpdate": true,
-		"icon": "vis-2-shelly.png",
-		"enabled": true,
-		"allowInit": true,
-		"main": "build/main.js",
-		"extIcon": "https://raw.githubusercontent.com/Kollos2k/ioBroker.vis-2-shelly/main/admin/vis-2-shelly.png",
-		"readme": "https://github.com/Kollos2k/ioBroker.vis-2-shelly/blob/main/README.md",
-		"loglevel": "info",
-		"tier": 3,
-		"restartAdapters": ["vis-2"],
-		"mode": "schedule",
-		"schedule": "*/1 * * * *",
-		"type": "visualization-widgets",
-		"visWidgets": {
-			"vis2ShellyWidget": {
-				"i18n": "component",
-				"name": "vis2ShellyWidget",
-				"url": "vis-2-shelly/customWidgets.js",
-				"bundlerType": "module",
-				"components": ["ShellyCustomOverview", "ShellyAllDevices", "ShellyCustomDeviceList"]
-			}
-		},
-		"adminUI": {
-			"config": "none"
-		},
-		"supportCustoms": true,
-		"eraseOnUpload": true,
-		"onlyWWW": false,
-		"vis2": {
-			"react": "19"
-		},
-		"dependencies": [
-			{
-				"vis-2": ">=2.20.0"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=8.3.0"
-			}
-		]
-	},
-	"native": {
-		"rooms": []
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		},
-		{
-			"_id": "rooms",
-			"type": "device",
-			"common": {
-				"name": {
-					"en": "Rooms",
-					"de": "Räume"
-				},
-				"write": true,
-				"members": ["channel"]
-			},
-			"native": {}
-		},
-		{
-			"_id": "devices",
-			"type": "channel",
-			"common": {
-				"name": {
-					"en": "Devices"
-				}
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "vis-2-shelly",
+    "version": "0.0.6",
+    "news": {
+      "0.0.6": {
+        "de": "Alles mit AI überarbeitet und für die Zukunft vorbereitet",
+        "en": "Everything revised with AI and prepared for the future"
+      },
+      "0.0.5": {
+        "en": "Now in Typescript",
+        "de": "In Typescript geändert"
+      },
+      "0.0.4": {
+        "en": "New Device \"Shelly Door/Window 2\"\nConfig is now editable (see <a href=\"doc/ModifyDeviceConfig.md\">Modify device config</a>)\nFixed some bugs\nUpdatet sourcecode by community rules",
+        "de": "Neues Gerät \"Schale Tür/Fenster 2\"\nConfig ist jetzt editierbar (siehe <a href=\"doc/ModifyDeviceConfig.md\">Modify device config</a>)\nEinige Fehler behoben\nAktualisieren von Quellcode durch Gemeinschaftsregeln"
+      },
+      "0.0.3": {
+        "en": "Add Dialog support for Devices (Change Brightness, view History,....)\nAdd Main Dialog for SHDM-2",
+        "de": "Hinzufügen von Dialog-Unterstützung für Geräte (Helligkeit ändern, Ansicht Geschichte,....)\nHauptdialog für SHDM-2 hinzufügen"
+      },
+      "0.0.2": {
+        "en": "initial release\nUpdate VIS-Shelly to VIS-2-Shelly (React)\nAdd AllDevices Widget\nAdd RoomDevices Widget\nAdd CustomDeviceList Widget\nAdd CustomOverview Widget\nRebuild main.js",
+        "de": "erstausstrahlung\nUpdate VIS-Shelly auf VIS-2-Shelly (React)\nAlleGeräte Widget hinzufügen\nZimmerausstattung Widget hinzufügen\nFügen Sie CustomDeviceList Widget hinzu\nHinzufügen von CustomOverview Widget\nRebuild main.js"
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung"
+      }
+    },
+    "titleLang": {
+      "en": "VIS 2 Shelly",
+      "de": "Vis 2 Shelly",
+      "ru": "Вис 2 Шелли",
+      "pt": "Vis 2 Shelly",
+      "nl": "Vis 2 Shelly",
+      "fr": "Vis 2 Shelly",
+      "it": "Vis 2 Shelly",
+      "es": "Vis 2 Shelly",
+      "pl": "Vis 2 Shelly",
+      "uk": "Vis 2 Shelly",
+      "zh-cn": "VIS 2雪莉"
+    },
+    "desc": {
+      "en": "A widget to display Shelly devices in vis-2",
+      "de": "Ein Widget zum Anzeigen von Shelly-Geräten in vis-2",
+      "ru": "Виджет для отображения устройств Shelly в vis-2",
+      "pt": "Um widget para exibir dispositivos Shelly no vis-2",
+      "nl": "Een widget om Shelly-apparaten in vis-2 weer te geven",
+      "fr": "Un widget pour afficher les appareils Shelly en vis-2",
+      "it": "Un widget per visualizzare i dispositivi Shelly in vis-2",
+      "es": "Un widget para mostrar dispositivos Shelly en vis-2",
+      "pl": "Widżet do wyświetlania urządzeń Shelly w vis-2",
+      "uk": "Віджет для відображення пристроїв Shelly у vis-2",
+      "zh-cn": "在 vis-2 中显示 Shelly 设备的小部件"
+    },
+    "authors": [
+      "Kollos2k <kollos@vorsicht-bissig.de>"
+    ],
+    "keywords": [
+      "shelly",
+      "vis-2"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "stopBeforeUpdate": true,
+    "icon": "vis-2-shelly.png",
+    "enabled": true,
+    "allowInit": true,
+    "main": "build/main.js",
+    "extIcon": "https://raw.githubusercontent.com/Kollos2k/ioBroker.vis-2-shelly/main/admin/vis-2-shelly.png",
+    "readme": "https://github.com/Kollos2k/ioBroker.vis-2-shelly/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "restartAdapters": [
+      "vis-2"
+    ],
+    "mode": "schedule",
+    "schedule": "*/1 * * * *",
+    "type": "visualization-widgets",
+    "visWidgets": {
+      "vis2ShellyWidget": {
+        "i18n": "component",
+        "name": "vis2ShellyWidget",
+        "url": "vis-2-shelly/customWidgets.js",
+        "bundlerType": "module",
+        "components": [
+          "ShellyCustomOverview",
+          "ShellyAllDevices",
+          "ShellyCustomDeviceList"
+        ]
+      }
+    },
+    "adminUI": {
+      "config": "none"
+    },
+    "supportCustoms": true,
+    "eraseOnUpload": true,
+    "onlyWWW": false,
+    "vis2": {
+      "react": "19"
+    },
+    "dependencies": [
+      {
+        "vis-2": ">=2.20.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=8.3.0"
+      }
+    ]
+  },
+  "native": {
+    "rooms": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "rooms",
+      "type": "device",
+      "common": {
+        "name": {
+          "en": "Rooms",
+          "de": "Räume"
+        },
+        "write": true,
+        "members": [
+          "channel"
+        ]
+      },
+      "native": {}
+    },
+    {
+      "_id": "devices",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "Devices"
+        }
+      },
+      "native": {}
+    }
+  ]
 }
