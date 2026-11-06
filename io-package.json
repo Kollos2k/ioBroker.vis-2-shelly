@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "vis-2-shelly",
-		"version": "0.0.6",
+		"version": "0.0.5",
 		"news": {
+			"0.0.6": {
+				"de": "Alles mit AI überarbeitet und für die Zukunft vorbereitet",
+				"en": "Everything revised with AI and prepared for the future"
+			},
 			"0.0.5": { "en": "Now in Typescript", "de": "In Typescript geändert" },
 			"0.0.4": {
 				"en": "New Device \"Shelly Door/Window 2\"\nConfig is now editable (see <a href=\"doc/ModifyDeviceConfig.md\">Modify device config</a>)\nFixed some bugs\nUpdatet sourcecode by community rules",
