@@ -70,7 +70,7 @@ export default [
     },
     // 3. Admin-Bereich mit eigener admin/tsconfig.json
     {
-        files: ["admin/**/*.ts","admin/*.jsx", "admin/**/*.tsx", "admin/**/*.js", "admin/**/*.jsx"],
+        files: ["admin/**/*.js", "admin/**/*.jsx", "admin/**/*.ts", "admin/**/*.tsx"],
         plugins: {
             react: reactPlugin,
             import: importPlugin,
@@ -84,6 +84,8 @@ export default [
             globals: {
                 document: "readonly",
                 window: "readonly",
+                navigator: "readonly",
+                console: "readonly",
             },
         },
         rules: {

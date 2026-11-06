@@ -6,9 +6,15 @@
 		"sourceMap": true,
 		"sourceRoot": "./src",
 		"noImplicitAny": false,
+		"skipLibCheck": true,
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"ignoreDeprecations": "6.0",
 		"lib": ["es2018", "DOM"],
 		"jsx": "react"
 	},
-	"include": ["./**/*.d.ts", "./**/*.jsx", "../lib/adapter-config.d.ts"],
-	"exclude": ["./**/*.test.jsx"]
+	"include": ["./**/*.d.ts", "./**/*.jsx", "./**/*.js", "../lib/adapter-config.d.ts"],
+	"exclude": ["./**/*.test.jsx", "./build/**/*"]
 }

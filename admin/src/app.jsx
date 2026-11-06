@@ -1,8 +1,19 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
-
-import GenericApp from "@iobroker/adapter-react/GenericApp";
+import GenericApp from "@iobroker/adapter-react/build/GenericApp";
 import Settings from "./components/settings";
+
+import enLang from "./i18n/en.json";
+import deLang from "./i18n/de.json";
+import ruLang from "./i18n/ru.json";
+import ptLang from "./i18n/pt.json";
+import nlLang from "./i18n/nl.json";
+import frLang from "./i18n/fr.json";
+import itLang from "./i18n/it.json";
+import esLang from "./i18n/es.json";
+import plLang from "./i18n/pl.json";
+import ukLang from "./i18n/uk.json";
+import zhCnLang from "./i18n/zh-cn.json";
 
 const styles = (_theme) => ({
 	root: {},
@@ -14,17 +25,17 @@ class App extends GenericApp {
 			...props,
 			encryptedFields: [],
 			translations: {
-				en: require("./i18n/en.json"),
-				de: require("./i18n/de.json"),
-				ru: require("./i18n/ru.json"),
-				pt: require("./i18n/pt.json"),
-				nl: require("./i18n/nl.json"),
-				fr: require("./i18n/fr.json"),
-				it: require("./i18n/it.json"),
-				es: require("./i18n/es.json"),
-				pl: require("./i18n/pl.json"),
-				uk: require("./i18n/uk.json"),
-				"zh-cn": require("./i18n/zh-cn.json"),
+				en: enLang,
+				de: deLang,
+				ru: ruLang,
+				pt: ptLang,
+				nl: nlLang,
+				fr: frLang,
+				it: itLang,
+				es: esLang,
+				pl: plLang,
+				uk: ukLang,
+				"zh-cn": zhCnLang,
 			},
 		};
 		super(props, extendedProps);

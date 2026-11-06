@@ -1,6 +1,5 @@
 import React from "react";
 import * as DeviceActions from "@mainLib/devices/service/DeviceActions";
-import type { TypeDevice } from "@mainLib/devices/service/types";
 import * as deviceStates from "@mainLib/devices/service/deviceStates";
 import { createDeviceConfigs } from "@mainLib/devices/service/deviceConfigsBlueprint";
 import * as SHDM2 from "./deviceDialogTabs/SHDM-2";
@@ -74,69 +73,6 @@ export function switchTRVButton(props = {}): React.JSX.Element {
 		></object>
 	);
 }
-
-const getDeviceConfigByType3 = (device: DeviceObject, _socket: any): TypeConfig => {
-	const typeConfig: TypeConfig = {
-		domID: device.domID,
-		dataPoint: {},
-		update: {},
-		view: {} as TypeConfigView,
-		action: {},
-		dialog: {},
-	};
-	const view: TypeConfigView = { info: {}, action: {} };
-	const dataPoint: TypeConfigDataPoint = {};
-	const typeName: string = device.type.replaceAll("-", "").toUpperCase();
-
-	// Zugriff über DEVICE_CONFIGS statt des alten Devices-Imports
-	const deviceConfigEntry = (DEVICE_CONFIGS as Record<string, any>)[typeName];
-	if (typeof deviceConfigEntry === "function") {
-		const type: TypeDevice | undefined =
-			typeof deviceConfigEntry === "function" ? deviceConfigEntry() : deviceConfigEntry;
-		if (type && Array.isArray(type.states)) {
-			console.log(type);
-			type.states.forEach((s) => {
-				if (s.state.update) {
-					typeConfig.update = {
-						...typeConfig.update,
-						[s.state.key]: { name: s.state.name, ...s.state.update },
-					};
-				}
-				if (s.state.view) {
-					view[s.state.view.point] = {
-						...view[s.state.view.point],
-						[s.state.key]: { name: s.state.name, ...s.state.view },
-					};
-				}
-				if (s.state.action) {
-					typeConfig.action = {
-						...typeConfig.action,
-						[s.state.key]: { name: s.state.name, ...s.state.action },
-					};
-				}
-				if (s.state.dataPoint) {
-					for (let relay = 0; relay < type.relayCount; relay++) {
-						if (s.state.deviceID == "stateId") {
-							const curChannel = s.channel.replace("{X}", `${relay}`);
-							dataPoint[`${relay}`] = {
-								...dataPoint[`${relay}`],
-								[s.state.key]: `${device.stateId}.${curChannel}.${s.state.dataPoint}`,
-							};
-						} else {
-							dataPoint[`${relay}`] = {
-								...dataPoint[`${relay}`],
-								[s.state.key]: `${device.vsID}.${relay}.${s.state.dataPoint}`,
-							};
-						}
-					}
-				}
-			});
-		}
-	}
-	typeConfig.view = view;
-	typeConfig.dataPoint = dataPoint;
-	return typeConfig;
-};
 
 // Falls getDeviceConfigByType3 weiter verwendet wird:
 const getDeviceConfigByType = async (device: DeviceObject, socket: any): Promise<TypeConfig> => {

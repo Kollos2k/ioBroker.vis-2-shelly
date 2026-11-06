@@ -2,7 +2,6 @@ import React from "react";
 import { I18n } from "@iobroker/gui-components";
 import { Button, Tabs, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { Device } from "./Device";
 import clsx from "clsx";
 
@@ -97,7 +96,6 @@ class DeviceDialog extends React.Component<componentProps, componentState> {
 		this.state = { currentTab: this.props.typeConfig.dialog.tabs[0].name };
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	propertiesUpdate(): void {}
 
 	componentDidMount(): void {

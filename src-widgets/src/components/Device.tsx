@@ -121,7 +121,6 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 		return false;
 	}
 
-	// eslint-disable-next-line react/no-unused-class-component-methods
 	hideDeviceOptions(): void {
 		this.setState({ showDeviceDialog: false });
 	}
