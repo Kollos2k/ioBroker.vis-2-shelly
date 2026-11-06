@@ -3,10 +3,10 @@ import React from "react";
 import "./components/customOverview.css";
 import Generic from "./Generic";
 import type { RxRenderWidgetProps, RxWidgetInfo, VisRxWidgetProps, VisRxWidgetState } from "@iobroker/types-vis-2";
-import { basicUpdateSwitch } from "./components/DeviceActions";
-import type { DeviceActionArgument } from "./components/DeviceActions";
+import { basicUpdateSwitch } from "@mainLib/devices/service/DeviceActions";
+import type { DeviceActionArgument } from "@mainLib/devices/service/DeviceActions";
 import { switchButton, switchTRVButton } from "./components/DeviceConfig";
-// import { Socket } from "dgram";
+
 interface StaticRxData {
 	title: string;
 	titleImage: string;
@@ -45,12 +45,14 @@ interface StaticRxData {
 	[key: `subHorizontal${number}`]: boolean | "false";
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface StaticState extends VisRxWidgetState {
 	valueConfig: { [key: string]: any };
 }
 
 class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
+	// Refs Map zur sauberen Speicherung von DOM-Elementen außerhalb des Render-Zyklus
+	private refsMap: { [key: string]: React.RefObject<HTMLDivElement | null> } = {};
+
 	constructor(props: VisRxWidgetProps) {
 		super(props);
 		console.debug(this);
@@ -61,23 +63,15 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 		return {
 			id: "tplCustomOverviewWidget",
 			visSet: "vis-2-shelly",
-			visSetLabel: "vis_2_widgets_shelly", // Widget set translated label (should be defined only in one widget of set)
-			visSetColor: "#cf00ff", // Color of widget set. it is enough to set color only in one widget of set
-			visName: "CustomOverview", // Name of widget
+			visSetLabel: "vis_2_widgets_shelly",
+			visSetColor: "#cf00ff",
+			visName: "CustomOverview",
 			visAttrs: [
 				{
-					name: "common", // group name
+					name: "common",
 					fields: [
-						{
-							name: "title", // name in data structure
-							label: "overview_title", // translated field label
-							type: "text",
-						},
-						{
-							name: "titleImage",
-							label: "overview_titleImage",
-							type: "image",
-						},
+						{ name: "title", label: "overview_title", type: "text" },
+						{ name: "titleImage", label: "overview_titleImage", type: "image" },
 						{
 							name: "valueGroupCount",
 							label: "overview_valueGroupCount",
@@ -94,64 +88,24 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 					name: "cssstyle",
 					label: "overview_cssstyle",
 					fields: [
-						{
-							name: "backColor",
-							label: "overview_backColor",
-							type: "color",
-						},
-						{
-							name: "backColorOut",
-							label: "overview_backColorOut",
-							type: "color",
-						},
-						{
-							name: "textColor",
-							label: "overview_textColor",
-							type: "color",
-						},
-						{
-							name: "padding",
-							label: "overview_padding",
-							type: "dimension",
-						},
-						{
-							name: "margin",
-							label: "overview_margin",
-							type: "dimension",
-						},
-						{
-							name: "borderRadius",
-							label: "overview_borderRadius",
-							type: "dimension",
-						},
+						{ name: "backColor", label: "overview_backColor", type: "color" },
+						{ name: "backColorOut", label: "overview_backColorOut", type: "color" },
+						{ name: "textColor", label: "overview_textColor", type: "color" },
+						{ name: "padding", label: "overview_padding", type: "dimension" },
+						{ name: "margin", label: "overview_margin", type: "dimension" },
+						{ name: "borderRadius", label: "overview_borderRadius", type: "dimension" },
 					],
 				},
 				{
-					name: "valueGroup", // name of custom group
-					label: "overview_group", // label of custom group
-					indexFrom: 1, // optional start index of iterator
+					name: "valueGroup",
+					label: "overview_group",
+					indexFrom: 1,
 					indexTo: "valueGroupCount",
 					fields: [
-						{
-							name: "subTitle",
-							label: "overview_subTitle",
-							type: "text",
-						},
-						{
-							name: "subOID",
-							label: "overview_subOID",
-							type: "id",
-						},
-						{
-							name: "subUnit",
-							label: "overview_subUnit",
-							type: "text",
-						},
-						{
-							name: "subIcon",
-							label: "overview_subIcon",
-							type: "image",
-						},
+						{ name: "subTitle", label: "overview_subTitle", type: "text" },
+						{ name: "subOID", label: "overview_subOID", type: "id" },
+						{ name: "subUnit", label: "overview_subUnit", type: "text" },
+						{ name: "subIcon", label: "overview_subIcon", type: "image" },
 						{ name: "subAction", label: "overview_subAction", type: "checkbox" },
 						{
 							name: "subActionNumberStep",
@@ -166,12 +120,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							options: ["not", "floor", "ceil", "fit"],
 							default: "not",
 						},
-						{
-							name: "subRoundDigets",
-							label: "overview_subRoundDigets",
-							type: "number",
-							default: 1,
-						},
+						{ name: "subRoundDigets", label: "overview_subRoundDigets", type: "number", default: 1 },
 						{
 							name: "subModifyType",
 							label: "overview_subModify",
@@ -179,33 +128,11 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							type: "select",
 							default: "nothing",
 						},
-						{
-							name: "overview_subModifyFaktor",
-							label: "eval",
-							type: "number",
-							default: 0,
-						},
-						{
-							name: "subSeperator",
-							label: "overview_subSeperator",
-							type: "checkbox",
-						},
-						{
-							name: "subAddOID1_",
-							label: "overview_subAddOID1",
-							type: "id",
-						},
-
-						{
-							name: "subAddUnit1_",
-							label: "overview_subAddUnit1",
-							type: "text",
-						},
-						{
-							name: "subAddIcon1_",
-							label: "overview_subAddIcon1",
-							type: "image",
-						},
+						{ name: "overview_subModifyFaktor", label: "eval", type: "number", default: 0 },
+						{ name: "subSeperator", label: "overview_subSeperator", type: "checkbox" },
+						{ name: "subAddOID1_", label: "overview_subAddOID1", type: "id" },
+						{ name: "subAddUnit1_", label: "overview_subAddUnit1", type: "text" },
+						{ name: "subAddIcon1_", label: "overview_subAddIcon1", type: "image" },
 						{
 							name: "subAddRound1_",
 							label: "overview_subAddRound1",
@@ -232,22 +159,9 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							type: "number",
 							default: 0,
 						},
-						{
-							name: "subAddOID2_",
-							label: "overview_subAddOID2",
-							type: "id",
-						},
-
-						{
-							name: "subAddUnit2_",
-							label: "overview_subAddUnit2",
-							type: "text",
-						},
-						{
-							name: "subAddIcon2_",
-							label: "overview_subAddIcon2",
-							type: "image",
-						},
+						{ name: "subAddOID2_", label: "overview_subAddOID2", type: "id" },
+						{ name: "subAddUnit2_", label: "overview_subAddUnit2", type: "text" },
+						{ name: "subAddIcon2_", label: "overview_subAddIcon2", type: "image" },
 						{
 							name: "subAddRound2_",
 							label: "overview_subAddRound2",
@@ -274,11 +188,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 							type: "number",
 							default: 0,
 						},
-						{
-							name: "subHorizontal",
-							label: "overview_subHR",
-							type: "checkbox",
-						},
+						{ name: "subHorizontal", label: "overview_subHR", type: "checkbox" },
 					],
 				},
 			],
@@ -291,7 +201,6 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 		};
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	async propertiesUpdate(): Promise<void> {}
 
 	componentDidMount(): void {
@@ -299,42 +208,31 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 		void this.propertiesUpdate().catch((e) => console.error(e));
 	}
 
-	// Do not delete this method. It is used by vis to read the widget configuration.
-	// eslint-disable-next-line class-methods-use-this
 	getWidgetInfo(): RxWidgetInfo {
 		return ShellyCustomOverview.getWidgetInfo();
 	}
 
-	// This function is called every time when rxData is changed
 	async onRxDataChanged(): Promise<void> {
 		await this.propertiesUpdate();
 	}
 
-	// This function is called every time when rxStyle is changed
-	// eslint-disable-next-line class-methods-use-this
 	onRxStyleChanged(): void {}
 
-	// This function is called every time when some Object State updated, but all changes lands into this.state.values too
-	// eslint-disable-next-line class-methods-use-this
 	async onStateUpdated(_id: string, _state: ioBroker.State | null | undefined): Promise<void> {
 		if (!this.state?.valueConfig?.[_id]) {
 			const obj: any = await this.props.context.socket.getObject(_id);
-			this.setState(
-				(p) => ({ valueConfig: { ...p.valueConfig, [_id]: obj } }),
-				() => {
-					console.error(this.state);
-				},
-			);
+			this.setState((p) => ({ valueConfig: { ...p.valueConfig, [_id]: obj } }));
 		} else {
 			const common = this.state.valueConfig[_id]?.common;
-			const arg: DeviceActionArgument = {
-				dom: this.state.valueConfig[_id]?.current.current,
-				newVal: _state?.val,
-			};
-			switch (common.type) {
-				case "boolean":
+			const domElement = this.refsMap[_id]?.current;
+			if (domElement) {
+				const arg: DeviceActionArgument = {
+					dom: domElement,
+					newVal: _state?.val,
+				};
+				if (common?.type === "boolean") {
 					basicUpdateSwitch(arg);
-					break;
+				}
 			}
 		}
 	}
@@ -373,7 +271,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 						<div className="vis-2-shelly-customOverview-item">
 							{valueGroup.map((i) => {
 								return (
-									<>
+									<React.Fragment key={i}>
 										{this.state.data[`subSeperator${i}`] ? <hr /> : ""}
 
 										<table style={{ width: "100%" }}>
@@ -410,7 +308,6 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 														{this.getValueLC_formated(`subOID${i}`)}
 													</td>
 													<td className="vis-2-shelly-customOverview-itemSubItem">
-														{}
 														<div
 															className={
 																this.state.data[`subHorizontal${i}`] === true
@@ -480,7 +377,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 												</tr>
 											</tbody>
 										</table>
-									</>
+									</React.Fragment>
 								);
 							})}
 						</div>
@@ -488,46 +385,28 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 				</div>
 			</div>
 		);
-		// return content;
 		return this.wrapContent(content, null, { padding: 0 }, {});
 	}
 
 	getImage(src: string, props = {}): React.JSX.Element | React.JSX.Element[] | string {
 		if (src && src.length > 0) {
-			return <img src={this.imageReplacePRJNAME(src)} {...props}></img>;
+			return <img src={this.imageReplacePRJNAME(src)} {...props} alt="" />;
 		}
 		return "";
 	}
 
 	getSource(name: string): string {
-		name = this.state.data[name];
-		if (typeof name !== "undefined" && name !== null) {
-			return name;
-		}
-		return "";
+		const val = this.state.data[name as keyof StaticRxData];
+		return typeof val === "string" ? val : "";
 	}
+
 	getData(name: string, def = ""): string | number | boolean | null {
-		name = this.state.data[name];
-		if (typeof name !== "undefined" && name !== null) {
-			return name;
-		}
-		return def;
-	}
-	getDataRound(name: string, isRoundName: string, digetsName: string): number | string | null {
-		const value: number = this.state.data[name];
-		const isRound: boolean = this.state.data[isRoundName];
-		const digets: number = this.state.data[digetsName];
-		if (typeof value !== "undefined" && value !== null) {
-			if (typeof isRound !== "undefined" && isRound && typeof digets !== "undefined" && !Number.isNaN(value)) {
-				return Number(value).toFixed(digets);
-			}
-			return value;
-		}
-		return 0;
+		const val = this.state.data[name as keyof StaticRxData];
+		return typeof val !== "undefined" && val !== null ? val : def;
 	}
 
 	getOIDValue(
-		oid: string,
+		oidKey: string,
 		def: string = "",
 		roundName: string = "",
 		digetsName: string = "",
@@ -537,19 +416,23 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 		actionName: string = "",
 		counter: number = 0,
 	): string | number | boolean | null | React.JSX.Element {
-		oid = this.state.data[oid];
+		const oid = this.state.data[oidKey as keyof StaticRxData] as string;
 		if (oid && typeof this.state.values[`${oid}.val`] !== "undefined") {
-			const round: string = this.state.data[roundName];
-			const digets: number = this.state.data[digetsName] || 0;
-			const action: boolean = this.state.data[actionName] || false;
-			let value: string | number | boolean = this.state.values[`${oid}.val`];
-			if ((action && this.state?.valueConfig?.[oid]) || false) {
+			const round = this.state.data[roundName as keyof StaticRxData] as string;
+			const digets = Number(this.state.data[digetsName as keyof StaticRxData]) || 0;
+			const action = Boolean(this.state.data[actionName as keyof StaticRxData]);
+			let value: any = this.state.values[`${oid}.val`];
+
+			if (action && this.state?.valueConfig?.[oid]) {
 				const common = this.state.valueConfig[oid]?.common;
-				switch (common.type) {
+				if (!this.refsMap[oid]) {
+					this.refsMap[oid] = React.createRef<HTMLDivElement>();
+				}
+
+				switch (common?.type) {
 					case "boolean":
-						this.state.valueConfig[oid].current = React.createRef<HTMLDivElement>();
 						return (
-							<div style={{ position: "relative" }} ref={this.state.valueConfig[oid].current}>
+							<div style={{ position: "relative" }} ref={this.refsMap[oid]}>
 								{switchButton({
 									style: { width: "30px" },
 									onLoad: (evt: Event) => {
@@ -563,7 +446,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 								})}
 								<span
 									onClick={() => {
-										void this.props.context.socket.setState(oid, value ? false : true);
+										void this.props.context.socket.setState(oid, !value);
 									}}
 									style={{
 										top: "0px",
@@ -573,23 +456,14 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 										cursor: "pointer",
 										position: "absolute",
 									}}
-								></span>
+								/>
 							</div>
 						);
 					case "number":
-						this.state.valueConfig[oid].current = React.createRef<HTMLDivElement>();
 						return (
-							<div style={{ position: "relative" }} ref={this.state.valueConfig[oid].current}>
+							<div style={{ position: "relative" }} ref={this.refsMap[oid]}>
 								{switchTRVButton({
 									style: { height: "30px" },
-									// onLoad: (evt: Event) => {
-									// 	const obj = evt.target as HTMLObjectElement;
-									// 	const node = obj.contentDocument?.firstElementChild;
-									// 	obj?.setAttribute("loadValue", "true");
-									// 	if (value) {
-									// 		node?.classList.add("active");
-									// 	}
-									// },
 								})}
 								<span
 									style={{
@@ -622,7 +496,7 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 										cursor: "pointer",
 										position: "absolute",
 									}}
-								></span>
+								/>
 								<span
 									onClick={() => {
 										let newVal =
@@ -641,31 +515,22 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 										cursor: "pointer",
 										position: "absolute",
 									}}
-								></span>
+								/>
 							</div>
 						);
 				}
 			}
+
 			if (typeof value === "boolean") {
 				value = value ? "true" : "false";
 			} else if (!Number.isNaN(value)) {
-				if (
-					this.state.data[modTypeName] !== "nothing" &&
-					!Number.isNaN(value) &&
-					Number(this.state.data[modFaktorName]) > 0
-				) {
-					value =
-						this.state.data[modTypeName] == "multiplied by"
-							? Number(value) * Number(this.state.data[modFaktorName])
-							: Number(value) / Number(this.state.data[modFaktorName]);
+				const modType = this.state.data[modTypeName as keyof StaticRxData];
+				const modFaktor = Number(this.state.data[modFaktorName as keyof StaticRxData]);
+
+				if (modType !== "nothing" && !Number.isNaN(value) && modFaktor > 0) {
+					value = modType === "multiplied by" ? Number(value) * modFaktor : Number(value) / modFaktor;
 				}
-				if (
-					typeof round !== "undefined" &&
-					round !== "not" &&
-					typeof digets !== "undefined" &&
-					!Number.isNaN(value) &&
-					digets > 0
-				) {
+				if (round && round !== "not" && !Number.isNaN(value) && digets > 0) {
 					switch (round) {
 						case "floor":
 							value = Math.floor(Number(value) * (digets * 10)) / (digets * 10);
@@ -683,18 +548,13 @@ class ShellyCustomOverview extends Generic<StaticRxData, StaticState> {
 	}
 
 	getValueLC_formated(name: string, def = ""): string | number | React.JSX.Element {
-		name = this.state.data[name];
-		if (name && typeof this.state.values[`${name}.lc`] !== "undefined") {
-			return this.formatDate(this.state.values[`${name}.lc`], "", true, true, true);
+		const valName = this.state.data[name as keyof StaticRxData] as string;
+		if (valName && typeof this.state.values[`${valName}.lc`] !== "undefined") {
+			return this.formatDate(this.state.values[`${valName}.lc`], "", true, true, true);
 		}
 		return def;
 	}
 
-	/**
-	 *
-	 * @param src description: Setzt einen richtigen Pfad zum Image
-	 * @returns string
-	 */
 	imageReplacePRJNAME(src: string): string {
 		return src.replace("_PRJ_NAME", `/vis-2.0/${this.props.context.projectName}`);
 	}

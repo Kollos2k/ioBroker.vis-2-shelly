@@ -3,3 +3,4 @@ admin/build/
 **/.eslintrc.js
 admin/words.js
 src-widgets/build/
+main/

@@ -5,6 +5,8 @@
 		"node": true,
 		"mocha": true
 	},
+  	"ignorePatterns": ["node_modules/", "main/", "build/","admin/build/","widgets/"],
+	"files": ["**./*.ts","src/**/*.ts"],
 	"extends": ["eslint:recommended", "plugin:react/recommended"],
 	"plugins": ["react", "import"],
 	"settings": {
@@ -40,6 +42,7 @@
 		"react/prop-types": "off"
 	},
 	"parserOptions": {
+        "project": "./tsconfig.json",
 		"ecmaVersion": "latest",
 		"ecmaFeatures": {
 			"jsx": true

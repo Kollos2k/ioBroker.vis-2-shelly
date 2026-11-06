@@ -1,17 +1,20 @@
 import react from "@vitejs/plugin-react";
-import commonjs from "vite-plugin-commonjs";
-import vitetsConfigPaths from "vite-tsconfig-paths";
 import { federation } from "@module-federation/vite";
 import { moduleFederationShared } from "@iobroker/types-vis-2/modulefederation.vis.config";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 const pack = JSON.parse(readFileSync("./package.json").toString());
 
-const config = {
+export default {
 	plugins: [
+		react(),
+		//vitetsConfigPaths(),
 		federation({
 			manifest: true,
 			name: "vis2ShellyWidget",
 			filename: "customWidgets.js",
+			dts: false,
 			exposes: {
 				"./ShellyCustomOverview": "./src/ShellyCustomOverview",
 				"./ShellyAllDevices": "./src/ShellyAllDevices",
@@ -19,14 +22,26 @@ const config = {
 				"./translations": "./src/translations.ts",
 			},
 			remotes: {},
-			shared: moduleFederationShared(pack),
+			shared: {
+				...moduleFederationShared(pack),
+				react: {
+					singleton: true,
+					requiredVersion: "19.3.1",
+					strictVersion: false,
+				},
+				"react-dom": {
+					singleton: true,
+					requiredVersion: "19.3.1",
+					strictVersion: false,
+				},
+			},
 		}),
-		react(),
-		vitetsConfigPaths(),
-		commonjs(),
 	],
 	server: {
 		port: 3000,
+		fs: {
+			allow: [resolve(import.meta.dirname, "..")],
+		},
 		proxy: {
 			"/_socket": "http://localhost:8082",
 			"/vis.0": "http://localhost:8082",
@@ -41,11 +56,11 @@ const config = {
 	},
 	base: "./",
 	build: {
-		target: "chrome89",
+		target: "esnext",
 		outDir: "./build",
+		modulePreload: false,
 		rollupOptions: {
 			onwarn(warning: { code: string }, warn: (warning: { code: string }) => void): void {
-				// Suppress "Module level directives cause errors when bundled" warnings
 				if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
 					return;
 				}
@@ -53,6 +68,7 @@ const config = {
 			},
 		},
 	},
+	resolve: {
+		tsconfigPaths: true, // <-- NATIV AKTIVIEREN
+	},
 };
-
-export default config;

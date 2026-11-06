@@ -1,10 +1,28 @@
 import React from "react";
 import { Slider } from "@mui/material";
+import type { TypeConfig } from "@mainLib/devices/service/types";
 
-export const Main = (props: any): React.JSX.Element => {
-	const setBrightness = (event: any, value: any): void => {
-		props.socket.setState(props.dataPoint.brightness, value, false);
+interface MainProps {
+	socket: any;
+	dataPoint: { [key: string]: string };
+	state: { [key: string]: any };
+	maxVisibleHeight: number;
+	typeConfig?: TypeConfig;
+}
+
+export const Main = (props: MainProps): React.JSX.Element => {
+	const setBrightness = (_event: Event, value: number | number[]): void => {
+		if (props.dataPoint?.brightness) {
+			props.socket.setState(props.dataPoint.brightness, value, false);
+		}
 	};
+
+	const brightnessState = props.state?.[props.dataPoint?.brightness];
+	const defaultValue = typeof brightnessState === "object" && brightnessState !== null ? brightnessState.val : 0;
+
+	const powerState = props.state?.[props.dataPoint?.power];
+	const powerVal = typeof powerState === "object" && powerState !== null ? powerState.val : "";
+
 	return (
 		<div
 			style={{
@@ -14,18 +32,7 @@ export const Main = (props: any): React.JSX.Element => {
 				maxHeight: `${props.maxVisibleHeight}px`,
 			}}
 		>
-			{props.maxVisibleHeight > 200 && (
-				<div>
-					{props.state[props.dataPoint.power].val}
-					{/* {Object.entries(props.typeConfig.view.info).map(([viewKey, viewVal]) => {
-						return (
-							<span name={viewVal.name} className={viewVal.class}>
-								{viewVal.html}
-							</span>
-						);
-					})} */}
-				</div>
-			)}
+			{props.maxVisibleHeight > 200 && <div>{powerVal}</div>}
 			<Slider
 				sx={{
 					'& input[type="range"]': {
@@ -38,19 +45,14 @@ export const Main = (props: any): React.JSX.Element => {
 					},
 				}}
 				orientation="vertical"
-				defaultValue={
-					typeof props.state[props.dataPoint.brightness] === "object"
-						? props.state[props.dataPoint.brightness].val
-						: 0
-				}
-				aria-label="Temperature"
+				defaultValue={typeof defaultValue === "number" ? defaultValue : 0}
+				aria-label="Brightness"
 				valueLabelDisplay="auto"
 				style={{ width: "80px" }}
 				onChange={(event, value) => {
 					setBrightness(event, value);
 				}}
 			/>
-			{}
 		</div>
 	);
 };

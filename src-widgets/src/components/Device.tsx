@@ -1,21 +1,9 @@
 import React from "react";
-// import { withStyles } from "@mui/styles";
 import "./device.css";
 import DeviceDialog from "./DeviceDialog";
-import type { Theme as muiTheme } from "@mui/material/styles";
-import { createStyles, withStyles } from "@mui/styles";
-import type { WithStyles } from "@mui/styles";
 import type { TypeConfig } from "./DeviceConfig";
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-unused-vars
-const styles = (theme: muiTheme) =>
-	createStyles({
-		showDialogButton: {
-			cursor: "pointer",
-		},
-	});
-// let css = {};
-interface DeviceProps extends WithStyles<typeof styles> {
+interface DeviceProps {
 	socket: any;
 	dataPoint: { [key: string]: string };
 	typeConfig: TypeConfig;
@@ -27,15 +15,15 @@ interface DeviceProps extends WithStyles<typeof styles> {
 	relay: number | string;
 	widID: string;
 }
+
 interface DeviceState {
 	hasDeviceDialog: boolean;
 	showDeviceDialog: boolean;
 }
 
 export class Device extends React.Component<DeviceProps, DeviceState> {
-	el = React.createRef();
-
-	components: { [key: string]: any } = {};
+	el = React.createRef<HTMLDivElement>();
+	components: { [key: string]: React.RefObject<HTMLSpanElement | null> } = {};
 
 	constructor(props: DeviceProps) {
 		super(props);
@@ -45,10 +33,22 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 				typeof this.props.typeConfig.dialog !== "undefined" &&
 				typeof this.props.typeConfig.dialog.tabs !== "undefined",
 		};
+
+		// Feste Basis-Refs initialisieren
+		this.components.icon = React.createRef<HTMLSpanElement>();
+		this.components.name = React.createRef<HTMLSpanElement>();
+
 		props.socket.subscribeState(Object.values(props.dataPoint), (id: string, state: ioBroker.State) => {
 			void this.stateChange(id, state);
 		});
-		// console.log("device");
+	}
+
+	// Hilfsmethode zur sicheren Ref-Ermittlung
+	private getRef(name: string): React.RefObject<HTMLSpanElement | null> {
+		if (!this.components[name]) {
+			this.components[name] = React.createRef<HTMLSpanElement>();
+		}
+		return this.components[name];
 	}
 
 	stateChange(id: string, state: ioBroker.State | undefined): boolean {
@@ -78,7 +78,7 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 		if (typeof this.props.typeConfig.update[idKey].updateValue === "function") {
 			const val = state === undefined || state.val === undefined ? "" : state === null ? "" : state.val;
 			this.props.typeConfig.update[idKey].updateValue({
-				dom: this.components[updateKey].current,
+				dom: this.components[updateKey]?.current,
 				newVal: val,
 				config: this.props.typeConfig.update[idKey],
 				socket: this.props.socket,
@@ -89,7 +89,7 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 		if (typeof this.props.typeConfig.update[idKey].updateAck === "function") {
 			const ack = typeof state === "undefined" ? "" : state === null ? "" : state.ack;
 			this.props.typeConfig.update[idKey].updateAck({
-				dom: this.components[idKey].current,
+				dom: this.components[idKey]?.current,
 				newAck: ack,
 				config: this.props.typeConfig.update[idKey],
 				socket: this.props.socket,
@@ -116,71 +116,53 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 
 	showDeviceOptions(): boolean {
 		if (this.state.hasDeviceDialog) {
-			this.setState({ showDeviceDialog: !this.state.showDeviceDialog }, () => {});
-			console.log("onclick intern");
-			console.log(this.props.typeConfig.dialog);
+			this.setState({ showDeviceDialog: !this.state.showDeviceDialog });
 		}
-		console.log("onclick");
 		return false;
 	}
 
 	// eslint-disable-next-line react/no-unused-class-component-methods
 	hideDeviceOptions(): void {
-		this.setState({ showDeviceDialog: false }, () => {});
+		this.setState({ showDeviceDialog: false });
 	}
 
 	render(): React.JSX.Element {
 		if (typeof this.props.typeConfig.action === "undefined") {
 			this.props.typeConfig.action = {};
 		}
-		this.components.icon = React.createRef();
-		this.components.name = React.createRef();
+
 		return (
 			<div
 				id={this.props.deviceDomID}
 				className="vis2_shelly_DeviceBody"
 				title={this.props.stateID}
-				// ref={this.el}
-				// style={"width:200px"}
+				ref={this.el}
 			>
 				<span {...{ name: "status" }}>
 					<span>
 						<span className="connectionState connectionStateOnline"></span>
 					</span>
 				</span>
-				<span {...{ name: "icon" }} ref={this.components.icon}></span>
-				<span
-					{...{ name: "name" }}
-					ref={this.components.name}
-					onClick={() => {
-						return this.showDeviceOptions();
-					}}
-					// className={this.state.hasDeviceDialog ? this.props.classes.showDialogButton : {}}
-				>
+				<span {...{ name: "icon" }} ref={this.getRef("icon")}></span>
+				<span {...{ name: "name" }} ref={this.getRef("name")} onClick={() => this.showDeviceOptions()}>
 					{this.props.id}
 				</span>
-				<span
-					{...{ name: "info" }}
-					// className={this.state.hasDeviceDialog ? this.props.classes.showDialogButton : {}}
-					onClick={() => {
-						return this.showDeviceOptions();
-					}}
-				>
+				<span {...{ name: "info" }} onClick={() => this.showDeviceOptions()}>
 					{this.props.typeConfig.view !== undefined ? (
 						Object.entries(this.props.typeConfig.view.info).map(([viewKey, viewVal]) => {
 							if (typeof viewVal === "object" && viewVal != null) {
-								this.components[viewVal.name] = React.createRef();
 								return (
 									<span
 										{...{ name: viewVal.name }}
 										className={viewVal.class}
-										ref={this.components[viewVal.name]}
+										ref={this.getRef(viewVal.name)}
 										key={`${this.props.deviceDomID}info${viewKey}`}
 									>
 										{viewVal.html}
 									</span>
 								);
 							}
+							return null;
 						})
 					) : (
 						<></>
@@ -190,19 +172,19 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 					{this.props.typeConfig.view !== undefined ? (
 						Object.entries(this.props.typeConfig.view.action).map(([viewKey, viewVal]) => {
 							if (typeof viewVal === "object" && viewVal != null) {
-								this.components[viewVal.name] = React.createRef();
 								return (
 									<span
 										{...{ name: viewVal.name }}
 										className={viewVal.class}
 										style={viewVal.style}
-										ref={this.components[viewVal.name]}
+										ref={this.getRef(viewVal.name)}
 										key={`${this.props.deviceDomID}vaction${viewKey}`}
 									>
 										{viewVal.html}
 									</span>
 								);
 							}
+							return null;
 						})
 					) : (
 						<></>
@@ -234,6 +216,7 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 								/>
 							);
 						}
+						return null;
 					})}
 				</span>
 				{this.state.hasDeviceDialog && this.state.showDeviceDialog && (
@@ -250,5 +233,5 @@ export class Device extends React.Component<DeviceProps, DeviceState> {
 		);
 	}
 }
-// export default withStyles(styles)(Device);
-export default withStyles(styles)(Device);
+
+export default Device;
