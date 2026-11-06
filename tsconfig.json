@@ -21,6 +21,6 @@
 			"@devices/*": ["./src-widgets/src/components/devices/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx", "lib/**/*.ts", "*.d.ts"],
+	"include": ["src/main.ts", "src/**/*.ts", "src/**/*.tsx", "lib/**/*.ts", "*.d.ts"],
 	"exclude": ["build/**", "node_modules/**", "widgets/**", "admin/**", "test/**", "main/**"]
 }
