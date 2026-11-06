@@ -50,6 +50,8 @@ Devices supported so far
 
 ## Changelog
 
+### **WORK IN PROGRESS**
+
 ### 0.0.6 (2026-11-06)
 
 - The code is updated with help of AI. For future releases is the source more readable.
