@@ -4,6 +4,18 @@ import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
 
 export default [
+    // 1. Spezifische Ausnahme für die ESLint-Config selbst (verhindert den import-Fehler)
+    {
+        files: ["eslint.config.mjs"],
+        languageOptions: {
+            ecmaVersion: "latest",
+            sourceType: "module",
+            globals: {
+                node: true,
+                importMeta: true,
+            },
+        },
+    },
     js.configs.recommended,
     ...tseslint.configs.recommended,
     // 1. Hauptprojekt (Backend & Frontend src/)
@@ -37,7 +49,7 @@ export default [
     },
     // 2. Widget-Projekt (src-widgets/) mit eigener tsconfig.json
     {
-        files: ["src-widgets/src/**/*.ts", "src-widgets/src/**/*.tsx"],
+        files: ["src-widgets/src/**/*.ts", "src-widgets/src/**/*.tsx", "admin/**/*.ts", "admin/**/*.tsx"],
         plugins: {
             react: reactPlugin,
             import: importPlugin,
@@ -52,10 +64,37 @@ export default [
         rules: {
             "@typescript-eslint/no-explicit-any": "off",
             "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+            "@eslint-community/eslint-comments/no-unused-disable": "off", // Ignoriert ungenutzte disable-Direktiven
             "no-console": "off",
         },
     },
-    // 3. Build-Skripte und Tests (JavaScript mit CommonJS / Mocha)
+    // 3. Admin-Bereich mit eigener admin/tsconfig.json
+    {
+        files: ["admin/**/*.ts","admin/*.jsx", "admin/**/*.tsx", "admin/**/*.js", "admin/**/*.jsx"],
+        plugins: {
+            react: reactPlugin,
+            import: importPlugin,
+        },
+        languageOptions: {
+            parserOptions: {
+                project: "./admin/tsconfig.json",
+                tsconfigRootDir: import.meta.dirname,
+                ecmaFeatures: { jsx: true },
+            },
+            globals: {
+                document: "readonly",
+                window: "readonly",
+            },
+        },
+        rules: {
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+            "no-console": "off",
+            "react/react-in-jsx-scope": "off",
+            "react/prop-types": "off",
+        },
+    },
+    // 4. Build-Skripte und Tests (JavaScript mit CommonJS / Mocha)
     {
         files: ["tasks.js", "test/**/*.js", "*.js", "*.mjs"],
         languageOptions: {
@@ -77,7 +116,7 @@ export default [
             "@typescript-eslint/no-unused-vars": "off",
         },
     },
-    // 4. Ignorierte Ordner
+    // 5. Ignorierte Ordner
     {
         ignores: [
             "node_modules/",
@@ -88,6 +127,9 @@ export default [
             "src-widgets/node_modules/",
             "main/",
             ".dev-server/",
+            "src-widgets/.__mf__temp/",
+            "src-widgets/.mf/",
+            "admin/words.js",
         ],
     },
 ];

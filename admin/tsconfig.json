@@ -1,5 +1,3 @@
-// Specialized tsconfig for the admin directory,
-// includes DOM typings and configures the admin build
 {
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
