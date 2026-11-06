@@ -12,6 +12,8 @@ on:
             # pre-releases
             - "v[0-9]+.[0-9]+.[0-9]+-**"
     pull_request: {}
+    release:
+        types: [published]
 
 # Cancel previous PR/branch runs when a new commit is pushed
 concurrency:
@@ -51,6 +53,25 @@ jobs:
                   # Uncomment the following line if your adapter cannot be installed using 'npm ci'
                   install-command: "npm ci && cd src-widgets && npm ci"
                   build: true
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+                uses: actions/checkout@v4
+
+            - name: Setup Node.js
+                uses: actions/setup-node@v4
+                with:
+                node-version: '20.x'
+                registry-url: 'https://registry.npmjs.org'
+
+            - name: Install dependencies
+                run: npm ci
+
+            - name: Publish to npm
+                run: npm publish
+                env:
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 # TODO: To enable automatic npm releases, create a token on npmjs.org
 # Enter this token as a GitHub secret (with name NPM_TOKEN) in the repository options
